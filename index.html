@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<script>
+  // GitHub Pages SPA redirect: restores the real path from the query string
+  (function(l) {
+    if (l.search[1] === '/') {
+      var decoded = l.search.slice(1).split('&').map(function(s) {
+        return s.replace(/~and~/g, '&')
+      }).join('?');
+      window.history.replaceState(null, null,
+        l.pathname.slice(0, -1) + decoded + l.hash
+      );
+    }
+  }(window.location));
+</script>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="stakd">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#1e1e1e">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; font-src https://cdnjs.cloudflare.com; connect-src 'self' https://edebxzktapontcymqlzt.supabase.co wss://edebxzktapontcymqlzt.supabase.co https://api.github.com; img-src 'self' data: blob:; frame-ancestors 'none'; base-uri 'self'; form-action 'self';">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<link rel="icon" href="/favicon.png" type="image/png">
+<title>stakd</title>
+<link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"></noscript>
+<link rel="stylesheet" href="/critical.css">
+<link rel="preload" href="/styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="/styles.css"></noscript>
+<link rel="stylesheet" href="/src/styles/admin.css">
+</head>
+<body>
+<a href="#main-content" class="skip-link">Skip to content</a>
+<canvas id="confetti-canvas"></canvas>
+<div id="root">
+  <div id="pre-sk" style="max-width:480px;margin:0 auto;padding:14px 14px 0;padding-top:calc(58px + env(safe-area-inset-top) + 14px);display:flex;flex-direction:column;gap:12px">
+    <div style="background:#252526;border-radius:16px;overflow:hidden">
+      <div style="background:#2d2d2d;padding:11px 14px;height:52px"></div>
+      <div style="padding:8px;display:flex;flex-direction:column;gap:4px">
+        <div class="sk-row-inline"></div>
+        <div class="sk-row-inline"></div>
+        <div class="sk-row-inline"></div>
+        <div class="sk-row-inline"></div>
+        <div class="sk-row-inline"></div>
+        <div class="sk-row-inline"></div>
+      </div>
+    </div>
+    <div style="background:#252526;border-radius:16px;overflow:hidden">
+      <div style="background:#2d2d2d;padding:11px 14px;height:52px"></div>
+    </div>
+  </div>
+  <div id="pre-sk-footer" style="position:fixed;bottom:0;left:0;right:0;background:#252526;border-top:1px solid rgba(255,255,255,.06);padding:10px 16px calc(10px + env(safe-area-inset-bottom));z-index:20">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px">
+      <div class="sk" style="height:52px;border-radius:12px;flex:1"></div>
+      <div class="sk" style="height:52px;border-radius:12px;width:120px;flex-shrink:0"></div>
+    </div>
+    <div class="sk" style="height:26px;border-radius:99px;margin-bottom:10px"></div>
+    <div class="sk" style="height:52px;border-radius:12px;background:rgba(78,201,176,.1)"></div>
+  </div>
+</div>
+<script>
+(function(){
+  try{
+    const key='ac_theme';
+    const stored=JSON.parse(localStorage.getItem(key));
+    const theme=(stored==='dark'||stored==='light')
+      ? stored
+      : (window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
+    document.documentElement.setAttribute('data-theme',theme);
+    const meta=document.querySelector('meta[name="theme-color"]');
+    if(meta) meta.setAttribute('content',theme==='dark'?'#1e1e1e':'#f3f3f3');
+  }catch{}
+})();
+</script>
+
+<style>.install-banner{position:fixed;top:0;left:50%;transform:translateX(-50%) translateY(-120%);width:calc(100% - 24px);max-width:420px;background:#2d2d2d;border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:14px 16px;padding-top:calc(14px + env(safe-area-inset-top));display:none;align-items:center;gap:12px;z-index:50;box-shadow:0 8px 32px rgba(0,0,0,.4);margin-top:12px;transition:transform .4s cubic-bezier(.34,1.3,.64,1)}.install-banner.visible{display:flex;transform:translateX(-50%) translateY(0)}html[data-theme="light"] .install-banner{background:#ffffff;border-color:rgba(0,0,0,.12);box-shadow:0 8px 32px rgba(0,0,0,.15)}.install-banner-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden}.install-banner-icon img{width:100%;height:100%;object-fit:contain}.install-banner-text{flex:1;min-width:0}.install-banner-title{font-size:14px;font-weight:700;color:var(--t0);margin-bottom:1px}.install-banner-sub{font-size:12px;color:var(--t1)}.install-banner-actions{display:flex;gap:8px;flex-shrink:0}.install-btn-yes{height:34px;padding:0 14px;background:var(--brand);border:none;border-radius:var(--r-sm);color:#fff;font-size:13px;font-weight:700;cursor:pointer}.install-btn-yes:active{opacity:.85}.install-btn-no{height:34px;padding:0 10px;background:var(--bg2);border:none;border-radius:var(--r-sm);color:var(--t1);font-size:13px;font-weight:600;cursor:pointer}.install-btn-no:active{background:var(--bg3)}</style>
+<div id="install-banner" class="install-banner" role="banner" aria-label="Install app">
+  <div class="install-banner-icon"><img src="/favicon.png" alt=""></div>
+  <div class="install-banner-text">
+    <div class="install-banner-title">Add to Home Screen</div>
+    <div class="install-banner-sub"></div>
+  </div>
+  <div class="install-banner-actions">
+    <button class="install-btn-no" id="install-dismiss">Not now</button>
+    <button class="install-btn-yes" id="install-accept">Install</button>
+  </div>
+</div>
+<script>
+(function(){
+  const DISMISS_KEY = 'ac_install_dismissed';
+  let deferredPrompt = null;
+  const banner = document.getElementById('install-banner');
+  const btnYes = document.getElementById('install-accept');
+  const btnNo  = document.getElementById('install-dismiss');
+  function hideBanner(){
+    banner.classList.remove('visible');
+  }
+  function showBanner(){
+    const dismissed = localStorage.getItem(DISMISS_KEY);
+    if(dismissed && Date.now() - Number(dismissed) < 7 * 24 * 60 * 60 * 1000) return;
+    if(window.matchMedia('(display-mode: standalone)').matches) return;
+    if(window.navigator.standalone) return; // iOS Safari PWA
+    var tutDone = localStorage.getItem('ac_tutorial_v1');
+    if(!tutDone || tutDone === 'false') return;
+    setTimeout(() => banner.classList.add('visible'), 1200);
+  }
+  window.addEventListener('beforeinstallprompt', e => {
+    e.preventDefault();
+    deferredPrompt = e;
+    showBanner();
+  });
+  btnYes.addEventListener('click', async () => {
+    if(!deferredPrompt) return;
+    try{
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if(outcome === 'accepted') localStorage.removeItem(DISMISS_KEY);
+    }catch{}
+    deferredPrompt = null;
+    hideBanner();
+  });
+  btnNo.addEventListener('click', () => {
+    localStorage.setItem(DISMISS_KEY, String(Date.now()));
+    hideBanner();
+  });
+  window.addEventListener('appinstalled', hideBanner);
+})();
+</script>
+<script type="module" src="/dist/app.js"></script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(() => {});
+  });
+}
+</script>
+</body>
+</html>
