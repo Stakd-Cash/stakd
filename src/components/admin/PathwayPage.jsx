@@ -11,10 +11,12 @@ export function PathwayPage({ navigate, replaceNavigate }) {
 
   if (loading) {
     return (
-      <div className="admin-view">
-        <div className="admin-loading">
-          <div className="admin-spinner" />
-          <p>Loading...</p>
+      <div className="pathway-page">
+        <div className="pathway-container">
+          <div className="pathway-loading">
+            <i className="fa-solid fa-circle-notch fa-spin" />
+            <span>Loading workspace...</span>
+          </div>
         </div>
       </div>
     );
@@ -22,51 +24,74 @@ export function PathwayPage({ navigate, replaceNavigate }) {
 
   if (!company) {
     return (
-      <div className="admin-view">
-        <div className="admin-empty">
-          <h2>No Company Found</h2>
-          <p>You haven&apos;t created or joined a company yet.</p>
-          <button className="admin-submit" onClick={() => navigate('/login')}>
-            Go to Login
-          </button>
+      <div className="pathway-page">
+        <div className="pathway-container">
+          <div className="pathway-brand">
+            <div className="pathway-brand-icon">
+              <img src="/favicon.svg" alt="Stakd" width="28" height="28" />
+            </div>
+            <span className="pathway-brand-name">stakd</span>
+          </div>
+          <div className="pathway-card">
+            <div className="pathway-card-header">
+              <h1 className="pathway-title">No workspace found</h1>
+              <p className="pathway-subtitle">You haven&apos;t created or joined a company yet.</p>
+            </div>
+            <button className="pathway-submit" onClick={() => navigate('/login')}>
+              <span>Go to Login</span>
+              <i className="fa-solid fa-arrow-right" />
+            </button>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="admin-view">
-      <div className="admin-mode-page">
-        <div className="admin-mode-card">
-          <div className="admin-mode-logo">
-            <img src="/favicon.png" alt="stakd" width="56" height="56" />
-            <h1>{company.name}</h1>
-            <p>How would you like to use this device?</p>
+    <div className="pathway-page">
+      <div className="pathway-container">
+        <div className="pathway-brand">
+          <div className="pathway-brand-icon">
+            <img src="/favicon.svg" alt="Stakd" width="28" height="28" />
           </div>
-          <div className="admin-mode-options">
-            <button className="admin-mode-btn primary" onClick={() => navigate('/admin')}>
-              <div className="admin-mode-btn-icon">
+          <span className="pathway-brand-name">stakd</span>
+        </div>
+
+        <div className="pathway-card">
+          <div className="pathway-card-header">
+            <span className="pathway-eyebrow">{company.name}</span>
+            <h1 className="pathway-title">How should this device work?</h1>
+            <p className="pathway-subtitle">Choose a mode to get started with your shift.</p>
+          </div>
+
+          <div className="pathway-options">
+            <button className="pathway-option pathway-option-primary" onClick={() => navigate('/admin')}>
+              <div className="pathway-option-icon">
                 <i className="fa-solid fa-chart-line" />
               </div>
-              <div className="admin-mode-btn-text">
-                <span className="admin-mode-btn-title">Manager Dashboard</span>
-                <span className="admin-mode-btn-sub">View drops, manage staff & settings</span>
+              <div className="pathway-option-text">
+                <span className="pathway-option-title">Manager Dashboard</span>
+                <span className="pathway-option-sub">View drops, manage staff & settings</span>
               </div>
-              <i className="fa-solid fa-chevron-right" style={{ color: 'var(--t2)', marginLeft: 'auto' }} />
+              <i className="fa-solid fa-arrow-right pathway-option-arrow" />
             </button>
-            <button className="admin-mode-btn" onClick={() => navigate('/kiosk')}>
-              <div className="admin-mode-btn-icon">
+            <button className="pathway-option" onClick={() => navigate('/kiosk')}>
+              <div className="pathway-option-icon">
                 <i className="fa-solid fa-cash-register" />
               </div>
-              <div className="admin-mode-btn-text">
-                <span className="admin-mode-btn-title">Kiosk Mode</span>
-                <span className="admin-mode-btn-sub">PIN entry for cashier drop counting</span>
+              <div className="pathway-option-text">
+                <span className="pathway-option-title">Kiosk Mode</span>
+                <span className="pathway-option-sub">PIN entry for cashier drop counting</span>
               </div>
-              <i className="fa-solid fa-chevron-right" style={{ color: 'var(--t2)', marginLeft: 'auto' }} />
+              <i className="fa-solid fa-arrow-right pathway-option-arrow" />
             </button>
           </div>
-          <button className="admin-mode-signout" onClick={handleSignOut}>
-            <i className="fa-solid fa-right-from-bracket" /> Sign Out
+        </div>
+
+        <div className="pathway-footer">
+          <button className="pathway-signout" onClick={handleSignOut}>
+            <i className="fa-solid fa-right-from-bracket" />
+            <span>Sign out</span>
           </button>
         </div>
       </div>

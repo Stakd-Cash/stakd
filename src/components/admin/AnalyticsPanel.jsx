@@ -49,7 +49,7 @@ export function AnalyticsPanel({ companyId }) {
   return (
     <div className="admin-panel">
       {/* Header */}
-      <div className="admin-panel-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 16 }}>
+      <div className="admin-panel-header admin-analytics-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 16 }}>
         <div>
           <h2 style={{ display: 'flex', alignItems: 'center', gap: 8, margin: 0 }}>
             <BarChart3 size={24} /> Analytics & Reports
@@ -64,7 +64,7 @@ export function AnalyticsPanel({ companyId }) {
       </div>
 
       {/* Date Filters */}
-      <div style={{ display: 'flex', gap: 8, marginBottom: 24, overflowX: 'auto', paddingBottom: 4 }}>
+      <div className="admin-analytics-filters" style={{ display: 'flex', gap: 8, marginBottom: 24, overflowX: 'auto', paddingBottom: 4 }}>
         {[
           { value: 'week', label: 'Last 7 Days' },
           { value: 'month', label: 'This Month' },
@@ -83,7 +83,7 @@ export function AnalyticsPanel({ companyId }) {
 
       {/* Alerts */}
       {alerts.length > 0 && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 24 }}>
+        <div className="admin-analytics-alerts" style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 24 }}>
           {alerts.map((alert, idx) => (
             <div
               key={idx}
@@ -100,7 +100,7 @@ export function AnalyticsPanel({ companyId }) {
       )}
 
       {/* Summary Cards */}
-      <div className="admin-stats-grid" style={{ marginBottom: 24 }}>
+      <div className="admin-stats-grid admin-analytics-stats" style={{ marginBottom: 24 }}>
         <div className="admin-stat-card">
           <div className="admin-stat-icon" style={{ color: 'var(--green)' }}>
             <DollarSign size={24} />
@@ -136,10 +136,10 @@ export function AnalyticsPanel({ companyId }) {
         </div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 24, marginBottom: 24 }}>
+      <div className="admin-analytics-split" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 24, marginBottom: 24 }}>
         {/* Top Performers */}
         {topPerformers.length > 0 && (
-          <div className="admin-card">
+          <div className="admin-card admin-analytics-section">
             <h3 className="admin-card-title" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <Award size={20} style={{ color: 'var(--yellow, #eab308)' }} /> Top Performers
             </h3>
@@ -169,7 +169,7 @@ export function AnalyticsPanel({ companyId }) {
         )}
 
         {/* Daily Trend */}
-        <div className="admin-card">
+        <div className="admin-card admin-analytics-section">
           <h3 className="admin-card-title" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <Calendar size={20} /> Daily Trend
           </h3>
@@ -193,7 +193,7 @@ export function AnalyticsPanel({ companyId }) {
       </div>
 
       {/* Staff Performance Table */}
-      <div className="admin-card" style={{ marginBottom: 24, overflowX: 'auto' }}>
+      <div className="admin-card admin-analytics-section" style={{ marginBottom: 24, overflowX: 'auto' }}>
         <h3 className="admin-card-title" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <Users size={20} /> Staff Breakdown
         </h3>
@@ -207,22 +207,22 @@ export function AnalyticsPanel({ companyId }) {
               <th style={{ textAlign: 'center' }}>Issues</th>
             </tr>
           </thead>
-          <tbody>
-            {byStaff.map((staff) => (
-              <tr key={staff.id}>
-                <td>
-                  <div style={{ fontWeight: 600, color: 'var(--t0)' }}>{staff.name}</div>
-                  <div style={{ fontSize: 12, color: 'var(--t2)', textTransform: 'capitalize' }}>{staff.role}</div>
-                </td>
-                <td style={{ textAlign: 'right' }}>{staff.totalDrops}</td>
-                <td style={{ textAlign: 'right', fontWeight: 500 }}>{formatCurrency(staff.totalAmount)}</td>
-                <td style={{ textAlign: 'right', fontWeight: 600, color: staff.variance >= 0 ? 'var(--green)' : 'var(--red)' }}>
-                  {staff.variance >= 0 ? '+' : ''}{formatCurrency(staff.variance)}
-                </td>
-                <td style={{ textAlign: 'center' }}>
-                  <div style={{ display: 'flex', gap: 4, justifyContent: 'center' }}>
-                    {staff.shortages > 0 && <span className="admin-badge admin-badge-red" title="Shortages">{staff.shortages}</span>}
-                    {staff.overages > 0 && <span className="admin-badge admin-badge-green" title="Overages">{staff.overages}</span>}
+            <tbody>
+              {byStaff.map((staff) => (
+                <tr key={staff.id}>
+                  <td data-label="Staff Member">
+                    <div style={{ fontWeight: 600, color: 'var(--t0)' }}>{staff.name}</div>
+                    <div style={{ fontSize: 12, color: 'var(--t2)', textTransform: 'capitalize' }}>{staff.role}</div>
+                  </td>
+                  <td data-label="Drops" style={{ textAlign: 'right' }}>{staff.totalDrops}</td>
+                  <td data-label="Amount" style={{ textAlign: 'right', fontWeight: 500 }}>{formatCurrency(staff.totalAmount)}</td>
+                  <td data-label="Variance" style={{ textAlign: 'right', fontWeight: 600, color: staff.variance >= 0 ? 'var(--green)' : 'var(--red)' }}>
+                    {staff.variance >= 0 ? '+' : ''}{formatCurrency(staff.variance)}
+                  </td>
+                  <td data-label="Issues" style={{ textAlign: 'center' }}>
+                    <div style={{ display: 'flex', gap: 4, justifyContent: 'center' }}>
+                      {staff.shortages > 0 && <span className="admin-badge admin-badge-red" title="Shortages">{staff.shortages}</span>}
+                      {staff.overages > 0 && <span className="admin-badge admin-badge-green" title="Overages">{staff.overages}</span>}
                   </div>
                 </td>
               </tr>
@@ -233,7 +233,7 @@ export function AnalyticsPanel({ companyId }) {
 
       {/* Loss Prevention Flags */}
       {lossPreventionFlags.length > 0 && (
-        <div className="admin-card admin-card-danger">
+        <div className="admin-card admin-card-danger admin-analytics-section">
           <div style={{ padding: '16px 20px', borderBottom: '1px solid rgba(229, 62, 62, 0.2)', background: 'rgba(229, 62, 62, 0.05)' }}>
             <h3 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: 8, color: 'var(--red)', fontSize: 16 }}>
               <AlertTriangle size={20} /> Loss Prevention Flags
@@ -254,11 +254,11 @@ export function AnalyticsPanel({ companyId }) {
               <tbody>
                 {lossPreventionFlags.map((flag) => (
                   <tr key={flag.id}>
-                    <td style={{ whiteSpace: 'nowrap' }}>{formatDate(flag.date)}</td>
-                    <td style={{ fontWeight: 500 }}>{flag.staffName}</td>
-                    <td style={{ textAlign: 'right' }}>{formatCurrency(flag.amount)}</td>
-                    <td style={{ textAlign: 'right', color: 'var(--t2)' }}>{formatCurrency(flag.target)}</td>
-                    <td style={{ textAlign: 'right', fontWeight: 600, color: 'var(--red)' }}>{formatCurrency(flag.variance)}</td>
+                    <td data-label="Date" style={{ whiteSpace: 'nowrap' }}>{formatDate(flag.date)}</td>
+                    <td data-label="Staff" style={{ fontWeight: 500 }}>{flag.staffName}</td>
+                    <td data-label="Amount" style={{ textAlign: 'right' }}>{formatCurrency(flag.amount)}</td>
+                    <td data-label="Target" style={{ textAlign: 'right', color: 'var(--t2)' }}>{formatCurrency(flag.target)}</td>
+                    <td data-label="Shortage" style={{ textAlign: 'right', fontWeight: 600, color: 'var(--red)' }}>{formatCurrency(flag.variance)}</td>
                   </tr>
                 ))}
               </tbody>

@@ -18,6 +18,16 @@ export function PinPad({ company, onSuccess, onBack, roleFilter, prompt }) {
   const [searchQuery, setSearchQuery] = useState('');
   const { pinLoginFor } = useAuthStore();
   const dotsRef = useRef(null);
+  const staffListRef = useRef(null);
+
+  const handleStaffScroll = useCallback((e) => {
+    const el = e.currentTarget;
+    const topFade = Math.min(el.scrollTop, 48);
+    const bottomRemaining = el.scrollHeight - el.scrollTop - el.clientHeight;
+    const bottomFade = Math.min(bottomRemaining, 48);
+    el.style.setProperty('--_top-fade', `${topFade}px`);
+    el.style.setProperty('--_bottom-fade', `${bottomFade}px`);
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -91,7 +101,7 @@ export function PinPad({ company, onSuccess, onBack, roleFilter, prompt }) {
 
   // Staff skeleton
   const renderStaffSkeleton = () => (
-    <div className="pin-staff-list scrollable" style={{ gap: '10px' }}>
+    <div className="pinpad-staff-list scrollable" style={{ gap: '10px' }}>
       {[0, 1, 2].map((i) => (
         <div key={i} className="adm-sk adm-sk-row" style={{ animationDelay: `${i * .06}s` }} />
       ))}
@@ -108,53 +118,65 @@ export function PinPad({ company, onSuccess, onBack, roleFilter, prompt }) {
   );
 
   return (
-    <div className="pin-pad-page">
-      <div className="admin-pin-container">
-        <div className="pin-pad-header">
-          <img src="/favicon.png" alt="stakd" width="48" height="48" />
-          <div className="pin-pad-title">
-            <h2>{company.name}</h2>
-            <span className="admin-slug-badge">{company.slug}</span>
+    <div className="pathway-page">
+      <div className="pathway-container">
+        <div className="pathway-brand">
+          <div className="pathway-brand-icon">
+            <img src="/favicon.svg" alt="Stakd" width="28" height="28" />
           </div>
+          <span className="pathway-brand-name">stakd</span>
         </div>
 
         {/* Step 1: Select a user */}
         {step === 'select' && (
-          <div className="pin-pad-card">
+          <div className="pathway-card">
             {onBack && (
-              <button className="pin-back-btn" onClick={onBack}>
-                <i className="fa-solid fa-arrow-left" /> Back
+              <button className="pathway-back-btn" onClick={onBack}>
+                <i className="fa-solid fa-arrow-left" />
+                <span>Back</span>
               </button>
             )}
-            <p className="pin-pad-prompt">{prompt || 'Select a manager to log in as'}</p>
-            
-            <div className="admin-search-bar" style={{ marginBottom: '16px', marginTop: '12px' }}>
-              <i className="fa-solid fa-search" />
-              <input 
-                type="text" 
-                placeholder="Search staff..." 
+            <div className="pathway-card-header">
+              <span className="pathway-eyebrow">{company.name}</span>
+              <h1 className="pathway-title">{prompt || 'Select a manager to log in as'}</h1>
+              <p className="pathway-subtitle">Tap your name below to continue.</p>
+            </div>
+
+            <div className="pinpad-search">
+              <i className="fa-solid fa-magnifying-glass" />
+              <input
+                type="text"
+                placeholder="Search staff..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="admin-settings-input"
-                style={{ width: '100%', height: '44px', paddingLeft: '40px' }}
               />
             </div>
 
             {staffLoading ? renderStaffSkeleton() : filteredStaff.length === 0 ? (
-              <div className="admin-empty-state">
+              <div className="pinpad-empty">
                 <i className="fa-solid fa-user-xmark" />
                 <p>No staff members found.</p>
               </div>
             ) : (
-              <div className="pin-staff-list scrollable">
+              <div
+                className="pinpad-staff-list scrollable"
+                ref={staffListRef}
+                onScroll={handleStaffScroll}
+              >
                 {filteredStaff.map((s) => (
                   <button
                     key={s.id}
-                    className="pin-staff-btn"
+                    className="pinpad-staff-btn"
                     onClick={() => handleSelectStaff(s)}
                   >
-                    <span className="pin-staff-name">{s.name}</span>
-                    <span className={`admin-role-tag ${s.role}`}>{ROLE_LABELS[s.role] || s.role}</span>
+                    <div className="pinpad-staff-avatar">
+                      {s.name.charAt(0).toUpperCase()}
+                    </div>
+                    <div className="pinpad-staff-info">
+                      <span className="pinpad-staff-name">{s.name}</span>
+                      <span className="pinpad-staff-role">{ROLE_LABELS[s.role] || s.role}</span>
+                    </div>
+                    <i className="fa-solid fa-arrow-right pinpad-staff-arrow" />
                   </button>
                 ))}
               </div>
@@ -164,24 +186,33 @@ export function PinPad({ company, onSuccess, onBack, roleFilter, prompt }) {
 
         {/* Step 2: Enter PIN */}
         {step === 'pin' && selectedStaff && (
-          <div className="pin-pad-card">
-            <button className="pin-back-btn" onClick={handleBack}>
-              <i className="fa-solid fa-arrow-left" /> Not {selectedStaff.name}?
+          <div className="pathway-card">
+            <button className="pathway-back-btn" onClick={handleBack}>
+              <i className="fa-solid fa-arrow-left" />
+              <span>Not {selectedStaff.name}?</span>
             </button>
 
-            <p className="pin-pad-prompt">
-              Hi {selectedStaff.name.split(' ')[0]}, enter your PIN
-            </p>
+            <div className="pathway-card-header">
+              <span className="pathway-eyebrow">{company.name}</span>
+              <h1 className="pathway-title">
+                Hi {selectedStaff.name.split(' ')[0]}, enter your PIN
+              </h1>
+            </div>
 
             {renderDots()}
 
-            {error && <div className="admin-error">{error}</div>}
+            {error && (
+              <div className="pinpad-error">
+                <i className="fa-solid fa-circle-exclamation" />
+                {error}
+              </div>
+            )}
 
-            <div className="pin-grid">
+            <div className="pinpad-grid">
               {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((d) => (
                 <button
                   key={d}
-                  className="pin-key"
+                  className="pinpad-key"
                   onClick={() => handleDigit(String(d))}
                   disabled={loading}
                 >
@@ -189,21 +220,21 @@ export function PinPad({ company, onSuccess, onBack, roleFilter, prompt }) {
                 </button>
               ))}
               <button
-                className="pin-key pin-key-action"
+                className="pinpad-key pinpad-key-action"
                 onClick={() => { setPin(''); setError(null); }}
                 disabled={loading}
               >
                 Clear
               </button>
               <button
-                className="pin-key"
+                className="pinpad-key"
                 onClick={() => handleDigit('0')}
                 disabled={loading}
               >
                 0
               </button>
               <button
-                className="pin-key pin-key-action"
+                className="pinpad-key pinpad-key-action"
                 onClick={handleBackspace}
                 disabled={loading}
               >
@@ -212,14 +243,20 @@ export function PinPad({ company, onSuccess, onBack, roleFilter, prompt }) {
             </div>
 
             <button
-              className="admin-submit pin-submit"
+              className="pathway-submit"
               onClick={handleSubmit}
               disabled={loading || pin.length < 4}
             >
               {loading ? (
-                <><div className="admin-spinner" style={{ width: 18, height: 18, borderWidth: 2 }} /> Verifying...</>
+                <span className="pathway-loading-text">
+                  <i className="fa-solid fa-circle-notch fa-spin" />
+                  Verifying...
+                </span>
               ) : (
-                <><i className="fa-solid fa-lock" /> Enter</>
+                <>
+                  <span>Enter</span>
+                  <i className="fa-solid fa-arrow-right" />
+                </>
               )}
             </button>
           </div>

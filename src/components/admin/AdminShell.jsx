@@ -1,15 +1,18 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { useAuthStore } from '../../store/useAuthStore.js';
 import { useAppStore } from '../../store/useStore.js';
 import { supabase } from '../../lib/supabase.js';
 import { applyTheme } from '../../utils/theme.js';
 import { lsSet } from '../../utils/storage.js';
 import { LS_THEME } from '../../utils/constants.js';
+import { ConfirmModal } from '../ConfirmModal.jsx';
 import { StaffPanel } from './StaffPanel.jsx';
 import { DropsPanel } from './DropsPanel.jsx';
 import { PinPad } from './PinPad.jsx';
 import { AuditLogPanel } from './AuditLogPanel.jsx';
 import { AnalyticsPanel } from './AnalyticsPanel.jsx';
+import { CustomSelect } from './UIComponents.jsx';
 
 const ROLE_LABELS = { cashier: 'Crew Member', manager: 'Manager', owner: 'Owner' };
 const ADMIN_ROLES = ['owner', 'manager'];
@@ -36,6 +39,8 @@ export function AdminShell({ navigate, replaceNavigate }) {
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [deleteSlug, setDeleteSlug] = useState('');
   const [deleting, setDeleting] = useState(false);
+  const [confirmLogout, setConfirmLogout] = useState(false);
+  const [confirmHome, setConfirmHome] = useState(false);
 
   // Persist tab to sessionStorage
   useEffect(() => {
@@ -73,6 +78,11 @@ export function AdminShell({ navigate, replaceNavigate }) {
   const isOwner = role === 'owner';
   const ownerRole = staff?.role || 'cashier';
   const isOwnerAdmin = ownerRole === 'owner' || ownerRole === 'manager';
+  const tabOptions = [
+    { value: 'drops', label: 'Drops' },
+    ...(isAdmin ? [{ value: 'analytics', label: 'Analytics' }, { value: 'staff', label: `Staff${staffCount != null ? ` (${staffCount})` : ''}` }] : []),
+    ...(isOwner ? [{ value: 'settings', label: 'Settings' }, { value: 'audit', label: 'Audit Log' }] : []),
+  ];
 
   const handleAdminPinSuccess = useCallback(() => {
     // PIN verified, now show dashboard
@@ -152,10 +162,17 @@ export function AdminShell({ navigate, replaceNavigate }) {
     setSavingTimeout(false);
   }, [timeoutDraft, company?.id]);
 
-  const handleSignOut = async () => {
+  const handleConfirmLogout = useCallback(async () => {
+    setConfirmLogout(false);
     await signOut();
     replaceNavigate('/login');
-  };
+  }, [signOut, replaceNavigate]);
+
+  const handleConfirmHome = useCallback(() => {
+    setConfirmHome(false);
+    pinLogout();
+    navigate('/pathway');
+  }, [pinLogout, navigate]);
 
   // --- Compute transition class ---
   const transitionClass = phase === 'fading-out'
@@ -215,48 +232,57 @@ export function AdminShell({ navigate, replaceNavigate }) {
 
   return (
     <div className={transitionClass}>
-    <div className={`admin-shell${isOwner ? ' owner-mode' : ''}`}>
+    <div className="adm-dash">
       {/* Header */}
-      <header className="admin-header">
-        <div className="admin-header-left">
-          <img src="/favicon.png" alt="stakd" width="32" height="32" />
-          <div>
-            <h1 className="admin-company-name">{company.name}</h1>
-            <span className="admin-slug-badge">{company.slug}</span>
+      <header className="adm-dash-header">
+        <div className="adm-dash-header-left">
+          <div className="adm-dash-brand">
+            <img src="/favicon.svg" alt="Stakd" width="22" height="22" />
+          </div>
+          <div className="adm-dash-identity">
+            <h1 className="adm-dash-company">{company.name}</h1>
+            <span className="adm-dash-slug">{company.slug}</span>
           </div>
         </div>
-        <div className="admin-header-right">
-          <span className="admin-user-badge">
-            {currentStaff?.name || user?.email}
-            <span className={`admin-role-tag ${role}`}>{ROLE_LABELS[role] || role}</span>
-          </span>
+        <div className="adm-dash-header-right">
+          <div className="adm-dash-user">
+            <span className="adm-dash-user-name">{currentStaff?.name || user?.email}</span>
+            <span className={`adm-dash-role ${role}`}>{ROLE_LABELS[role] || role}</span>
+          </div>
           {isOwnerAdmin && (
             <button
-              className="admin-icon-btn"
-              onClick={() => navigate('/pathway')}
+              className="adm-dash-icon-btn"
+              onClick={() => setConfirmHome(true)}
               data-tooltip="Back to mode select"
               data-tooltip-pos="right"
             >
               <i className="fa-solid fa-house" />
             </button>
           )}
-          <button className="admin-icon-btn" onClick={handleSignOut} data-tooltip="Sign out" data-tooltip-pos="left">
+          <button className="adm-dash-icon-btn" onClick={() => setConfirmLogout(true)} data-tooltip="Sign out" data-tooltip-pos="left">
             <i className="fa-solid fa-right-from-bracket" />
           </button>
         </div>
       </header>
 
       {/* Tab bar */}
-      <nav className="admin-tabs">
+      <div className="adm-dash-mobile-tabs">
+        <CustomSelect
+          value={tab}
+          onChange={setTab}
+          options={tabOptions}
+        />
+      </div>
+      <nav className="adm-dash-tabs">
         <button
-          className={`admin-tab${tab === 'drops' ? ' active' : ''}`}
+          className={`adm-dash-tab${tab === 'drops' ? ' active' : ''}`}
           onClick={() => setTab('drops')}
         >
           <i className="fa-solid fa-money-bill-wave" /> Drops
         </button>
         {isAdmin && (
           <button
-            className={`admin-tab${tab === 'analytics' ? ' active' : ''}`}
+            className={`adm-dash-tab${tab === 'analytics' ? ' active' : ''}`}
             onClick={() => setTab('analytics')}
           >
             <i className="fa-solid fa-chart-line" /> Analytics
@@ -264,7 +290,7 @@ export function AdminShell({ navigate, replaceNavigate }) {
         )}
         {isAdmin && (
           <button
-            className={`admin-tab${tab === 'staff' ? ' active' : ''}`}
+            className={`adm-dash-tab${tab === 'staff' ? ' active' : ''}`}
             onClick={() => setTab('staff')}
           >
             <i className="fa-solid fa-users" /> Staff{staffCount != null ? ` (${staffCount})` : ''}
@@ -272,7 +298,7 @@ export function AdminShell({ navigate, replaceNavigate }) {
         )}
         {isOwner && (
           <button
-            className={`admin-tab${tab === 'settings' ? ' active' : ''}`}
+            className={`adm-dash-tab${tab === 'settings' ? ' active' : ''}`}
             onClick={() => setTab('settings')}
           >
             <i className="fa-solid fa-gear" /> Settings
@@ -280,7 +306,7 @@ export function AdminShell({ navigate, replaceNavigate }) {
         )}
         {isOwner && (
           <button
-            className={`admin-tab${tab === 'audit' ? ' active' : ''}`}
+            className={`adm-dash-tab${tab === 'audit' ? ' active' : ''}`}
             onClick={() => setTab('audit')}
           >
             <i className="fa-solid fa-clipboard-list" /> Audit Log
@@ -289,13 +315,11 @@ export function AdminShell({ navigate, replaceNavigate }) {
       </nav>
 
       {/* Content */}
-      <main className="admin-content">
+      <main className="adm-dash-content">
         {tab === 'drops' && (
-          <DropsPanel company={company} staff={currentStaff} isAdmin={isAdmin} />
+          <DropsPanel company={company} currentStaff={currentStaff} isAdmin={isAdmin} />
         )}
-        {tab === 'analytics' && isAdmin && (
-          <AnalyticsPanel companyId={company.id} />
-        )}
+        {tab === 'analytics' && isAdmin && <AnalyticsPanel companyId={company.id} />}
         {tab === 'staff' && isAdmin && <StaffPanel company={company} />}
         {tab === 'audit' && isOwner && (
           <AuditLogPanel company={company} />
@@ -490,6 +514,26 @@ export function AdminShell({ navigate, replaceNavigate }) {
         )}
       </main>
     </div>
+    {confirmLogout && createPortal(
+      <ConfirmModal
+        title="Log Out"
+        body="Are you sure you want to log out of this company account?"
+        confirmLabel="Log Out"
+        onConfirm={handleConfirmLogout}
+        onCancel={() => setConfirmLogout(false)}
+      />,
+      document.body
+    )}
+    {confirmHome && createPortal(
+      <ConfirmModal
+        title="Go Home"
+        body={`Going home will log out the user session for "${currentStaff?.name || user?.email || 'this account'}". Do you want to continue?`}
+        confirmLabel="Go Home"
+        onConfirm={handleConfirmHome}
+        onCancel={() => setConfirmHome(false)}
+      />,
+      document.body
+    )}
     </div>
   );
 }

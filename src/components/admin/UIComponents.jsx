@@ -88,15 +88,18 @@ export function CustomDatePicker({ value, onChange, className = '' }) {
 
   return (
     <div className={`admin-custom-datepicker ${className}`} ref={containerRef}>
-      <button 
-        type="button" 
-        className={`admin-datepicker-trigger ${open ? 'open' : ''}`} 
+      <button
+        type="button"
+        className={`admin-datepicker-trigger ${open ? 'open' : ''}`}
         onClick={() => setOpen(!open)}
       >
-        <i className="fa-regular fa-calendar" />
-        <span>{formattedDate}</span>
+        <span className="admin-datepicker-trigger-icon">
+          <i className="fa-regular fa-calendar" />
+        </span>
+        <span className="admin-datepicker-trigger-text">{formattedDate}</span>
+        <i className={`fa-solid fa-chevron-down admin-datepicker-trigger-chevron${open ? ' open' : ''}`} />
       </button>
-      
+
       {open && (
         <div className="admin-datepicker-dropdown">
           <DayPicker
@@ -104,6 +107,25 @@ export function CustomDatePicker({ value, onChange, className = '' }) {
             selected={date}
             onSelect={handleSelect}
             showOutsideDays
+            classNames={{
+              root: 'admin-calendar',
+              month: 'admin-calendar-month',
+              month_caption: 'admin-calendar-caption',
+              caption_label: 'admin-calendar-caption-label',
+              nav: 'admin-calendar-nav',
+              button_previous: 'admin-calendar-nav-btn',
+              button_next: 'admin-calendar-nav-btn',
+              month_grid: 'admin-calendar-grid',
+              weekdays: 'admin-calendar-weekdays',
+              weekday: 'admin-calendar-weekday',
+              week: 'admin-calendar-week',
+              day: 'admin-calendar-day-cell',
+              day_button: 'admin-calendar-day-btn',
+              today: 'admin-calendar-day-today',
+              selected: 'admin-calendar-day-selected',
+              outside: 'admin-calendar-day-outside',
+              disabled: 'admin-calendar-day-disabled',
+            }}
           />
         </div>
       )}

@@ -4,9 +4,9 @@
   "type": "module",
   "scripts": {
     "dev": "npm-run-all --parallel dev:build dev:serve",
-    "dev:build": "esbuild \"app.jsx\" --bundle --format=esm --sourcemap --outfile=\"dist/app.js\" --watch",
+    "dev:build": "node ./scripts/build.mjs --watch",
     "dev:serve": "serve . -p 8000 -s",
-    "build": "esbuild \"app.jsx\" --bundle --format=esm --minify --outfile=\"dist/app.js\"",
+    "build": "node ./scripts/build.mjs",
     "lint": "eslint . --ext .js,.jsx",
     "format": "prettier --write \"**/*.{js,jsx,json,css,md}\"",
     "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js"

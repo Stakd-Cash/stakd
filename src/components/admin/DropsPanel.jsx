@@ -25,6 +25,28 @@ function fmtVariance(cents) {
   return (neg ? '-$' : '+$') + (abs / 100).toFixed(2);
 }
 
+function fmtChartCompact(value, graphMode) {
+  if (graphMode === 'count') return `${value}`;
+  const neg = value < 0;
+  const dollars = Math.abs(value) / 100;
+  let formatted;
+  if (dollars >= 10000) formatted = `$${Math.round(dollars / 1000)}k`;
+  else if (dollars >= 1000) formatted = `$${(dollars / 1000).toFixed(1)}k`;
+  else formatted = `$${Math.round(dollars)}`;
+  return neg ? `-${formatted}` : formatted;
+}
+
+function niceCeiling(value) {
+  if (value <= 0) return 1;
+  const magnitude = 10 ** Math.floor(Math.log10(value));
+  const normalized = value / magnitude;
+
+  if (normalized <= 1) return magnitude;
+  if (normalized <= 2) return 2 * magnitude;
+  if (normalized <= 5) return 5 * magnitude;
+  return 10 * magnitude;
+}
+
 // --- Animated count-up hook (uses ref to avoid stale closure) ---
 function useCountUp(target, duration = 600) {
   const [display, setDisplay] = useState(target);
@@ -68,25 +90,25 @@ function buildChartSVG(entries, graphMode, fmtLabel) {
   );
 
   const values = entries.map(([, v]) => graphMode === 'count' ? v.count : v.totalCents);
-  const maxVal = Math.max(...values);
+  const rawMax = Math.max(...values);
+  const maxVal = niceCeiling(rawMax);
   const minVal = 0;
 
-  const W = 300;
-  const H = 120;
-  const padX = 8;
-  const padTop = 8;
-  const padBot = 24;
-  const usableW = W - padX * 2;
+  const W = 360;
+  const H = 210;
+  const padLeft = 40;
+  const padRight = 10;
+  const padTop = 18;
+  const padBot = 32;
+  const usableW = W - padLeft - padRight;
   const usableH = H - padTop - padBot;
   const range = maxVal - minVal || 1;
 
   const strokeId = `adm-stroke-${idRef}`;
-  const fillId = `adm-fill-${idRef}`;
-  const glowId = `adm-glow-${idRef}`;
 
   const pts = entries.map(([, v], i) => {
     const val = graphMode === 'count' ? v.count : v.totalCents;
-    const x = padX + (entries.length === 1 ? usableW / 2 : (i / (entries.length - 1)) * usableW);
+    const x = padLeft + (entries.length === 1 ? usableW / 2 : (i / (entries.length - 1)) * usableW);
     const y = padTop + (1 - (val - minVal) / range) * usableH;
     return [x, y];
   });
@@ -107,91 +129,131 @@ function buildChartSVG(entries, graphMode, fmtLabel) {
   const last = pts[pts.length - 1];
   const first = pts[0];
   const fillPath = `${linePath} L${last[0]},${H - padBot} L${first[0]},${H - padBot} Z`;
+  const peakIndex = values.indexOf(rawMax);
+  const peakPoint = pts[peakIndex];
+  const totalValue = values.reduce((sum, value) => sum + value, 0);
+  const averageValue = Math.round(totalValue / values.length);
+  const summaryItems = [
+    {
+      label: graphMode === 'count' ? 'Entries' : 'Period total',
+      value: fmtChartCompact(totalValue, graphMode),
+    },
+    {
+      label: 'Average',
+      value: fmtChartCompact(averageValue, graphMode),
+    },
+    {
+      label: 'Peak',
+      value: fmtChartCompact(rawMax, graphMode),
+    },
+  ];
 
-  // Only show a subset of labels if there are too many entries
-  const maxLabels = 12;
-  const labelStep = entries.length <= maxLabels ? 1 : Math.ceil(entries.length / maxLabels);
+  const labelTarget = 5;
+  const labelStep = entries.length <= labelTarget ? 1 : Math.ceil((entries.length - 1) / (labelTarget - 1));
+  const yTicks = Array.from({ length: 4 }, (_, index) => {
+    const ratio = index / 3;
+    const value = Math.round(maxVal * (1 - ratio));
+    return {
+      value,
+      y: padTop + ratio * usableH,
+    };
+  });
+  const latestLabel = graphMode === 'count' ? `${values[values.length - 1]}` : fmtMoney(values[values.length - 1]);
+  const peakLabel = graphMode === 'count' ? `${rawMax}` : fmtMoney(rawMax);
 
   return (
     <div className="admin-graph-body">
+      <div className="admin-graph-metrics">
+        {summaryItems.map((item) => (
+          <div key={item.label} className="admin-graph-metric">
+            <span className="admin-graph-metric-label">{item.label}</span>
+            <strong className="admin-graph-metric-value">{item.value}</strong>
+          </div>
+        ))}
+      </div>
       <svg className="admin-graph-svg" viewBox={`0 0 ${W} ${H}`} style={{ overflow: 'visible' }}>
         <defs>
           <linearGradient id={strokeId} x1="0" y1="0" x2="1" y2="0" gradientUnits="objectBoundingBox">
-            <stop offset="0%" stopColor="var(--brand)" />
-            <stop offset="100%" stopColor="var(--brand)" stopOpacity="0.6" />
+            <stop offset="0%" stopColor="var(--brand)" stopOpacity="0.68" />
+            <stop offset="100%" stopColor="var(--brand)" stopOpacity="0.88" />
           </linearGradient>
-          <linearGradient id={fillId} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="rgba(255,92,92,.22)" />
-            <stop offset="100%" stopColor="rgba(255,92,92,0)" />
-          </linearGradient>
-          <radialGradient id={glowId}>
-            <stop offset="0%" stopColor="var(--brand)" stopOpacity="0.5" />
-            <stop offset="100%" stopColor="var(--brand)" stopOpacity="0" />
-          </radialGradient>
         </defs>
 
-        {[0, 0.25, 0.5, 0.75, 1].map((frac) => {
-          const y = padTop + frac * usableH;
+        {yTicks.map((tick) => {
           return (
-            <line
-              key={frac}
-              x1={padX} y1={y}
-              x2={W - padX} y2={y}
-              stroke="var(--bd)"
-              strokeWidth="0.5"
-              strokeDasharray={frac === 1 ? 'none' : '3,3'}
-            />
+            <g key={tick.value}>
+              <line
+                x1={padLeft}
+                y1={tick.y}
+                x2={W - padRight}
+                y2={tick.y}
+                stroke="var(--bd)"
+                strokeWidth="1"
+                strokeDasharray={tick.value === 0 ? 'none' : '4,8'}
+                opacity={tick.value === 0 ? 0.8 : 0.55}
+              />
+              <text
+                x={0}
+                y={tick.y + 4}
+                className="admin-graph-axis-label"
+              >
+                {fmtChartCompact(tick.value, graphMode)}
+              </text>
+            </g>
           );
         })}
 
-        <path d={fillPath} fill={`url(#${fillId})`} stroke="none" />
+        <path d={fillPath} fill="rgba(255, 92, 92, 0.09)" stroke="none" />
         <path
           d={linePath}
           fill="none"
           stroke={`url(#${strokeId})`}
-          strokeWidth="2.5"
+          strokeWidth="3.25"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
 
         {pts.map(([x, y], i) => (
-          <circle key={i} cx={x} cy={y} r="3" fill="var(--brand)" stroke="var(--bg1)" strokeWidth="1.5" />
+          <circle
+            key={i}
+            cx={x}
+            cy={y}
+            r={i === peakIndex || i === pts.length - 1 ? '4' : '2.75'}
+            fill="var(--brand)"
+            stroke="var(--bg1)"
+            strokeWidth="1.75"
+            opacity={i === peakIndex || i === pts.length - 1 ? 0.92 : 0.8}
+          />
         ))}
-        <circle cx={last[0]} cy={last[1]} r="10" fill={`url(#${glowId})`} />
+        <circle cx={last[0]} cy={last[1]} r="11" fill="rgba(255, 92, 92, 0.14)" />
+
+        {peakIndex !== pts.length - 1 && (
+          <g transform={`translate(${peakPoint[0]}, ${peakPoint[1] - 16})`}>
+            <text textAnchor="middle" className="admin-graph-point-label admin-graph-point-label-peak">
+              Peak {peakLabel}
+            </text>
+          </g>
+        )}
+
+        <g transform={`translate(${last[0]}, ${last[1] - 16})`}>
+          <text textAnchor="end" className="admin-graph-point-label admin-graph-point-label-latest">
+            Now {latestLabel}
+          </text>
+        </g>
 
         {entries.map(([key], i) => {
-          if (i % labelStep !== 0 && i !== entries.length - 1) return null;
-          const x = padX + (entries.length === 1 ? usableW / 2 : (i / (entries.length - 1)) * usableW);
+          const shouldRender = i === 0 || i === entries.length - 1 || i % labelStep === 0;
+          if (!shouldRender) return null;
+          const x = padLeft + (entries.length === 1 ? usableW / 2 : (i / (entries.length - 1)) * usableW);
           return (
             <text
               key={key}
               x={x}
-              y={H - 4}
+              y={H - 8}
               textAnchor="middle"
-              fill="var(--t2)"
-              fontSize="9"
-              fontWeight="600"
+              className="admin-graph-x-label"
             >
               {fmtLabel(key)}
-            </text>
-          );
-        })}
-
-        {pts.map(([x, y], i) => {
-          if (entries.length > 10 && i % labelStep !== 0 && i !== entries.length - 1) return null;
-          const val = values[i];
-          const label = graphMode === 'count' ? val : fmtMoney(val);
-          return (
-            <text
-              key={`v${i}`}
-              x={x}
-              y={y - 8}
-              textAnchor="middle"
-              fill="var(--t1)"
-              fontSize="7"
-              fontWeight="600"
-            >
-              {label}
             </text>
           );
         })}
@@ -510,7 +572,7 @@ export function DropsPanel({ company, staff, isAdmin }) {
         {RANGE_PRESETS.map((p) => (
           <button
             key={p.key}
-            className={`admin-range-btn${rangePreset === p.key ? ' active' : ''}`}
+            className={`admin-filter-btn${rangePreset === p.key ? ' active' : ''}`}
             onClick={() => handlePreset(p.key)}
           >
             {p.label}
@@ -738,16 +800,16 @@ export function DropsPanel({ company, staff, isAdmin }) {
                         onClick={() => setExpandedDrop(isExpanded ? null : drop.id)}
                         style={{ cursor: drop.note ? 'pointer' : undefined }}
                       >
-                        {isAdmin && <td>{drop.staff?.name || '—'}</td>}
-                        <td className="admin-amount">
+                        {isAdmin && <td data-label="Staff">{drop.staff?.name || '—'}</td>}
+                        <td data-label="Amount" className="admin-amount">
                           {fmtMoney(drop.amount_cents)}
                         </td>
-                        <td>{fmtMoney(drop.target_cents)}</td>
-                        <td className={`admin-variance${v < 0 ? ' short' : v > 0 ? ' over' : ''}`}>
+                        <td data-label="Target">{fmtMoney(drop.target_cents)}</td>
+                        <td data-label="Variance" className={`admin-variance${v < 0 ? ' short' : v > 0 ? ' over' : ''}`}>
                           {fmtVariance(v)}
                         </td>
-                        {isMultiDay && <td className="admin-time">{drop.shift_date.slice(5).replace('-', '/')}</td>}
-                        <td className="admin-time">
+                        {isMultiDay && <td data-label="Date" className="admin-time">{drop.shift_date.slice(5).replace('-', '/')}</td>}
+                        <td data-label="Time" className="admin-time">
                           {new Date(drop.created_at).toLocaleTimeString([], {
                             hour: '2-digit',
                             minute: '2-digit',
@@ -755,7 +817,7 @@ export function DropsPanel({ company, staff, isAdmin }) {
                           {drop.note && <i className="fa-solid fa-note-sticky" style={{ marginLeft: 6, fontSize: 10, opacity: .5 }} />}
                         </td>
                         {isAdmin && (
-                          <td className="admin-actions-cell" onClick={(e) => e.stopPropagation()}>
+                          <td data-label="Actions" className="admin-actions-cell" onClick={(e) => e.stopPropagation()}>
                             {deletingId === drop.id ? (
                               <div className="admin-delete-confirm">
                                 <span>Delete?</span>

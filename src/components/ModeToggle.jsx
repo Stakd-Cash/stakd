@@ -11,6 +11,7 @@ export function ModeToggle({ mode, onChange }) {
     onChange(mode === 'count' ? 'value' : 'count');
   };
 
+
   return (
     <div className="mode-toggle-wrap" onClick={toggle}>
       <div className="mode-toggle">

@@ -1,0 +1,334 @@
+/* ==========================================================================
+   stakd Design System — Tokens
+   Single source-of-truth for all visual properties.
+   Dark-mode first. Light overrides via html[data-theme='light'].
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. COLOR PRIMITIVES
+   Raw palette values — never reference these directly in components.
+   -------------------------------------------------------------------------- */
+:root {
+  /* Neutrals (dark) */
+  --c-gray-950: #111113;
+  --c-gray-900: #1a1a1c;
+  --c-gray-850: #1e1e20;
+  --c-gray-800: #252527;
+  --c-gray-750: #2d2d2f;
+  --c-gray-700: #3c3c3e;
+  --c-gray-600: #525254;
+  --c-gray-500: #6e6e70;
+  --c-gray-400: #858587;
+  --c-gray-300: #a0a0a2;
+  --c-gray-200: #c0c0c2;
+  --c-gray-100: #dadadc;
+  --c-gray-50:  #f0f0f2;
+
+  /* Brand — coral */
+  --c-brand-700: #b8553b;
+  --c-brand-600: #c96245;
+  --c-brand-500: #DE7356;
+  --c-brand-400: #e48d74;
+  --c-brand-300: #eba893;
+  --c-brand-200: #f2c7b9;
+  --c-brand-100: #fae6df;
+  --c-brand-bg:  rgba(222, 115, 86, 0.10);
+  --c-brand-bd:  rgba(222, 115, 86, 0.28);
+
+  /* Semantic — red / danger */
+  --c-red-600: #d93025;
+  --c-red-500: #f44747;
+  --c-red-400: #ff6b6b;
+  --c-red-300: #ff8a7a;
+  --c-red-bg:  rgba(244, 71, 71, 0.10);
+  --c-red-bd:  rgba(244, 71, 71, 0.28);
+
+  /* Semantic — green / success */
+  --c-green-600: #2ea043;
+  --c-green-500: #3fb950;
+  --c-green-400: #56d364;
+  --c-green-bg:  rgba(63, 185, 80, 0.12);
+  --c-green-bd:  rgba(63, 185, 80, 0.25);
+
+  /* Semantic — yellow / warning */
+  --c-yellow-600: #bf8803;
+  --c-yellow-500: #cca700;
+  --c-yellow-400: #e2c049;
+  --c-yellow-bg:  rgba(204, 167, 0, 0.10);
+  --c-yellow-bd:  rgba(204, 167, 0, 0.20);
+
+  /* Static */
+  --c-white: #ffffff;
+  --c-black: #000000;
+}
+
+/* --------------------------------------------------------------------------
+   2. SEMANTIC TOKENS — Dark theme (default)
+   These are the tokens you reference in components.
+   -------------------------------------------------------------------------- */
+:root {
+  color-scheme: dark;
+
+  /* ── Surfaces ── */
+  --s-base:     #1e1e1e;          /* page / app background            */
+  --s-raised:   #252526;          /* cards, panels                     */
+  --s-overlay:  #2d2d2d;          /* elevated: headers, footers, menus */
+  --s-inset:    #3c3c3c;          /* sunken: inputs, tracks, wells     */
+  --s-backdrop: rgba(0, 0, 0, 0.55); /* modal / sheet scrim           */
+
+  /* ── Borders ── */
+  --b-default:  rgba(255, 255, 255, 0.06);
+  --b-subtle:   rgba(255, 255, 255, 0.04);
+  --b-strong:   rgba(255, 255, 255, 0.12);
+  --b-focus:    rgba(222, 115, 86, 0.50);
+
+  /* ── Text ── */
+  --t-primary:   #cccccc;
+  --t-secondary: #858585;
+  --t-tertiary:  #5a5a5a;
+  --t-inverse:   #1e1e1e;
+  --t-link:      var(--c-brand-500);
+
+  /* ── Brand / Accent ── */
+  --accent:      #DE7356;
+  --accent-hover:#c96245;
+  --accent-bg:   rgba(222, 115, 86, 0.10);
+  --accent-bd:   rgba(222, 115, 86, 0.28);
+  --accent-soft: rgba(222, 115, 86, 0.14);
+
+  /* ── Semantic status ── */
+  --status-danger:    var(--c-red-500);
+  --status-danger-bg: var(--c-red-bg);
+  --status-danger-bd: var(--c-red-bd);
+  --status-success:    var(--c-green-500);
+  --status-success-bg: var(--c-green-bg);
+  --status-success-bd: var(--c-green-bd);
+  --status-warning:    var(--c-yellow-500);
+  --status-warning-bg: var(--c-yellow-bg);
+  --status-warning-bd: var(--c-yellow-bd);
+
+  /* ── Shadows ── */
+  --sh-xs:  0 1px 2px rgba(0, 0, 0, 0.20);
+  --sh-sm:  0 1px 3px rgba(0, 0, 0, 0.25);
+  --sh-md:  0 4px 12px rgba(0, 0, 0, 0.35);
+  --sh-lg:  0 10px 40px rgba(0, 0, 0, 0.50);
+  --sh-xl:  0 24px 64px rgba(0, 0, 0, 0.55);
+
+  /* ── Typography ── */
+  --font-sans:    -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-display: 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Georgia, serif;
+  --font-mono:    'SF Mono', 'Cascadia Code', 'Fira Code', Consolas, monospace;
+
+  --text-xs:    11px;
+  --text-sm:    12px;
+  --text-base:  13px;
+  --text-md:    14px;
+  --text-lg:    15px;
+  --text-xl:    17px;
+  --text-2xl:   20px;
+  --text-3xl:   24px;
+  --text-4xl:   30px;
+  --text-5xl:   46px;
+
+  --leading-tight:   1.1;
+  --leading-snug:    1.3;
+  --leading-normal:  1.5;
+  --leading-relaxed: 1.65;
+
+  --tracking-tight:    -0.02em;
+  --tracking-normal:   0;
+  --tracking-wide:     0.05em;
+  --tracking-caps:     0.12em;
+
+  --weight-normal:  400;
+  --weight-medium:  500;
+  --weight-semi:    600;
+  --weight-bold:    700;
+  --weight-heavy:   800;
+
+  /* ── Spacing scale ── */
+  --sp-0:   0;
+  --sp-px:  1px;
+  --sp-0_5: 2px;
+  --sp-1:   4px;
+  --sp-1_5: 6px;
+  --sp-2:   8px;
+  --sp-2_5: 10px;
+  --sp-3:   12px;
+  --sp-4:   16px;
+  --sp-5:   20px;
+  --sp-6:   24px;
+  --sp-7:   28px;
+  --sp-8:   32px;
+  --sp-10:  40px;
+  --sp-12:  48px;
+  --sp-16:  64px;
+
+  /* ── Radii ── */
+  --r-xs:   4px;
+  --r-sm:   8px;
+  --r-md:   12px;
+  --r-lg:   16px;
+  --r-xl:   20px;
+  --r-2xl:  24px;
+  --r-full: 9999px;
+
+  /* ── Z-index scale ── */
+  --z-base:    0;
+  --z-raised:  1;
+  --z-sticky:  20;
+  --z-header:  30;
+  --z-dropdown:40;
+  --z-overlay: 100;
+  --z-modal:   200;
+  --z-toast:   300;
+  --z-tooltip: 1000;
+
+  /* ── Sizing ── */
+  --size-touch:  44px;   /* minimum touch target              */
+  --size-btn:    46px;   /* standard button height             */
+  --size-input:  44px;   /* standard input height              */
+  --size-icon-sm:32px;   /* small icon button                  */
+  --size-icon:   40px;   /* default icon button                */
+  --size-icon-lg:44px;   /* large icon button                  */
+
+  /* ── Motion ── */
+  --dur-fast:    100ms;
+  --dur-normal:  200ms;
+  --dur-slow:    350ms;
+  --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out:     cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-bounce:  cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-spring:  cubic-bezier(0.34, 1.4, 0.64, 1);
+
+  /* ── Layout ── */
+  --content-width: 640px;   /* cashier main content max-width */
+  --content-wide:  1120px;  /* admin dashboard content max-width */
+  --safe-top:      env(safe-area-inset-top);
+  --safe-bottom:   env(safe-area-inset-bottom);
+
+  /* ── Glass (for elevated panels / admin) ── */
+  --glass-bg:     rgba(255, 255, 255, 0.035);
+  --glass-bg-s:   rgba(255, 255, 255, 0.015);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-blur:   blur(16px) saturate(160%);
+}
+
+/* --------------------------------------------------------------------------
+   3. LIGHT THEME OVERRIDES
+   -------------------------------------------------------------------------- */
+html[data-theme='light'] {
+  color-scheme: light;
+
+  /* Surfaces */
+  --s-base:     #f3f3f3;
+  --s-raised:   #ffffff;
+  --s-overlay:  #ececec;
+  --s-inset:    #d4d4d4;
+  --s-backdrop: rgba(0, 0, 0, 0.35);
+
+  /* Borders */
+  --b-default:  rgba(0, 0, 0, 0.12);
+  --b-subtle:   rgba(0, 0, 0, 0.06);
+  --b-strong:   rgba(0, 0, 0, 0.18);
+  --b-focus:    rgba(222, 115, 86, 0.45);
+
+  /* Text */
+  --t-primary:   #333333;
+  --t-secondary: #616161;
+  --t-tertiary:  #a0a0a0;
+  --t-inverse:   #ffffff;
+  --t-link:      var(--c-brand-700);
+
+  /* Brand */
+  --accent:      #b8553b;
+  --accent-hover:#a24a33;
+  --accent-bg:   rgba(184, 85, 59, 0.08);
+  --accent-bd:   rgba(184, 85, 59, 0.20);
+  --accent-soft: rgba(184, 85, 59, 0.10);
+
+  /* Semantic status */
+  --status-danger:    #cd3131;
+  --status-danger-bg: rgba(205, 49, 49, 0.08);
+  --status-danger-bd: rgba(205, 49, 49, 0.18);
+  --status-success:    #2ea043;
+  --status-success-bg: rgba(46, 160, 67, 0.10);
+  --status-success-bd: rgba(46, 160, 67, 0.20);
+  --status-warning:    #bf8803;
+  --status-warning-bg: rgba(191, 136, 3, 0.10);
+  --status-warning-bd: rgba(191, 136, 3, 0.20);
+
+  /* Shadows */
+  --sh-xs:  0 1px 2px rgba(0, 0, 0, 0.05);
+  --sh-sm:  0 1px 4px rgba(0, 0, 0, 0.08);
+  --sh-md:  0 4px 12px rgba(0, 0, 0, 0.10);
+  --sh-lg:  0 10px 40px rgba(0, 0, 0, 0.15);
+  --sh-xl:  0 24px 64px rgba(0, 0, 0, 0.18);
+
+  /* Glass */
+  --glass-bg:     rgba(255, 255, 255, 0.55);
+  --glass-bg-s:   rgba(255, 255, 255, 0.35);
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --glass-blur:   blur(16px) saturate(140%);
+}
+
+/* --------------------------------------------------------------------------
+   4. THEME TRANSITION
+   Applied briefly when switching themes for smooth crossfade.
+   -------------------------------------------------------------------------- */
+html.thm,
+html.thm body,
+html.thm .sk-surface,
+html.thm .sk-topbar,
+html.thm .sk-footer {
+  transition:
+    background-color var(--dur-normal) ease,
+    border-color var(--dur-normal) ease,
+    box-shadow var(--dur-normal) ease;
+}
+
+html.thm,
+html.thm .sk-heading,
+html.thm .sk-label,
+html.thm .sk-text {
+  transition: color var(--dur-normal) ease;
+}
+
+/* --------------------------------------------------------------------------
+   5. BACKWARD COMPAT ALIASES
+   Map old token names to new ones so existing code doesn't break during
+   incremental migration. Remove these once migration is complete.
+   -------------------------------------------------------------------------- */
+:root {
+  --bg0: var(--s-base);
+  --bg1: var(--s-raised);
+  --bg2: var(--s-overlay);
+  --bg3: var(--s-inset);
+  --bd:  var(--b-default);
+  --bd-s:var(--b-subtle);
+  --t0:  var(--t-primary);
+  --t1:  var(--t-secondary);
+  --t2:  var(--t-tertiary);
+  --brand:    var(--accent);
+  --brand-h:  var(--accent-hover);
+  --brand-bg: var(--accent-bg);
+  --brand-bd: var(--accent-bd);
+  --font: var(--font-sans);
+  --r-sm:  8px;
+  --r-md:  12px;
+  --r-lg:  16px;
+  --tl:    var(--c-red-300);
+  --green: var(--status-success);
+  --green-bg: var(--status-success-bg);
+  --green-bd: var(--status-success-bd);
+  --yellow: var(--status-warning);
+  --yellow-bg: var(--status-warning-bg);
+  --yellow-bd: var(--status-warning-bd);
+  --yt:    var(--status-warning);
+  --red:   var(--status-danger);
+  --td:    var(--dur-normal);
+}
+
+html[data-theme='light'] {
+  --tl: #e94b5c;
+}
