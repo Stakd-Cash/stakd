@@ -22,7 +22,7 @@ export function SettingsPanel({
           <div className="sheet-hd">
             <span className="sheet-title">Settings</span>
             <button
-              className="icon-btn"
+              className="icon-btn admin-icon-btn"
               onClick={() => {
                 haptic('tap');
                 close();
@@ -37,12 +37,10 @@ export function SettingsPanel({
             <div className="settings-row">
               <div>
                 <div className="settings-label">Drop History</div>
-                <div className="settings-sub">
-                  Review past drops &amp; totals
-                </div>
+                <div className="settings-sub">Review past drops &amp; totals</div>
               </div>
               <button
-                className="settings-action"
+                className="settings-action admin-btn-sm"
                 onClick={() => {
                   haptic('tap');
                   close();
@@ -61,6 +59,7 @@ export function SettingsPanel({
               </div>
               <Toggle
                 on={settings.gamification}
+                label="Gamification"
                 onChange={() => {
                   haptic('tap');
                   onChange('gamification', !settings.gamification);
@@ -70,12 +69,10 @@ export function SettingsPanel({
             <div className="settings-row">
               <div>
                 <div className="settings-label">Tutorial</div>
-                <div className="settings-sub">
-                  Replay the onboarding walkthrough
-                </div>
+                <div className="settings-sub">Replay the onboarding walkthrough</div>
               </div>
               <button
-                className="settings-action"
+                className="settings-action admin-btn-sm"
                 onClick={() => {
                   haptic('tap');
                   onReplayTutorial();
@@ -93,7 +90,7 @@ export function SettingsPanel({
                 </div>
               </div>
               <button
-                className="settings-action"
+                className="settings-action admin-btn-sm"
                 onClick={() => {
                   haptic('tap');
                   close();
@@ -109,7 +106,7 @@ export function SettingsPanel({
                 <div className="settings-sub">Who made this and why</div>
               </div>
               <button
-                className="settings-action"
+                className="settings-action admin-btn-sm"
                 onClick={() => {
                   haptic('tap');
                   close();

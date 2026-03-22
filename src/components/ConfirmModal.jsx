@@ -25,7 +25,11 @@ export function ConfirmModal({ title, body, confirmLabel, onConfirm, onCancel })
       aria-label={title}
     >
       <div className="modal-card" ref={focusRef} onClick={(e) => e.stopPropagation()}>
-        <div className="modal-title">{title}</div>
+        <div className="modal-title">
+          <span className="modal-eyebrow">Confirm action</span>
+          <br />
+          {title}
+        </div>
         <div className="modal-body">{body}</div>
         <div className="modal-actions">
           <button

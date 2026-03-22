@@ -15,11 +15,7 @@ export function PullRows({ dropDetails }) {
             <span className="pull-denom">{item.label}</span>
           </div>
           <span className="pull-value">
-            <CountUp
-              key={`pull-${item.label}`}
-              value={item.value}
-              format={formatMoney}
-            />
+            <CountUp key={`pull-${item.label}`} value={item.value} format={formatMoney} />
           </span>
         </div>
       ))}

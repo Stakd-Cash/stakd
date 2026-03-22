@@ -73,7 +73,7 @@
   --s-base:     #1e1e1e;          /* page / app background            */
   --s-raised:   #252526;          /* cards, panels                     */
   --s-overlay:  #2d2d2d;          /* elevated: headers, footers, menus */
-  --s-inset:    #3c3c3c;          /* sunken: inputs, tracks, wells     */
+  --s-inset:    #2e2e2e;          /* sunken: inputs, tracks, wells     */
   --s-backdrop: rgba(0, 0, 0, 0.55); /* modal / sheet scrim           */
 
   /* ── Borders ── */
@@ -314,9 +314,6 @@ html.thm .sk-text {
   --brand-bg: var(--accent-bg);
   --brand-bd: var(--accent-bd);
   --font: var(--font-sans);
-  --r-sm:  8px;
-  --r-md:  12px;
-  --r-lg:  16px;
   --tl:    var(--c-red-300);
   --green: var(--status-success);
   --green-bg: var(--status-success-bg);

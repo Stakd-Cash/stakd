@@ -437,7 +437,11 @@ export function StaffPanel({ company }) {
       {confirmDeactivate && createPortal(
         <div className="modal-backdrop" onClick={() => setConfirmDeactivate(null)}>
           <div className="modal-card" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-title">Confirm Deactivation</div>
+            <div className="modal-title">
+              <span className="modal-eyebrow">Confirm action</span>
+              <br />
+              Confirm Deactivation
+            </div>
             <div className="modal-body">
               Are you sure you want to deactivate <strong>{confirmDeactivate.name}</strong>?<br />
               They will no longer be able to log in via PIN.
@@ -460,7 +464,11 @@ export function StaffPanel({ company }) {
       {canEdit && editing && createPortal(
         <div className="modal-backdrop" onClick={closeEdit}>
           <div className="modal-card modal-card-wide" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-title">Edit Staff</div>
+            <div className="modal-title">
+              <span className="modal-eyebrow">Staff profile</span>
+              <br />
+              Edit {editing.name}
+            </div>
 
             <form onSubmit={handleSaveEdit} className="modal-form-body">
               <label className="admin-field">

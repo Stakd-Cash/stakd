@@ -50,10 +50,7 @@ export function HistoryPanel({
     haptic('light');
     setClearConfirming(true);
     clearTimeout(clearConfirmTm.current);
-    clearConfirmTm.current = setTimeout(
-      () => setClearConfirming(false),
-      2500
-    );
+    clearConfirmTm.current = setTimeout(() => setClearConfirming(false), 2500);
   }, [clearConfirming, clearHistory]);
 
   useEffect(() => () => clearTimeout(clearConfirmTm.current), []);
@@ -61,9 +58,7 @@ export function HistoryPanel({
   const ordered = useMemo(() => history.slice().reverse(), [history]);
   const recent = useMemo(() => ordered.slice(-14), [ordered]);
   const drops = useMemo(() => recent.map((e) => e.dropped), [recent]);
-  const avgDrop = drops.length
-    ? drops.reduce((s, v) => s + v, 0) / drops.length
-    : 0;
+  const avgDrop = drops.length ? drops.reduce((s, v) => s + v, 0) / drops.length : 0;
   const dropStroke = ['var(--brand)', 'var(--brand-h)'];
   const dropFill = ['rgba(255,92,92,.2)', 'rgba(255,92,92,0)'];
 
@@ -80,9 +75,7 @@ export function HistoryPanel({
       ]),
     ];
     const csv = rows
-      .map((r) =>
-        r.map((v) => `"${String(v).replace(/"/g, '""')}"`).join(',')
-      )
+      .map((r) => r.map((v) => `"${String(v).replace(/"/g, '""')}"`).join(','))
       .join('\n');
     const blob = new Blob([csv], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);
@@ -97,10 +90,8 @@ export function HistoryPanel({
 
   const filtered = useMemo(() => {
     return ordered.filter((e) => {
-      if (activeFilter === 'over' && e.totalCash < (e.target || 0))
-        return false;
-      if (activeFilter === 'under' && e.totalCash >= (e.target || 0))
-        return false;
+      if (activeFilter === 'over' && e.totalCash < (e.target || 0)) return false;
+      if (activeFilter === 'under' && e.totalCash >= (e.target || 0)) return false;
       if (activeFilter === 'record' && e.dropped !== record) return false;
       if (query.trim()) {
         const q = query.trim().toLowerCase();
@@ -163,7 +154,7 @@ export function HistoryPanel({
             <div className="history-hd-actions">
               {history.length > 0 && !isKiosk && (
                 <button
-                  className="clear-btn"
+                  className="history-action-btn admin-btn-sm"
                   onClick={exportCSV}
                   title="Export CSV"
                 >
@@ -172,7 +163,7 @@ export function HistoryPanel({
               )}
               {history.length > 0 && !isKiosk && (
                 <button
-                  className={`clear-btn${
+                  className={`history-action-btn history-action-btn-danger admin-btn-sm${
                     clearConfirming ? ' confirming' : ''
                   }`}
                   onClick={handleClearClick}
@@ -181,7 +172,7 @@ export function HistoryPanel({
                 </button>
               )}
               <button
-                className="icon-btn"
+                className="icon-btn admin-icon-btn"
                 onClick={() => {
                   haptic('tap');
                   close();
@@ -235,12 +226,10 @@ export function HistoryPanel({
                       aria-expanded={filterOpen}
                     >
                       <span>
-                        {HISTORY_FILTERS.find((f) => f.id === activeFilter)
-                          ?.label || 'All'}
+                        {HISTORY_FILTERS.find((f) => f.id === activeFilter)?.label ||
+                          'All'}
                       </span>
-                      <i
-                        className="fa-solid fa-chevron-down history-filter-chev icon-14"
-                      />
+                      <i className="fa-solid fa-chevron-down history-filter-chev icon-14" />
                     </button>
                     {filterOpen && (
                       <div className="history-filter-dropdown">
@@ -267,11 +256,7 @@ export function HistoryPanel({
                   <div className="trend-card trend-card-wide">
                     <div className="trend-title">Avg drop (last 14)</div>
                     <div className="trend-value">${avgDrop.toFixed(2)}</div>
-                    <Sparkline
-                      data={drops}
-                      stroke={dropStroke}
-                      fill={dropFill}
-                    />
+                    <Sparkline data={drops} stroke={dropStroke} fill={dropFill} />
                   </div>
                   <div className="trend-row">
                     <div className="trend-card">
@@ -296,23 +281,19 @@ export function HistoryPanel({
             )}
             {history.length === 0 ? (
               <div className="history-empty">
-                <div className="history-empty-icon"><i className="fa-solid fa-clock-rotate-left"></i></div>
-                <div className="history-empty-title">
-                  No drops yet
+                <div className="history-empty-icon">
+                  <i className="fa-solid fa-clock-rotate-left"></i>
                 </div>
-                <div className="history-empty-sub">
-                  Completed counts will appear here
-                </div>
+                <div className="history-empty-title">No drops yet</div>
+                <div className="history-empty-sub">Completed counts will appear here</div>
               </div>
             ) : filtered.length === 0 ? (
               <div className="history-empty">
-                <div className="history-empty-icon"><i className="fa-solid fa-magnifying-glass"></i></div>
-                <div className="history-empty-title">
-                  No results
+                <div className="history-empty-icon">
+                  <i className="fa-solid fa-magnifying-glass"></i>
                 </div>
-                <div className="history-empty-sub">
-                  Try a different search or filter
-                </div>
+                <div className="history-empty-title">No results</div>
+                <div className="history-empty-sub">Try a different search or filter</div>
               </div>
             ) : (
               <div className="history-list">

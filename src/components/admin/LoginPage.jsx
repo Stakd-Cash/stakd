@@ -32,9 +32,8 @@ export function LoginPage({ navigate }) {
   const [fieldErrors, setFieldErrors] = useState({});
   const { signIn, signUp, loading, error, clearError } = useAuthStore();
 
-  // Parse URL params on mount
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
+    const params = new window.URLSearchParams(window.location.search);
     const urlMode = params.get('mode');
     if (urlMode === 'signup' || urlMode === 'login') {
       setMode(urlMode);
@@ -143,7 +142,7 @@ export function LoginPage({ navigate }) {
       switchMode('login');
       setMessage('Check your email to confirm the account, then sign in.');
     } else if (result?.success) {
-      navigate('/pathway');
+      navigate('/onboarding?step=plan');
     }
   };
 
@@ -181,13 +180,46 @@ export function LoginPage({ navigate }) {
     }
   };
 
+  const renderField = ({
+    id,
+    label,
+    errorId,
+    error,
+    prefix = null,
+    inputProps,
+  }) => (
+    <div className={`login-field${error ? ' has-error' : ''}`}>
+      <label htmlFor={id}>{label}</label>
+      {prefix ? (
+        <div className="login-slug-wrap">
+          <span className="login-slug-prefix">{prefix}</span>
+          <input
+            id={id}
+            {...inputProps}
+            aria-invalid={error ? 'true' : 'false'}
+            aria-describedby={error ? errorId : undefined}
+          />
+        </div>
+      ) : (
+        <input
+          id={id}
+          {...inputProps}
+          aria-invalid={error ? 'true' : 'false'}
+          aria-describedby={error ? errorId : undefined}
+        />
+      )}
+      {error && (
+        <span className="login-field-error" id={errorId}>
+          {error}
+        </span>
+      )}
+    </div>
+  );
+
   return (
     <div className="login-page">
-      <div className="login-glow login-glow-a" />
-      <div className="login-glow login-glow-b" />
-      
-      <button 
-        className="login-back-btn" 
+      <button
+        className="login-back-btn"
         onClick={() => navigate('/')}
         aria-label="Go back"
       >
@@ -211,66 +243,58 @@ export function LoginPage({ navigate }) {
           </div>
 
           <form onSubmit={handleSubmit} className="login-form" noValidate>
-            <div className={`login-field${fieldErrors.email ? ' has-error' : ''}`}>
-              <label htmlFor="email">Email</label>
-              <input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => {
+            {renderField({
+              id: 'email',
+              label: 'Email',
+              errorId: 'login-email-error',
+              error: fieldErrors.email,
+              inputProps: {
+                type: 'email',
+                value: email,
+                onChange: (e) => {
                   setEmail(e.target.value);
                   setResetSent(false);
                   setFieldErrors((prev) => ({ ...prev, email: null }));
-                }}
-                autoComplete="email"
-                autoCapitalize="none"
-                autoCorrect="off"
-                spellCheck={false}
-                inputMode="email"
-                autoFocus
-                placeholder="you@company.com"
-                aria-invalid={fieldErrors.email ? 'true' : 'false'}
-                aria-describedby={fieldErrors.email ? 'login-email-error' : undefined}
-              />
-              {fieldErrors.email && (
-                <span className="login-field-error" id="login-email-error">
-                  {fieldErrors.email}
-                </span>
-              )}
-            </div>
+                },
+                autoComplete: 'email',
+                autoCapitalize: 'none',
+                autoCorrect: 'off',
+                spellCheck: false,
+                inputMode: 'email',
+                autoFocus: true,
+                placeholder: 'you@company.com',
+              },
+            })}
 
-            <div className={`login-field${fieldErrors.password ? ' has-error' : ''}`}>
-              <label htmlFor="password">Password</label>
-              <input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => {
+            {renderField({
+              id: 'password',
+              label: 'Password',
+              errorId: 'login-password-error',
+              error: fieldErrors.password,
+              inputProps: {
+                type: 'password',
+                value: password,
+                onChange: (e) => {
                   setPassword(e.target.value);
                   setFieldErrors((prev) => ({ ...prev, password: null }));
-                }}
-                autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
-                placeholder="••••••••"
-                minLength={6}
-                aria-invalid={fieldErrors.password ? 'true' : 'false'}
-                aria-describedby={fieldErrors.password ? 'login-password-error' : undefined}
-              />
-              {fieldErrors.password && (
-                <span className="login-field-error" id="login-password-error">
-                  {fieldErrors.password}
-                </span>
-              )}
-            </div>
+                },
+                autoComplete: mode === 'login' ? 'current-password' : 'new-password',
+                placeholder: 'Enter password',
+                minLength: 6,
+              },
+            })}
 
             {mode === 'signup' && (
               <>
-                <div className={`login-field${fieldErrors.companyName ? ' has-error' : ''}`}>
-                  <label htmlFor="companyName">Company Name</label>
-                  <input
-                    id="companyName"
-                    type="text"
-                    value={companyName}
-                    onChange={(e) => {
+                {renderField({
+                  id: 'companyName',
+                  label: 'Company Name',
+                  errorId: 'login-company-name-error',
+                  error: fieldErrors.companyName,
+                  inputProps: {
+                    type: 'text',
+                    value: companyName,
+                    onChange: (e) => {
                       const nextCompanyName = e.target.value;
                       const previousAutoSlug = slugify(companyName);
                       setCompanyName(nextCompanyName);
@@ -278,72 +302,53 @@ export function LoginPage({ navigate }) {
                       if (!companySlug || companySlug === previousAutoSlug) {
                         setCompanySlug(slugify(nextCompanyName));
                       }
-                    }}
-                    autoComplete="organization"
-                    placeholder="Acme Coffee"
-                    maxLength={100}
-                    aria-invalid={fieldErrors.companyName ? 'true' : 'false'}
-                    aria-describedby={fieldErrors.companyName ? 'login-company-name-error' : undefined}
-                  />
-                  {fieldErrors.companyName && (
-                    <span className="login-field-error" id="login-company-name-error">
-                      {fieldErrors.companyName}
-                    </span>
-                  )}
-                </div>
+                    },
+                    autoComplete: 'organization',
+                    placeholder: 'Acme Coffee',
+                    maxLength: 100,
+                  },
+                })}
 
-                <div className={`login-field${fieldErrors.ownerPin ? ' has-error' : ''}`}>
-                  <label htmlFor="ownerPin">Owner PIN</label>
-                  <input
-                    id="ownerPin"
-                    type="password"
-                    inputMode="numeric"
-                    value={ownerPin}
-                    onChange={(e) => {
+                {renderField({
+                  id: 'ownerPin',
+                  label: 'Owner PIN',
+                  errorId: 'login-owner-pin-error',
+                  error: fieldErrors.ownerPin,
+                  inputProps: {
+                    type: 'password',
+                    inputMode: 'numeric',
+                    value: ownerPin,
+                    onChange: (e) => {
                       setOwnerPin(e.target.value.replace(/\D/g, '').slice(0, 8));
                       setFieldErrors((prev) => ({ ...prev, ownerPin: null }));
-                    }}
-                    autoComplete="off"
-                    placeholder="4 digits"
-                    maxLength={8}
-                    aria-invalid={fieldErrors.ownerPin ? 'true' : 'false'}
-                    aria-describedby={fieldErrors.ownerPin ? 'login-owner-pin-error' : undefined}
-                  />
-                  {fieldErrors.ownerPin && (
-                    <span className="login-field-error" id="login-owner-pin-error">
-                      {fieldErrors.ownerPin}
-                    </span>
-                  )}
-                </div>
+                    },
+                    autoComplete: 'off',
+                    placeholder: '4 digits',
+                    maxLength: 8,
+                  },
+                })}
 
-                <div className={`login-field${fieldErrors.companySlug ? ' has-error' : ''}`}>
-                  <label htmlFor="companySlug">Company Slug</label>
-                  <div className="login-slug-wrap">
-                    <span className="login-slug-prefix">stakd.cash/</span>
-                    <input
-                      id="companySlug"
-                      type="text"
-                      value={companySlug}
-                      onChange={(e) => {
-                        setCompanySlug(slugify(e.target.value));
-                        setFieldErrors((prev) => ({ ...prev, companySlug: null }));
-                      }}
-                      autoComplete="off"
-                      autoCapitalize="none"
-                      autoCorrect="off"
-                      spellCheck={false}
-                      placeholder="acme-coffee"
-                      maxLength={50}
-                      aria-invalid={fieldErrors.companySlug ? 'true' : 'false'}
-                      aria-describedby={fieldErrors.companySlug ? 'login-company-slug-error' : undefined}
-                    />
-                  </div>
-                  {fieldErrors.companySlug && (
-                    <span className="login-field-error" id="login-company-slug-error">
-                      {fieldErrors.companySlug}
-                    </span>
-                  )}
-                </div>
+                {renderField({
+                  id: 'companySlug',
+                  label: 'Company Slug',
+                  errorId: 'login-company-slug-error',
+                  error: fieldErrors.companySlug,
+                  prefix: 'stakd.cash/',
+                  inputProps: {
+                    type: 'text',
+                    value: companySlug,
+                    onChange: (e) => {
+                      setCompanySlug(slugify(e.target.value));
+                      setFieldErrors((prev) => ({ ...prev, companySlug: null }));
+                    },
+                    autoComplete: 'off',
+                    autoCapitalize: 'none',
+                    autoCorrect: 'off',
+                    spellCheck: false,
+                    placeholder: 'acme-coffee',
+                    maxLength: 50,
+                  },
+                })}
               </>
             )}
 
@@ -401,21 +406,6 @@ export function LoginPage({ navigate }) {
                 {content.switchAction}
               </button>
             </p>
-          </div>
-        </div>
-
-        <div className="login-proof">
-          <div className="login-proof-pill">
-            <strong>2 hrs</strong>
-            <span>saved per week on drawer audits</span>
-          </div>
-          <div className="login-proof-pill">
-            <strong>Real-time</strong>
-            <span>alerts when cash goes missing</span>
-          </div>
-          <div className="login-proof-pill">
-            <strong>Zero</strong>
-            <span>disputes with timestamped proof</span>
           </div>
         </div>
       </div>

@@ -5,15 +5,14 @@ const MODES = ['count', 'value'];
 const LABELS = ['Count', 'Value'];
 
 export function ModeToggle({ mode, onChange }) {
-  const toggle = (e) => {
+  const handleSelect = (nextMode) => (e) => {
     e.stopPropagation();
     haptic('tap');
-    onChange(mode === 'count' ? 'value' : 'count');
+    if (nextMode !== mode) onChange(nextMode);
   };
 
-
   return (
-    <div className="mode-toggle-wrap" onClick={toggle}>
+    <div className="mode-toggle-wrap admin-view-toggle" onClick={(e) => e.stopPropagation()}>
       <div className="mode-toggle">
         <div
           className="mode-toggle-pill"
@@ -25,8 +24,10 @@ export function ModeToggle({ mode, onChange }) {
         {MODES.map((m, i) => (
           <button
             key={m}
-            className={`mode-btn${mode === m ? ' active' : ''}`}
-            onClick={toggle}
+            type="button"
+            className={`mode-btn admin-btn-sm${mode === m ? ' active' : ''}`}
+            onClick={handleSelect(m)}
+            aria-pressed={mode === m}
           >
             {LABELS[i]}
           </button>

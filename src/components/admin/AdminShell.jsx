@@ -13,6 +13,12 @@ import { PinPad } from './PinPad.jsx';
 import { AuditLogPanel } from './AuditLogPanel.jsx';
 import { AnalyticsPanel } from './AnalyticsPanel.jsx';
 import { CustomSelect } from './UIComponents.jsx';
+import { 
+  getPlanName, 
+  formatSubscriptionStatus, 
+  formatRenewalDate,
+  createPortalSession 
+} from '../../lib/billing.js';
 
 const ROLE_LABELS = { cashier: 'Crew Member', manager: 'Manager', owner: 'Owner' };
 const ADMIN_ROLES = ['owner', 'manager'];
@@ -41,6 +47,21 @@ export function AdminShell({ navigate, replaceNavigate }) {
   const [deleting, setDeleting] = useState(false);
   const [confirmLogout, setConfirmLogout] = useState(false);
   const [confirmHome, setConfirmHome] = useState(false);
+  const [billingLoading, setBillingLoading] = useState(false);
+
+  const handleManageBilling = async () => {
+    if (!company?.stripe_customer_id) return;
+    setBillingLoading(true);
+    setSettingsError(null);
+    try {
+      const url = await createPortalSession({ customerId: company.stripe_customer_id });
+      window.location.href = url;
+    } catch (err) {
+      setSettingsError(err.message);
+    } finally {
+      setBillingLoading(false);
+    }
+  };
 
   // Persist tab to sessionStorage
   useEffect(() => {
@@ -181,15 +202,19 @@ export function AdminShell({ navigate, replaceNavigate }) {
       ? 'admin-view admin-view--in'
       : 'admin-view';
 
+  const planName = getPlanName(company?.plan);
+  const subscriptionStatusLabel = formatSubscriptionStatus(company?.subscription_status);
+  const renewalLabel = formatRenewalDate(company?.current_period_end);
+
   // --- Loading state (no transition wrapper needed) ---
   if (renderedKey === 'loading') {
     return (
       <div className={transitionClass}>
         <div className="admin-loading">
           <div className="admin-spinner" />
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', width: '100%', maxWidth: '380px', padding: '0 16px' }}>
+          <div className="admin-loading-skeletons">
             <div className="adm-sk adm-sk-btn" />
-            <div style={{ display: 'flex', gap: '10px' }}>
+            <div className="admin-loading-skeletons-row">
               <div className="adm-sk adm-sk-stat" />
               <div className="adm-sk adm-sk-stat" />
             </div>
@@ -330,7 +355,7 @@ export function AdminShell({ navigate, replaceNavigate }) {
               <h2>Company Settings</h2>
             </div>
             {settingsError && (
-              <div className="admin-error" style={{ margin: '0 0 12px' }}>
+              <div className="admin-error admin-error-inline">
                 {settingsError}
                 <button className="admin-btn-sm" style={{ marginLeft: 8 }} onClick={() => setSettingsError(null)}>Dismiss</button>
               </div>
@@ -452,6 +477,49 @@ export function AdminShell({ navigate, replaceNavigate }) {
               </div>
             </div>
 
+            <div className="admin-settings-card settings-billing-card">
+              <div className="admin-settings-row">
+                <div className="admin-settings-label">Billing</div>
+                <div className="admin-settings-value-col">
+                  <div className="settings-billing-meta">
+                    <span className="settings-billing-row-label">Plan</span>
+                    <strong>{planName}</strong>
+                  </div>
+                  <div className="settings-billing-meta">
+                    <span className="settings-billing-row-label">Status</span>
+                    <strong className={company?.subscription_status === 'active' || company?.subscription_status === 'trialing' ? 'status-active' : 'status-inactive'}>
+                      {subscriptionStatusLabel}
+                    </strong>
+                  </div>
+                  <div className="settings-billing-meta">
+                    <span className="settings-billing-row-label">Renews</span>
+                    <strong>{renewalLabel}</strong>
+                  </div>
+                  <div className="settings-billing-meta">
+                    <span className="settings-billing-row-label">Seat limit</span>
+                    <strong>{(company?.seat_limit ?? 0) === -1 ? 'Unlimited' : (company?.seat_limit ?? 0)}</strong>
+                  </div>
+                </div>
+              </div>
+
+              <div className="admin-settings-actions">
+                <button
+                  className="admin-submit"
+                  onClick={handleManageBilling}
+                  disabled={billingLoading || !company?.stripe_customer_id}
+                  style={{ width: '100%' }}
+                >
+                  <i className={`fa-solid ${billingLoading ? 'fa-circle-notch fa-spin' : 'fa-arrow-up-right-from-square'}`} />
+                  {billingLoading ? 'Opening Stripe...' : 'Manage Billing'}
+                </button>
+              </div>
+
+              <div className="admin-billing-trust">
+                <i className="fa-solid fa-shield-halved" />
+                <span>Billing runs securely through Stripe. We never see your card details.</span>
+              </div>
+            </div>
+
             {/* Danger Zone */}
             <div className="admin-danger-zone">
               <div className="admin-danger-header">
@@ -479,9 +547,9 @@ export function AdminShell({ navigate, replaceNavigate }) {
                     autoFocus
                   />
                   {settingsError && (
-                    <div className="admin-error" style={{ marginTop: 8 }}>{settingsError}</div>
+                    <div className="admin-error admin-billing-manage-mt">{settingsError}</div>
                   )}
-                  <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
+                  <div className="admin-settings-actions">
                     <button
                       className="admin-btn-danger-full"
                       disabled={deleteSlug !== company.slug || deleting}

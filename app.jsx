@@ -60,6 +60,8 @@ import { KioskBanner } from './src/components/admin/KioskBanner.jsx';
 import { LandingPage } from './src/components/admin/LandingPage.jsx';
 import { PathwayPage } from './src/components/admin/PathwayPage.jsx';
 import { PinPad } from './src/components/admin/PinPad.jsx';
+import { PlanSelector } from './src/components/admin/PlanSelector.jsx';
+import { hasActiveSubscription } from './src/lib/billing.js';
 
 // ---------------------------------------------------------------------------
 // ScrollToTop — resets scroll on page navigation
@@ -112,6 +114,12 @@ function PageSkeletonFooter() {
 // App — thin shell that wires store, hooks, and components together
 // ---------------------------------------------------------------------------
 function App() {
+  const { company, staff, activeStaff } = useAuthStore(useShallow((s) => ({
+    company: s.company,
+    staff: s.staff,
+    activeStaff: s.activeStaff,
+  })));
+
   // --- Store selectors (grouped with useShallow to reduce subscriptions) ---
   const {
     cash, targetInput, billsMode, coinsMode, coinRolls,
@@ -194,6 +202,30 @@ function App() {
     totalBillsCents, totalCoinsCents, totalCents,
     totalCash, overageCents, dropAmount, over, TARGET,
   } = totals;
+
+  const currentStaff = activeStaff || staff;
+  const staffFirstName = currentStaff?.name?.split(' ')[0] || null;
+  const companyLabel = company?.name || 'Shared device';
+  const summaryTitle = activeStaff
+    ? `Count ${staffFirstName}'s drawer.`
+    : 'Count the drawer and set the drop.';
+  const summarySubtitle = activeStaff
+    ? 'Enter each bill and coin, then calculate the safest drop before the next cashier takes over.'
+    : 'Use count or value mode to move quickly through the drawer and lock in the right drop.';
+  const statusLabel = totalCash > 0 ? (over ? 'Over target' : 'Still needed') : 'Shift status';
+  const statusValue = totalCash > 0
+    ? `${over ? '+' : '-'}$${Math.abs(totalCash - TARGET).toFixed(2)}`
+    : 'Ready';
+  const summaryStatusTone = totalCash > 0
+    ? over
+      ? 'stat-over'
+      : 'stat-short'
+    : '';
+  const summaryNote = activeStaff
+    ? `This kiosk session will save under ${currentStaff.name}.`
+    : company
+      ? `${company.name} is ready for the next shift handoff.`
+      : 'Built for quick, on-floor cash checks.';
 
   const {
     cachedDropRef, themeRotating, toggleTheme,
@@ -394,10 +426,17 @@ function App() {
           <div className="gh-logo">
             <img src="/favicon.png" alt="stakd" decoding="async" />
           </div>
+          <div className="gh-brand-copy">
+            <span className="gh-brand-name">stakd</span>
+            <span className="gh-brand-context">{companyLabel}</span>
+          </div>
+          {currentStaff?.name && (
+            <span className="gh-session-chip">{currentStaff.name}</span>
+          )}
         </div>
         <div className="gh-header-actions" id="header-actions">
           <button
-            className="icon-btn"
+            className="icon-btn admin-icon-btn"
             onClick={toggleTheme}
             aria-label="Toggle theme"
             title={
@@ -411,7 +450,7 @@ function App() {
             />
           </button>
           <button
-            className={`icon-btn${showHistory ? ' is-active' : ''}`}
+            className={`icon-btn admin-icon-btn${showHistory ? ' is-active' : ''}`}
             onClick={openHistory}
             aria-label="Drop history"
             title="Drop history"
@@ -420,7 +459,7 @@ function App() {
             <i className="fa-solid fa-clock header-icon icon-17" />
           </button>
           <button
-            className={`icon-btn${showSettings ? ' is-active' : ''}`}
+            className={`icon-btn admin-icon-btn${showSettings ? ' is-active' : ''}`}
             onClick={openSettings}
             aria-label="Settings"
             title="Settings"
@@ -429,7 +468,7 @@ function App() {
             <i className="fa-solid fa-gear header-icon icon-17" />
           </button>
           <button
-            className={`icon-btn${showResetConfirm ? ' is-active' : ''}`}
+            className={`icon-btn admin-icon-btn${showResetConfirm ? ' is-active' : ''}`}
             onClick={openResetConfirm}
             aria-label="Reset counts"
             title="Reset counts"
@@ -441,7 +480,10 @@ function App() {
       </header>
 
       {/* Main content */}
-      <main id="main-content" className="main-content">
+      <main
+        id="main-content"
+        className={`main-content${showPageCount ? ' main-content-count' : ''}`}
+      >
         <div className="page-root">
           {/* Page 1: Count */}
           {showPageCount && !appReady && (
@@ -451,26 +493,50 @@ function App() {
           )}
           {showPageCount && appReady && (
             <div
-              className={`page-slide${!initialRevealDone.current ? ' app-reveal' : ''}${getPageAnimClass(1)}`}
+              className={`page-slide page-slide-count${!initialRevealDone.current ? ' app-reveal' : ''}${getPageAnimClass(1)}`}
               ref={(el) => { if (el && !initialRevealDone.current) initialRevealDone.current = true; }}
             >
               <ScrollToTop />
-              <CountPage
-                totalBillsCents={totalBillsCents}
-                totalCoinsCents={totalCoinsCents}
-                billsMode={billsMode}
-                coinsMode={coinsMode}
-                cash={cash}
-                coinRolls={coinRolls}
-                handleBillsModeChange={handleBillsModeChange}
-                handleCoinsModeChange={handleCoinsModeChange}
-                handleManualInput={handleManualInput}
-                billStep={billStep}
-                coinStep={coinStep}
-                handleCoinRoll={handleCoinRoll}
-                handleCoinRollSet={handleCoinRollSet}
-                goToResult={goToResult}
-              />
+              <div className="calc-ui">
+                <section className="calc-summary login-card">
+                  <div className="login-card-header">
+                    <span className="login-eyebrow">{companyLabel}</span>
+                    <h1 className="login-title">{summaryTitle}</h1>
+                    <p className="login-subtitle">{summarySubtitle}</p>
+                  </div>
+                  <div className="calc-summary-stats admin-stat-row">
+                    <div className={`admin-stat ${summaryStatusTone}`.trim()}>
+                      <div className="admin-stat-label">{statusLabel}</div>
+                      <div className="admin-stat-value">{statusValue}</div>
+                    </div>
+                    <div className="admin-stat">
+                      <div className="admin-stat-label">Target</div>
+                      <div className="admin-stat-value">${TARGET.toFixed(2)}</div>
+                    </div>
+                  </div>
+                  <div className="calc-summary-note">
+                    <span className="calc-summary-note-dot" />
+                    <span>{summaryNote}</span>
+                  </div>
+                </section>
+
+                <CountPage
+                  totalBillsCents={totalBillsCents}
+                  totalCoinsCents={totalCoinsCents}
+                  billsMode={billsMode}
+                  coinsMode={coinsMode}
+                  cash={cash}
+                  coinRolls={coinRolls}
+                  handleBillsModeChange={handleBillsModeChange}
+                  handleCoinsModeChange={handleCoinsModeChange}
+                  handleManualInput={handleManualInput}
+                  billStep={billStep}
+                  coinStep={coinStep}
+                  handleCoinRoll={handleCoinRoll}
+                  handleCoinRollSet={handleCoinRollSet}
+                  goToResult={goToResult}
+                />
+              </div>
             </div>
           )}
 
@@ -594,6 +660,86 @@ function AuthGuard({ children, navigate, replaceNavigate }) {
   return children;
 }
 
+function CompanyGuard({ children, navigate, replaceNavigate, inactiveMode = 'render' }) {
+  const { company, loading: authLoading } = useAuthStore(useShallow((s) => ({
+    company: s.company,
+    loading: s.loading,
+  })));
+
+  if (authLoading) {
+    return (
+      <div className="admin-loading">
+        <div className="admin-spinner" />
+        <p>Loading workspace...</p>
+      </div>
+    );
+  }
+
+  if (!company) {
+    return (
+      <div className="admin-empty">
+        <h2>No Company Found</h2>
+        <p>You haven&apos;t created or joined a company yet.</p>
+        <button className="admin-submit" onClick={() => navigate('/login')}>
+          Go to Login
+        </button>
+      </div>
+    );
+  }
+
+  if (hasActiveSubscription(company)) {
+    return children;
+  }
+
+  if (inactiveMode === 'redirect') {
+    replaceNavigate('/onboarding?step=plan');
+    return null;
+  }
+
+  const checkoutSessionId =
+    typeof window !== 'undefined'
+      ? new window.URLSearchParams(window.location.search).get('session_id')
+      : null;
+
+  return (
+    <PlanSelector
+      company={company}
+      navigate={navigate}
+      replaceNavigate={replaceNavigate}
+      checkoutSessionId={checkoutSessionId}
+    />
+  );
+}
+
+function OnboardingRoute({ navigate, replaceNavigate }) {
+  const company = useAuthStore((s) => s.company);
+
+  if (!company) {
+    return (
+      <div className="admin-empty">
+        <h2>No Company Found</h2>
+        <p>You haven&apos;t created or joined a company yet.</p>
+        <button className="admin-submit" onClick={() => navigate('/login')}>
+          Go to Login
+        </button>
+      </div>
+    );
+  }
+
+  if (hasActiveSubscription(company)) {
+    replaceNavigate('/admin');
+    return null;
+  }
+
+  return (
+    <PlanSelector
+      company={company}
+      navigate={navigate}
+      replaceNavigate={replaceNavigate}
+    />
+  );
+}
+
 // ---------------------------------------------------------------------------
 // KioskRoute — handles kiosk PIN pad and counter with banner
 // ---------------------------------------------------------------------------
@@ -681,7 +827,21 @@ function Root() {
   if (route === 'pathway') {
     return (
       <AuthGuard navigate={navigate} replaceNavigate={replaceNavigate}>
-        <PathwayPage navigate={navigate} replaceNavigate={replaceNavigate} />
+        <CompanyGuard
+          navigate={navigate}
+          replaceNavigate={replaceNavigate}
+          inactiveMode="redirect"
+        >
+          <PathwayPage navigate={navigate} replaceNavigate={replaceNavigate} />
+        </CompanyGuard>
+      </AuthGuard>
+    );
+  }
+
+  if (route === 'onboarding') {
+    return (
+      <AuthGuard navigate={navigate} replaceNavigate={replaceNavigate}>
+        <OnboardingRoute navigate={navigate} replaceNavigate={replaceNavigate} />
       </AuthGuard>
     );
   }
@@ -690,7 +850,13 @@ function Root() {
   if (route === 'admin') {
     return (
       <AuthGuard navigate={navigate} replaceNavigate={replaceNavigate}>
-        <AdminShell navigate={navigate} replaceNavigate={replaceNavigate} />
+        <CompanyGuard navigate={navigate} replaceNavigate={replaceNavigate}>
+          <AdminShell
+            navigate={navigate}
+            replaceNavigate={replaceNavigate}
+            initialTab={param}
+          />
+        </CompanyGuard>
       </AuthGuard>
     );
   }
@@ -699,7 +865,13 @@ function Root() {
   if (route === 'kiosk') {
     return (
       <AuthGuard navigate={navigate} replaceNavigate={replaceNavigate}>
-        <KioskRoute navigate={navigate} replaceNavigate={replaceNavigate} />
+        <CompanyGuard
+          navigate={navigate}
+          replaceNavigate={replaceNavigate}
+          inactiveMode="redirect"
+        >
+          <KioskRoute navigate={navigate} replaceNavigate={replaceNavigate} />
+        </CompanyGuard>
       </AuthGuard>
     );
   }

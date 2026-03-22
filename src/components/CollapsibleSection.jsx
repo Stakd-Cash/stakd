@@ -4,6 +4,7 @@ import { haptic } from '../utils/haptics.js';
 
 export function CollapsibleSection({
   id,
+  className = '',
   label,
   badge,
   mode,
@@ -15,6 +16,7 @@ export function CollapsibleSection({
   const [pressing, setPressing] = useState(false);
   const innerRef = useRef(null);
   const [ht, setHt] = useState(0);
+  const badgeValue = Number.parseFloat(String(badge).replace(/[^\d.-]/g, ''));
 
   useEffect(() => {
     const el = innerRef.current;
@@ -38,23 +40,22 @@ export function CollapsibleSection({
   };
   const clearPress = () => setPressing(false);
   const onDivClick = (e) => {
-    if (
-      e.target.closest('button,input,a') ||
-      e.target.closest('.mode-toggle-wrap')
-    )
+    if (e.target.closest('button,input,a') || e.target.closest('.mode-toggle-wrap'))
       return;
     haptic('tap');
     setOpen((v) => !v);
   };
 
   return (
-    <div className="gh-card" id={id}>
+    <div className={`gh-card ${className}${open ? ' is-open' : ''}`.trim()} id={id}>
       <div
         role="button"
         tabIndex={0}
         className={`section-toggle-btn${pressing ? ' pressing' : ''}${
-          (parseFloat(badge) || 0) > 0 ? ' has-value' : ''
+          (badgeValue || 0) > 0 ? ' has-value' : ''
         }`}
+        aria-expanded={open}
+        aria-controls={`${id}-body`}
         onPointerDown={onPointerDown}
         onPointerUp={clearPress}
         onPointerLeave={clearPress}
@@ -69,10 +70,10 @@ export function CollapsibleSection({
         }}
       >
         <div className="section-toggle-left">
-          <span className="section-label">{label}</span>
+          <span className="section-label login-eyebrow">{label}</span>
           <span className="badge">{badge}</span>
         </div>
-        <div className="section-toggle-right">
+        <div className="section-toggle-right admin-panel-actions">
           <ModeToggle mode={mode} onChange={onModeChange} />
           <i
             className={`fa-solid fa-chevron-down sec-chev icon-16${open ? ' open' : ''}`}
@@ -80,8 +81,10 @@ export function CollapsibleSection({
         </div>
       </div>
       <div
+        id={`${id}-body`}
         className={`section-body-wrap${open ? '' : ' closed'}`}
         style={{ maxHeight: open ? `${ht}px` : '0' }}
+        aria-hidden={!open}
       >
         <div className="section-body-inner" ref={innerRef}>
           {children}

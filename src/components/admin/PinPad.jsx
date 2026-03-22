@@ -19,9 +19,20 @@ export function PinPad({ company, onSuccess, onBack, roleFilter, prompt }) {
   const { pinLoginFor } = useAuthStore();
   const dotsRef = useRef(null);
   const staffListRef = useRef(null);
+  const touchGestureRef = useRef({ x: 0, y: 0, moved: false });
 
   const handleStaffScroll = useCallback((e) => {
     const el = e.currentTarget;
+    const topFade = Math.min(el.scrollTop, 48);
+    const bottomRemaining = el.scrollHeight - el.scrollTop - el.clientHeight;
+    const bottomFade = Math.min(bottomRemaining, 48);
+    el.style.setProperty('--_top-fade', `${topFade}px`);
+    el.style.setProperty('--_bottom-fade', `${bottomFade}px`);
+  }, []);
+
+  const syncStaffScrollState = useCallback(() => {
+    const el = staffListRef.current;
+    if (!el) return;
     const topFade = Math.min(el.scrollTop, 48);
     const bottomRemaining = el.scrollHeight - el.scrollTop - el.clientHeight;
     const bottomFade = Math.min(bottomRemaining, 48);
@@ -47,12 +58,47 @@ export function PinPad({ company, onSuccess, onBack, roleFilter, prompt }) {
     })();
   }, [company.id, roleFilter]);
 
+  const filteredStaff = staffList.filter(s => 
+    s.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  useEffect(() => {
+    if (step !== 'select' || staffLoading) return;
+    const frame = requestAnimationFrame(syncStaffScrollState);
+    return () => cancelAnimationFrame(frame);
+  }, [step, staffLoading, filteredStaff.length, syncStaffScrollState]);
+
   const handleSelectStaff = useCallback((s) => {
     setSelectedStaff(s);
     setStep('pin');
     setPin('');
     setError(null);
   }, []);
+
+  const handleStaffTouchStart = useCallback((e) => {
+    const touch = e.touches?.[0];
+    if (!touch) return;
+    touchGestureRef.current = { x: touch.clientX, y: touch.clientY, moved: false };
+  }, []);
+
+  const handleStaffTouchMove = useCallback((e) => {
+    const touch = e.touches?.[0];
+    if (!touch) return;
+    const dx = Math.abs(touch.clientX - touchGestureRef.current.x);
+    const dy = Math.abs(touch.clientY - touchGestureRef.current.y);
+    if (dx > 8 || dy > 8) {
+      touchGestureRef.current.moved = true;
+    }
+  }, []);
+
+  const handleStaffButtonClick = useCallback((e, staffMember) => {
+    if (touchGestureRef.current.moved) {
+      touchGestureRef.current.moved = false;
+      e.preventDefault();
+      return;
+    }
+    handleSelectStaff(staffMember);
+  }, [handleSelectStaff]);
 
   const handleBack = useCallback(() => {
     setStep('select');
@@ -95,10 +141,6 @@ export function PinPad({ company, onSuccess, onBack, roleFilter, prompt }) {
     }
   }, [pin, selectedStaff, pinLoginFor, onSuccess, triggerShake]);
 
-  const filteredStaff = staffList.filter(s => 
-    s.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
   // Staff skeleton
   const renderStaffSkeleton = () => (
     <div className="pinpad-staff-list scrollable" style={{ gap: '10px' }}>
@@ -118,7 +160,7 @@ export function PinPad({ company, onSuccess, onBack, roleFilter, prompt }) {
   );
 
   return (
-    <div className="pathway-page">
+    <div className={`pathway-page pathway-page--pinpad pathway-page--${step}`}>
       <div className="pathway-container">
         <div className="pathway-brand">
           <div className="pathway-brand-icon">
@@ -129,7 +171,7 @@ export function PinPad({ company, onSuccess, onBack, roleFilter, prompt }) {
 
         {/* Step 1: Select a user */}
         {step === 'select' && (
-          <div className="pathway-card">
+          <div className="pathway-card pathway-card--staff-select">
             {onBack && (
               <button className="pathway-back-btn" onClick={onBack}>
                 <i className="fa-solid fa-arrow-left" />
@@ -167,7 +209,9 @@ export function PinPad({ company, onSuccess, onBack, roleFilter, prompt }) {
                   <button
                     key={s.id}
                     className="pinpad-staff-btn"
-                    onClick={() => handleSelectStaff(s)}
+                    onTouchStart={handleStaffTouchStart}
+                    onTouchMove={handleStaffTouchMove}
+                    onClick={(e) => handleStaffButtonClick(e, s)}
                   >
                     <div className="pinpad-staff-avatar">
                       {s.name.charAt(0).toUpperCase()}

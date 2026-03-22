@@ -34,12 +34,22 @@ const LandingPricing = ({ navigate }) => {
             </div>
             <p className="landing-pricing-desc">{tier.desc}</p>
             <ul className="landing-pricing-features">
-              {tier.features.map((feature) => (
-                <li key={feature}>
-                  <i className="fa-solid fa-check" />
-                  <span>{feature}</span>
-                </li>
-              ))}
+              {tier.features.map((feature) => {
+                const featureText = typeof feature === 'string' ? feature : feature.text;
+                const featureNote = typeof feature === 'string' ? null : feature.note;
+
+                return (
+                  <li key={`${tier.name}-${featureText}`}>
+                    <i className="fa-solid fa-check" />
+                    <span>
+                      {featureText}
+                      {featureNote && (
+                        <small className="landing-pricing-feature-note">{featureNote}</small>
+                      )}
+                    </span>
+                  </li>
+                );
+              })}
             </ul>
             <button
               className={`landing-btn ${tier.primary ? 'primary' : 'secondary'}`}

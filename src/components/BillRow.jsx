@@ -10,7 +10,6 @@ export const BillRow = memo(function BillRow({
   rollCount,
   rolls = 0,
   onRoll,
-  onRollSet,
   inputMode,
   value,
   onManualInput,
@@ -19,8 +18,7 @@ export const BillRow = memo(function BillRow({
 }) {
   const hasRoll = Number.isFinite(rollCount) && rollCount > 0;
   const rollQty = Math.max(0, Math.floor(Number(rolls) || 0));
-  const extraCount =
-    inputMode === 'count' && hasRoll ? rollQty * rollCount : 0;
+  const extraCount = inputMode === 'count' && hasRoll ? rollQty * rollCount : 0;
   const has = Number(value) > 0 || extraCount > 0;
   const sub = rowSubtotal(value, denom, inputMode, extraCount);
   const rollLabel = hasRoll
@@ -28,15 +26,10 @@ export const BillRow = memo(function BillRow({
       ? `${rollCount}/roll`
       : `$${(rollCount * denom).toFixed(2)}`
     : '';
+  const inputLabel = `${label} ${inputMode === 'count' ? 'count' : 'value'}`;
 
-  const plusCb = useCallback(
-    () => onStep(id, 1, denom),
-    [id, denom, onStep]
-  );
-  const minusCb = useCallback(
-    () => onStep(id, -1, denom),
-    [id, denom, onStep]
-  );
+  const plusCb = useCallback(() => onStep(id, 1, denom), [id, denom, onStep]);
+  const minusCb = useCallback(() => onStep(id, -1, denom), [id, denom, onStep]);
   const plus = useHoldRepeat(plusCb);
   const minus = useHoldRepeat(minusCb);
 
@@ -54,6 +47,7 @@ export const BillRow = memo(function BillRow({
   const rollHoldRef = useRef(null);
   const rollFiredRef = useRef(false);
   const rollTouchActive = useRef(false);
+  const rollSkipClickRef = useRef(false);
   const [rollHolding, setRollHolding] = useState(false);
   const rollTouchStartY = useRef(null);
 
@@ -82,7 +76,11 @@ export const BillRow = memo(function BillRow({
   useEffect(() => () => clearTimeout(rollHoldRef.current), []);
 
   return (
-    <div className={`denom-row${has ? ' has-value' : ''}`}>
+    <div
+      className={`denom-row admin-staff-card${hasRoll ? ' has-roll' : ''}${
+        has ? ' has-value' : ''
+      }`}
+    >
       <span className={`denom-label${has ? ' active' : ''}`}>{label}</span>
       <div className="denom-input-wrap">
         {inputMode === 'value' && <span className="denom-prefix">$</span>}
@@ -91,9 +89,10 @@ export const BillRow = memo(function BillRow({
           inputMode={inputMode === 'count' ? 'numeric' : 'decimal'}
           enterKeyHint="done"
           autoComplete="off"
-          className={`denom-input${inputMode === 'value' ? ' has-prefix' : ''}`}
+          className={`denom-input admin-settings-input${inputMode === 'value' ? ' has-prefix' : ''}`}
           value={value}
           placeholder="0"
+          aria-label={inputLabel}
           onChange={(e) => {
             onManualInput(id, e.target.value, inputMode);
           }}
@@ -103,8 +102,7 @@ export const BillRow = memo(function BillRow({
           onBlur={(e) => {
             if (inputMode === 'value') {
               const n = parseFloat(e.target.value);
-              if (!Number.isNaN(n) && n >= 0)
-                onManualInput(id, n.toFixed(2), inputMode);
+              if (!Number.isNaN(n) && n >= 0) onManualInput(id, n.toFixed(2), inputMode);
             }
           }}
           onKeyDown={(e) => {
@@ -115,25 +113,30 @@ export const BillRow = memo(function BillRow({
           }}
           onWheel={(e) => e.target.blur()}
         />
-        {sub && (
-          <span className="row-sub-inline">{sub}</span>
-        )}
+        {sub && <span className="row-sub-inline">{sub}</span>}
       </div>
       <div className="stepper">
         {hasRoll && inputMode === 'count' && (
           <button
-            className={`roll-btn${rollHolding ? ' roll-holding' : ''}`}
+            type="button"
+            className={`roll-btn admin-btn-sm${rollHolding ? ' roll-holding' : ''}`}
             title={`Tap: +1 roll (${rollCount} coins) · Hold: −1 roll`}
             aria-label={`Add 1 roll (${rollCount} coins); hold to remove`}
             onTouchStart={(e) => {
               e.stopPropagation();
               rollTouchActive.current = true;
+              rollSkipClickRef.current = true;
               startRollHold(e);
             }}
             onTouchEnd={(e) => {
               e.stopPropagation();
               e.preventDefault();
               if (!rollFiredRef.current) applyRollDelta(1);
+              cancelRollHold();
+            }}
+            onTouchCancel={() => {
+              rollTouchActive.current = false;
+              rollSkipClickRef.current = false;
               cancelRollHold();
             }}
             onTouchMove={(e) => {
@@ -143,11 +146,28 @@ export const BillRow = memo(function BillRow({
               if (dy > 10) cancelRollHold();
             }}
             onPointerDown={(e) => {
-              if (e.pointerType === 'mouse') haptic('destruct');
+              if (e.pointerType !== 'mouse') return;
+              rollSkipClickRef.current = true;
+              startRollHold(e);
+            }}
+            onPointerUp={(e) => {
+              if (e.pointerType !== 'mouse') return;
+              if (!rollFiredRef.current) applyRollDelta(1);
+              cancelRollHold();
+            }}
+            onPointerLeave={(e) => {
+              if (e.pointerType !== 'mouse') return;
+              rollSkipClickRef.current = false;
+              cancelRollHold();
+            }}
+            onPointerCancel={() => {
+              rollSkipClickRef.current = false;
+              cancelRollHold();
             }}
             onClick={() => {
-              if (rollTouchActive.current) {
+              if (rollTouchActive.current || rollSkipClickRef.current) {
                 rollTouchActive.current = false;
+                rollSkipClickRef.current = false;
                 return;
               }
               applyRollDelta(1);
@@ -161,16 +181,15 @@ export const BillRow = memo(function BillRow({
               )}
               <i className="fa-solid fa-coins icon-14" />
             </div>
-            <span className="roll-btn-label">
-              {rollHolding ? '−roll' : rollLabel}
-            </span>
+            <span className="roll-btn-label">{rollHolding ? '-roll' : rollLabel}</span>
             {rollQty > 0 && !rollHolding && (
               <span className="roll-btn-count">×{rollQty}</span>
             )}
           </button>
         )}
         <button
-          className={`step-btn${minus.repeating ? ' repeating' : ''}`}
+          type="button"
+          className={`step-btn admin-icon-btn${minus.repeating ? ' repeating' : ''}`}
           onTouchStart={(e) => {
             e.stopPropagation();
             haptic('step');
@@ -199,7 +218,8 @@ export const BillRow = memo(function BillRow({
           <i className="fa-solid fa-minus icon-16" />
         </button>
         <button
-          className={`step-btn plus${has ? ' active' : ''}${
+          type="button"
+          className={`step-btn admin-icon-btn plus${has ? ' active' : ''}${
             plus.repeating ? ' repeating' : ''
           }`}
           onTouchStart={(e) => {
@@ -234,5 +254,5 @@ export const BillRow = memo(function BillRow({
   );
 });
 
-// CoinRow is the same component — rolls only render when rollCount is provided
+// CoinRow reuses BillRow; rolls render only when rollCount is provided.
 export const CoinRow = BillRow;

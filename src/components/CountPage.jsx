@@ -24,6 +24,7 @@ export function CountPage({
     <>
       <CollapsibleSection
         id="bills-card"
+        className="calc-section-card admin-table-wrap calc-bills-card"
         label="Bills"
         badge={`$${fromCents(totalBillsCents).toFixed(2)}`}
         mode={billsMode}
@@ -46,8 +47,10 @@ export function CountPage({
           ))}
         </div>
       </CollapsibleSection>
+
       <CollapsibleSection
         id="coins-card"
+        className="calc-section-card admin-table-wrap calc-coins-card"
         label="Coins"
         badge={`$${fromCents(totalCoinsCents).toFixed(2)}`}
         mode={coinsMode}
@@ -74,8 +77,9 @@ export function CountPage({
           ))}
         </div>
       </CollapsibleSection>
-      <div className="hold-hint">
-        Tap input to type · hold +/- to repeat
+
+      <div className="hold-hint login-subtitle">
+        Tap input to type and hold +/- to repeat
       </div>
     </>
   );

@@ -16,6 +16,11 @@ export function AboutModal({ onClose }) {
         <div className="about-logo">
           <img src="/favicon.png" alt="" decoding="async" loading="lazy" />
         </div>
+        <div className="modal-title" style={{ paddingTop: 0 }}>
+          <span className="modal-eyebrow">About</span>
+          <br />
+          stakd
+        </div>
         <div className="about-tagline">
           &quot;Counting is freakin&apos; hard, man.&quot;
         </div>
@@ -33,7 +38,7 @@ export function AboutModal({ onClose }) {
         </div>
         <div className="modal-actions" style={{ marginTop: '22px' }}>
           <button
-            className="modal-btn cancel"
+            className="modal-btn primary"
             onClick={() => triggerClose(onClose)}
           >
             Close
