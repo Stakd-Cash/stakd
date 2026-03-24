@@ -358,9 +358,28 @@ html[data-theme='light'] .adm-sk::after {
   animation: adminCardIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
   align-items: flex-start;
   gap: var(--sp-4);
+  /* Modal/auth tokens for sk-modal-eyebrow + sk-modal-title (see tokens.css .sk-backdrop) */
+  --modal-muted: color-mix(in srgb, var(--t-secondary) 82%, #cabdb6 18%);
+  --modal-copy: color-mix(in srgb, var(--t-primary) 94%, #f7efe8 6%);
+  --modal-display: var(--font-display);
 }
 
-.admin-analytics-header h2 {
+html[data-theme='light'] .admin-analytics-header {
+  --modal-muted: #6b6560;
+  --modal-copy: #2a2522;
+}
+
+.admin-analytics-header .sk-modal-eyebrow {
+  display: block;
+}
+
+.admin-analytics-header .sk-modal-title {
+  padding: 0;
+  margin: 0;
+  text-align: left;
+}
+
+.admin-analytics-title-row {
   display: flex;
   align-items: center;
   gap: var(--sp-2);
@@ -408,20 +427,33 @@ html[data-theme='light'] .adm-sk::after {
   animation-delay: 0.3s;
 }
 
-.admin-analytics-stats .admin-stat-card {
-  animation: adminCardIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+.admin-analytics-alerts .sk-callout-note {
+  animation: adminRowIn 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-.admin-analytics-stats .admin-stat-card:nth-child(1) {
+.admin-analytics-alerts .sk-callout-note:nth-child(1) {
   animation-delay: 0.12s;
 }
-.admin-analytics-stats .admin-stat-card:nth-child(2) {
+.admin-analytics-alerts .sk-callout-note:nth-child(2) {
   animation-delay: 0.18s;
 }
-.admin-analytics-stats .admin-stat-card:nth-child(3) {
+.admin-analytics-alerts .sk-callout-note:nth-child(3) {
   animation-delay: 0.24s;
 }
-.admin-analytics-stats .admin-stat-card:nth-child(4) {
+.admin-analytics-alerts .sk-callout-note:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+.admin-analytics-stats .sk-card:nth-child(1) {
+  animation-delay: 0.12s;
+}
+.admin-analytics-stats .sk-card:nth-child(2) {
+  animation-delay: 0.18s;
+}
+.admin-analytics-stats .sk-card:nth-child(3) {
+  animation-delay: 0.24s;
+}
+.admin-analytics-stats .sk-card:nth-child(4) {
   animation-delay: 0.3s;
 }
 
@@ -500,6 +532,182 @@ html[data-theme='light'] .adm-sk::after {
 
 .admin-analytics-stats {
   margin-bottom: var(--sp-6);
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--sp-3);
+}
+
+@media (max-width: 1024px) {
+  .admin-analytics-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .admin-analytics-stats {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Stat tiles: modal/auth-like lift (tokens only) */
+.admin-analytics-stats .sk-card {
+  animation: adminCardIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--s-raised) 92%, var(--s-base) 8%) 0%,
+    var(--s-raised) 100%
+  );
+  border: 1px solid var(--b-default);
+  border-radius: var(--r-2xl);
+  box-shadow: var(--sh-auth-card);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+html[data-theme='light'] .admin-analytics-stats .sk-card {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--s-raised) 96%, var(--s-base) 4%) 0%,
+    var(--s-raised) 100%
+  );
+}
+
+.admin-analytics-stats .sk-card-body {
+  padding: var(--sp-10);
+  gap: var(--sp-2);
+}
+
+.admin-analytics-stats .admin-stat-value {
+  font-weight: var(--weight-bold);
+  color: var(--t-primary);
+}
+
+.admin-analytics-stats .admin-stat-value--var-pos {
+  color: var(--status-success);
+}
+
+.admin-analytics-stats .admin-stat-value--var-neg {
+  color: var(--status-danger);
+}
+
+.admin-analytics-stat-label {
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.7rem;
+  font-weight: var(--weight-bold);
+  color: var(--t-secondary);
+}
+
+.admin-analytics-section-head {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  margin: 0;
+  font-weight: 600;
+  font-size: var(--text-md);
+  color: var(--t-primary);
+  font-family: var(--font-sans);
+}
+
+.admin-analytics-section .sk-card-header {
+  padding-bottom: var(--sp-4);
+}
+
+.admin-analytics-list-primary {
+  font-weight: 500;
+  color: var(--t-primary);
+}
+
+.admin-analytics-list-meta {
+  font-size: var(--text-xs);
+  color: var(--t-secondary);
+}
+
+.admin-analytics-section .admin-rank-badge {
+  width: 40px;
+  height: 40px;
+  font-size: var(--text-sm);
+}
+
+.admin-analytics-table-card .admin-text-strong {
+  font-weight: 500;
+}
+
+.admin-analytics-table-card .admin-text-caption-capitalize {
+  font-size: var(--text-xs);
+  color: var(--t-secondary);
+}
+
+.admin-analytics-table-card .sk-card-body {
+  padding: 0;
+  overflow-x: auto;
+}
+
+.admin-analytics-table-card .admin-table td {
+  border-bottom: 1px solid var(--b-subtle);
+}
+
+.admin-analytics-table-card .admin-table tr:last-child td {
+  border-bottom: none;
+}
+
+.admin-panel .sk-callout-note--danger {
+  align-items: flex-start;
+  margin: 0;
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: var(--r-lg);
+  background: color-mix(in srgb, var(--status-danger) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--status-danger) 25%, transparent);
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+}
+
+.admin-panel .sk-callout-note--danger > svg {
+  color: var(--status-danger);
+  opacity: 1;
+}
+
+.admin-panel .sk-callout-note--danger strong {
+  display: block;
+  color: var(--t-primary);
+  font-weight: var(--weight-bold);
+}
+
+.admin-panel .sk-callout-note--danger p {
+  margin: var(--sp-1) 0 0;
+  color: var(--t-secondary);
+}
+
+.admin-analytics-loss-card.sk-card {
+  background: color-mix(in srgb, var(--status-danger) 6%, var(--s-raised));
+  border: 1px solid color-mix(in srgb, var(--status-danger) 20%, transparent);
+}
+
+.admin-analytics-loss-card .sk-card-header.admin-analytics-loss-card-hd {
+  display: block;
+  padding: var(--sp-3) var(--sp-4);
+  background: color-mix(in srgb, var(--status-danger) 8%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--status-danger) 25%, transparent);
+}
+
+.admin-analytics-loss-card-hd .admin-analytics-section-head--loss {
+  color: var(--t-primary);
+}
+
+.admin-analytics-loss-card-hd .admin-analytics-section-head--loss svg {
+  color: var(--status-danger);
+  flex-shrink: 0;
+}
+
+.admin-analytics-loss-sub {
+  margin: var(--sp-1) 0 0;
+  font-size: var(--text-sm);
+  color: var(--t-secondary);
+}
+
+.admin-analytics-loss-card .sk-card-body.admin-analytics-loss-table-wrap {
+  padding: 0;
 }
 
 .admin-analytics-split {
@@ -617,27 +825,6 @@ html[data-theme='light'] .adm-sk::after {
 
 .admin-stat-value--var-neg {
   color: var(--status-danger);
-}
-
-.admin-analytics-loss-hd {
-  padding: var(--sp-4) var(--sp-5);
-  border-bottom: 1px solid var(--status-danger-bd);
-  background: var(--status-danger-bg);
-}
-
-.admin-analytics-loss-hd h3 {
-  margin: 0;
-  display: flex;
-  align-items: center;
-  gap: var(--sp-2);
-  color: var(--status-danger);
-  font-size: 16px;
-}
-
-.admin-analytics-loss-hd p {
-  margin: var(--sp-1) 0 0;
-  font-size: 13px;
-  color: var(--t-secondary);
 }
 
 .admin-analytics-loss-table-wrap {
@@ -3975,7 +4162,28 @@ html[data-theme='light'] .settings-billing-row:hover {
 
 /* --- Reduced motion --- */
 @media (prefers-reduced-motion: reduce) {
-  .admin-card, .admin-stat-card, .admin-staff-card, .admin-analytics-header, .admin-analytics-filters, .admin-analytics-alerts, .admin-alert, .admin-analytics-section, .admin-list-item, .admin-table tbody tr, .pathway-option, .pinpad-key, .pinpad-staff-btn, .admin-empty-state, .admin-loading, .admin-spinner, .admin-error, .billing-plan-card, .billing-gate__panel, .billing-sync-banner, .admin-seat-limit-callout {
+  .admin-card,
+  .admin-stat-card,
+  .admin-staff-card,
+  .admin-analytics-header,
+  .admin-analytics-filters,
+  .admin-analytics-alerts,
+  .admin-alert,
+  .admin-analytics-section,
+  .admin-analytics-stats .sk-card,
+  .admin-list-item,
+  .admin-table tbody tr,
+  .pathway-option,
+  .pinpad-key,
+  .pinpad-staff-btn,
+  .admin-empty-state,
+  .admin-loading,
+  .admin-spinner,
+  .admin-error,
+  .billing-plan-card,
+  .billing-gate__panel,
+  .billing-sync-banner,
+  .admin-seat-limit-callout {
     animation: none !important;
     transition: none !important;
   }
