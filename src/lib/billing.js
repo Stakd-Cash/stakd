@@ -1,5 +1,8 @@
 import { supabase } from './supabase.js';
 
+/** Set after signup so PlanSelector redirects to Stripe without showing the billing gate again. */
+export const POST_SIGNUP_CHECKOUT_PLAN_STORAGE_KEY = 'stakd_post_signup_checkout_plan';
+
 // ---------------------------------------------------------------------------
 // Plan definitions (Free → Solo → Pro → Business)
 // ---------------------------------------------------------------------------

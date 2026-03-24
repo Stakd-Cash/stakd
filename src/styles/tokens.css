@@ -212,6 +212,28 @@
   --glass-bg-s:   rgba(255, 255, 255, 0.015);
   --glass-border: rgba(255, 255, 255, 0.08);
   --glass-blur:   blur(16px) saturate(160%);
+  
+  /* Admin / Pathway */
+  --kiosk-h:           36px;
+  --ad-bg:             var(--s-base);
+  --ad-surface:        var(--s-raised);
+  --ad-border:         var(--b-default);
+  --ad-copy:           var(--t-primary);
+  --ad-muted:          var(--t-secondary);
+  --ad-accent:         var(--accent);
+  --ad-accent-strong:  var(--accent-hover);
+  --ad-accent-soft:    var(--accent-soft);
+  --ad-display:        var(--font-display);
+
+  --pw-bg:             color-mix(in srgb, var(--s-base) 86%, #090b0e 14%);
+  --pw-surface:        color-mix(in srgb, var(--s-raised) 82%, #12151a 18%);
+  --pw-border:         color-mix(in srgb, var(--b-default) 72%, rgba(255, 255, 255, 0.09) 28%);
+  --pw-copy:           color-mix(in srgb, var(--t-primary) 94%, #f7efe8 6%);
+  --pw-muted:          color-mix(in srgb, var(--t-secondary) 82%, #cabdb6 18%);
+  --pw-accent:         var(--accent);
+  --pw-accent-strong:  var(--c-brand-400);
+  --pw-accent-soft:    var(--accent-soft);
+  --pw-display:        var(--font-display);
 }
 
 /* --------------------------------------------------------------------------
@@ -270,10 +292,99 @@ html[data-theme='light'] {
   --glass-bg-s:   rgba(255, 255, 255, 0.35);
   --glass-border: rgba(0, 0, 0, 0.08);
   --glass-blur:   blur(16px) saturate(140%);
+  
+  /* Admin / Pathway */
+  --ad-bg:      #f5f3ef;
+  --ad-surface: rgba(255, 255, 255, 0.7);
+  --ad-border:  rgba(31, 24, 18, 0.1);
+  --ad-copy:    #1a150e;
+  --ad-muted:   #6b5e52;
+
+  --pw-bg:      color-mix(in srgb, #f5f3f0 92%, #faf8f6 8%);
+  --pw-surface: color-mix(in srgb, #ffffff 95%, #f9f7f5 5%);
+  --pw-border:  rgba(0, 0, 0, 0.08);
+  --pw-copy:    #2a2522;
+  --pw-muted:   #6b6560;
 }
 
 /* --------------------------------------------------------------------------
-   4. THEME TRANSITION
+   4. FEATURE TOKEN BRIDGES
+   Scoped semantic variables that are still shared across legacy feature CSS.
+   -------------------------------------------------------------------------- */
+.landing-page {
+  --landing-bg: var(--s-base);
+  --landing-surface: var(--s-raised);
+  --landing-surface-strong: var(--s-overlay);
+  --landing-border: var(--b-default);
+  --landing-copy: var(--t-primary);
+  --landing-muted: var(--t-tertiary);
+  --landing-accent: var(--accent);
+  --landing-accent-soft: var(--accent-soft);
+  --landing-accent-strong: var(--accent-hover);
+  --landing-accent-wash: var(--accent-bg);
+  --landing-display: var(--font-display);
+}
+
+.login-page {
+  --login-bg: color-mix(in srgb, var(--s-base) 86%, #090b0e 14%);
+  --login-surface: color-mix(in srgb, var(--s-raised) 82%, #12151a 18%);
+  --login-border: color-mix(in srgb, var(--b-default) 72%, rgba(255, 255, 255, 0.09) 28%);
+  --login-copy: color-mix(in srgb, var(--t-primary) 94%, #f7efe8 6%);
+  --login-muted: color-mix(in srgb, var(--t-secondary) 82%, #cabdb6 18%);
+  --login-accent: var(--accent);
+  --login-accent-strong: var(--c-brand-400);
+  --login-accent-soft: var(--accent-soft);
+  --login-display: var(--font-display);
+}
+
+html[data-theme='light'] .login-page {
+  --login-bg: color-mix(in srgb, #f5f3f0 92%, #faf8f6 8%);
+  --login-surface: color-mix(in srgb, #ffffff 95%, #f9f7f5 5%);
+  --login-border: rgba(0, 0, 0, 0.08);
+  --login-copy: #2a2522;
+  --login-muted: #6b6560;
+}
+
+.modal-backdrop {
+  --modal-border: color-mix(in srgb, var(--b-default) 72%, rgba(255, 255, 255, 0.09) 28%);
+  --modal-copy: color-mix(in srgb, var(--t-primary) 94%, #f7efe8 6%);
+  --modal-muted: color-mix(in srgb, var(--t-secondary) 82%, #cabdb6 18%);
+  --modal-accent: var(--accent);
+  --modal-accent-soft: var(--accent-soft);
+  --modal-display: var(--font-display);
+}
+
+html[data-theme='light'] .modal-backdrop {
+  --modal-border: rgba(0, 0, 0, 0.08);
+  --modal-copy: #2a2522;
+  --modal-muted: #6b6560;
+}
+
+.app-root {
+  --kiosk-border: color-mix(in srgb, var(--b-default) 74%, rgba(255, 255, 255, 0.09) 26%);
+  --kiosk-surface: color-mix(in srgb, var(--s-raised) 84%, #12151a 16%);
+  --kiosk-surface-strong: color-mix(in srgb, var(--s-overlay) 76%, #14181d 24%);
+  --kiosk-shadow: 0 20px 44px rgba(0, 0, 0, 0.22);
+}
+
+.free-kiosk-page {
+  --login-bg: color-mix(in srgb, var(--s-base) 86%, #090b0e 14%);
+  --login-surface: color-mix(in srgb, var(--s-raised) 82%, #12151a 18%);
+  --login-border: color-mix(in srgb, var(--b-default) 72%, rgba(255, 255, 255, 0.09) 28%);
+  --login-copy: color-mix(in srgb, var(--t-primary) 94%, #f7efe8 6%);
+  --login-muted: color-mix(in srgb, var(--t-secondary) 82%, #cabdb6 18%);
+  --login-display: var(--font-display);
+}
+
+html[data-theme='light'] .free-kiosk-page {
+  --login-bg: color-mix(in srgb, #f5f3f0 92%, #faf8f6 8%);
+  --login-surface: color-mix(in srgb, #ffffff 95%, #f9f7f5 5%);
+  --login-border: rgba(0, 0, 0, 0.08);
+  --login-muted: #6b6560;
+}
+
+/* --------------------------------------------------------------------------
+   5. THEME TRANSITION
    Applied briefly when switching themes for smooth crossfade.
    -------------------------------------------------------------------------- */
 html.thm,
@@ -295,7 +406,7 @@ html.thm .sk-text {
 }
 
 /* --------------------------------------------------------------------------
-   5. BACKWARD COMPAT ALIASES
+   6. BACKWARD COMPAT ALIASES
    Map old token names to new ones so existing code doesn't break during
    incremental migration. Remove these once migration is complete.
    -------------------------------------------------------------------------- */
@@ -323,6 +434,8 @@ html.thm .sk-text {
   --yellow-bd: var(--status-warning-bd);
   --yt:    var(--status-warning);
   --red:   var(--status-danger);
+  --red-bg: var(--status-danger-bg);
+  --red-bd: var(--status-danger-bd);
   --td:    var(--dur-normal);
 }
 

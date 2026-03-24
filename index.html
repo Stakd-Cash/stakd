@@ -32,10 +32,10 @@
     <meta name="theme-color" content="#1e1e1e" />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; font-src https://cdnjs.cloudflare.com; connect-src 'self' https://edebxzktapontcymqlzt.supabase.co wss://edebxzktapontcymqlzt.supabase.co https://api.github.com; img-src 'self' data: blob:; frame-ancestors 'none'; base-uri 'self'; form-action 'self';"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; font-src https://cdnjs.cloudflare.com; connect-src 'self' https://edebxzktapontcymqlzt.supabase.co wss://edebxzktapontcymqlzt.supabase.co https://api.github.com; img-src 'self' data: blob:; base-uri 'self'; form-action 'self';"
     />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
-    <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="icon" href="/src/stakd-logo-mark.svg" type="image/svg+xml" />
     <title>stakd</title>
     <link
       rel="preload"
@@ -51,20 +51,29 @@
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     /></noscript>
-    <link rel="stylesheet" href="/src/styles/tokens.css" />
+    <link rel="stylesheet" href="/src/styles/base.css" />
     <link rel="stylesheet" href="/src/styles/components.css" />
-    <link rel="stylesheet" href="/critical.css?v=79d5cae800" />
+    <link rel="stylesheet" href="/critical.css?v=80fb185e4e" />
     <link
       rel="preload"
-      href="/styles.css?v=79d5cae800"
+      href="/styles.css?v=80fb185e4e"
       as="style"
       onload="
         this.onload = null;
         this.rel = 'stylesheet';
       "
     />
-    <noscript><link rel="stylesheet" href="/styles.css?v=79d5cae800" /></noscript>
-    <link rel="stylesheet" href="/src/styles/admin.css?v=79d5cae800" />
+    <noscript><link rel="stylesheet" href="/styles.css?v=80fb185e4e" /></noscript>
+    <link
+      rel="preload"
+      href="/dist/app.css?v=80fb185e4e"
+      as="style"
+      onload="
+        this.onload = null;
+        this.rel = 'stylesheet';
+      "
+    />
+    <noscript><link rel="stylesheet" href="/dist/app.css?v=80fb185e4e" /></noscript>
   </head>
   <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
@@ -139,18 +148,20 @@
       (function () {
         try {
           const key = 'ac_theme';
-          const stored = JSON.parse(localStorage.getItem(key));
-          const theme =
-            stored === 'dark' || stored === 'light'
-              ? stored
-              : window.matchMedia &&
-                  window.matchMedia('(prefers-color-scheme: dark)').matches
-                ? 'dark'
-                : 'light';
+          const migKey = 'ac_theme_migrated_v2';
+          let stored = JSON.parse(localStorage.getItem(key));
+          
+          // Force dark mode once for all users to establish the new default
+          if (!localStorage.getItem(migKey)) {
+            stored = 'dark';
+            localStorage.setItem(key, JSON.stringify('dark'));
+            localStorage.setItem(migKey, 'true');
+          }
+
+          const theme = stored === 'light' ? 'light' : 'dark';
           document.documentElement.setAttribute('data-theme', theme);
           const meta = document.querySelector('meta[name="theme-color"]');
-          if (meta)
-            meta.setAttribute('content', theme === 'dark' ? '#1e1e1e' : '#f3f3f3');
+          if (meta) meta.setAttribute('content', theme === 'dark' ? '#1e1e1e' : '#f3f3f3');
         } catch {}
       })();
     </script>
@@ -254,7 +265,7 @@
       role="banner"
       aria-label="Install app"
     >
-      <div class="install-banner-icon"><img src="/favicon.png" alt="" /></div>
+      <div class="install-banner-icon"><img src="/src/stakd-logo-mark.svg" alt="" /></div>
       <div class="install-banner-text">
         <div class="install-banner-title">Add to Home Screen</div>
         <div class="install-banner-sub"></div>
@@ -306,7 +317,7 @@
         window.addEventListener('appinstalled', hideBanner);
       })();
     </script>
-    <script type="module" src="/dist/app.js?v=79d5cae800"></script>
+    <script type="module" src="/dist/app.js?v=80fb185e4e"></script>
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {

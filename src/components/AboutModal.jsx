@@ -14,7 +14,7 @@ export function AboutModal({ onClose }) {
     >
       <div className="modal-card" onClick={(e) => e.stopPropagation()}>
         <div className="about-logo">
-          <img src="/favicon.png" alt="" decoding="async" loading="lazy" />
+          <img src="/src/stakd-logo-mark.svg" alt="" decoding="async" loading="lazy" />
         </div>
         <div className="modal-title" style={{ paddingTop: 0 }}>
           <span className="modal-eyebrow">About</span>

@@ -118,7 +118,10 @@ export const useAuthStore = create((set, get) => ({
       }
       const user = data.user;
 
-      // Create company
+      // Target architecture (not implemented): defer companies/staff inserts until
+      // checkout.session.completed — keep signup fields in sessionStorage or Stripe metadata,
+      // webhook creates the row and marks active_subscription. Today we create the company
+      // here so checkout sessions can reference companyId.
       const { data: company, error: compErr } = await supabase
         .from('companies')
         .insert({ name: companyName, slug: companySlug, owner_id: user.id })

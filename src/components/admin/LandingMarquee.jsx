@@ -10,7 +10,7 @@ const MARQUEE_ITEMS = [
 
 const LandingMarquee = () => {
   return (
-    <section className="landing-marquee js-reveal">
+    <section className="landing-marquee reveal">
       <div className="landing-marquee-track">
         {[0, 1].map((copy) => (
           <div

@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
+import './PathwayPage.css';
+import './PinPad.css';
 import { useAuthStore } from '../../store/useAuthStore.js';
 import { supabase } from '../../lib/supabase.js';
 
@@ -160,13 +162,12 @@ export function PinPad({ company, onSuccess, onBack, roleFilter, prompt }) {
   );
 
   return (
-    <div className={`pathway-page pathway-page--pinpad pathway-page--${step}`}>
+    <div className={`pathway-page stakd-pattern-bg pathway-page--pinpad pathway-page--${step}`}>
       <div className="pathway-container">
         <div className="pathway-brand">
-          <div className="pathway-brand-icon">
-            <img src="/favicon.svg" alt="Stakd" width="28" height="28" />
-          </div>
-          <span className="pathway-brand-name">stakd</span>
+          <span className="pathway-brand-name">
+            <img src="/src/stakd-logo-text.svg" alt="stakd" height="35" />
+          </span>
         </div>
 
         {/* Step 1: Select a user */}

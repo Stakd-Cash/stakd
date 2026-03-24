@@ -1,7 +1,9 @@
 import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react';
+import './HistoryPanel.css';
 import { Sparkline } from './Sparkline.jsx';
 import { SwipeableHistoryEntry } from './SwipeableHistoryEntry.jsx';
-import { AnimatedSheet } from './AnimatedSheet.jsx';
+import { useModalClose } from '../hooks/useModalClose.js';
+import { useFocusTrap } from '../hooks/useFocusTrap.js';
 import { haptic } from '../utils/haptics.js';
 import { lsGet } from '../utils/storage.js';
 import { LS_RECORD, LS_HISTORY, HISTORY_FILTERS } from '../utils/constants.js';
@@ -110,6 +112,19 @@ export function HistoryPanel({
     });
   }, [ordered, activeFilter, record, query]);
 
+  const [closing, triggerClose] = useModalClose(200);
+  const focusRef = useFocusTrap(true);
+
+  const close = useCallback(() => triggerClose(onClose), [triggerClose, onClose]);
+
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === 'Escape') close();
+    };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [close]);
+
   const isFiltering = query.trim() !== '' || activeFilter !== 'all';
 
   const deleteEntryByIdx = useCallback(
@@ -143,186 +158,192 @@ export function HistoryPanel({
   );
 
   return (
-    <AnimatedSheet onClose={onClose} scrollable>
-      {(close) => (
-        <>
-          <div className="sheet-handle">
-            <div className="sheet-handle-bar" />
-          </div>
-          <div className="sheet-hd">
-            <span className="sheet-title">Drop History</span>
-            <div className="history-hd-actions">
-              {history.length > 0 && !isKiosk && (
-                <button
-                  className="history-action-btn admin-btn-sm"
-                  onClick={exportCSV}
-                  title="Export CSV"
-                >
-                  <i className="fa-solid fa-arrow-up-from-bracket icon-14" /> CSV
-                </button>
-              )}
-              {history.length > 0 && !isKiosk && (
-                <button
-                  className={`history-action-btn history-action-btn-danger admin-btn-sm${
-                    clearConfirming ? ' confirming' : ''
-                  }`}
-                  onClick={handleClearClick}
-                >
-                  Clear All
-                </button>
-              )}
+    <div
+      className={`modal-backdrop panel-modal-backdrop${closing ? ' modal-closing' : ''}`}
+      onClick={(e) => {
+        if (e.target === e.currentTarget) {
+          haptic('tap');
+          close();
+        }
+      }}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Drop History"
+    >
+      <div className="panel-modal panel-modal--scrollable" ref={focusRef} onClick={(e) => e.stopPropagation()}>
+        <div className="panel-modal-hd">
+          <span className="panel-modal-title">Drop History</span>
+          <div className="history-hd-actions">
+            {history.length > 0 && !isKiosk && (
               <button
-                className="icon-btn admin-icon-btn"
-                onClick={() => {
-                  haptic('tap');
-                  close();
-                }}
-                aria-label="Close history"
-                title="Close"
+                className="history-action-btn admin-btn-sm"
+                onClick={exportCSV}
+                title="Export CSV"
               >
-                <i className="fa-solid fa-xmark icon-18" />
+                <i className="fa-solid fa-arrow-up-from-bracket icon-14" /> CSV
               </button>
-            </div>
+            )}
+            {history.length > 0 && !isKiosk && (
+              <button
+                className={`history-action-btn history-action-btn-danger admin-btn-sm${
+                  clearConfirming ? ' confirming' : ''
+                }`}
+                onClick={handleClearClick}
+              >
+                Clear All
+              </button>
+            )}
+            <button
+              className="icon-btn admin-icon-btn panel-modal-close"
+              onClick={() => {
+                haptic('tap');
+                close();
+              }}
+              aria-label="Close history"
+              title="Close"
+            >
+              <i className="fa-solid fa-xmark icon-18" />
+            </button>
           </div>
-          <div className="sheet-body" ref={sheetBodyRef}>
-            {history.length > 0 && (
-              <>
-                <div className="history-search-wrap">
-                  <div className="history-search-row">
-                    <span className="history-search-icon">
-                      <i className="fa-solid fa-magnifying-glass icon-15" />
-                    </span>
-                    <input
-                      ref={searchRef}
-                      className="history-search-input"
-                      type="text"
-                      placeholder="Search by date, amount, bills…"
-                      value={query}
-                      onChange={(e) => setQuery(e.target.value)}
-                    />
-                    {query && (
-                      <button
-                        className="history-search-clear"
-                        onClick={() => {
-                          setQuery('');
-                          searchRef.current?.focus();
-                        }}
-                        aria-label="Clear search"
-                        title="Clear search"
-                      >
-                        <i className="fa-solid fa-xmark icon-11" />
-                      </button>
-                    )}
-                  </div>
-                  <div className="history-filter-row">
+        </div>
+        <div className="panel-modal-body" ref={sheetBodyRef}>
+          {history.length > 0 && (
+            <>
+              <div className="history-search-wrap">
+                <div className="history-search-row">
+                  <span className="history-search-icon">
+                    <i className="fa-solid fa-magnifying-glass icon-15" />
+                  </span>
+                  <input
+                    ref={searchRef}
+                    className="history-search-input"
+                    type="text"
+                    placeholder="Search by date, amount, bills…"
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                  />
+                  {query && (
                     <button
-                      className={`history-filter-toggle${
-                        filterOpen ? ' open' : ''
-                      }${activeFilter !== 'all' ? ' active' : ''}`}
+                      className="history-search-clear"
                       onClick={() => {
-                        haptic('tap');
-                        setFilterOpen((v) => !v);
+                        setQuery('');
+                        searchRef.current?.focus();
                       }}
-                      aria-expanded={filterOpen}
+                      aria-label="Clear search"
+                      title="Clear search"
                     >
-                      <span>
-                        {HISTORY_FILTERS.find((f) => f.id === activeFilter)?.label ||
-                          'All'}
-                      </span>
-                      <i className="fa-solid fa-chevron-down history-filter-chev icon-14" />
+                      <i className="fa-solid fa-xmark icon-11" />
                     </button>
-                    {filterOpen && (
-                      <div className="history-filter-dropdown">
-                        {HISTORY_FILTERS.map((f) => (
-                          <button
-                            key={f.id}
-                            className={`history-filter-option${
-                              activeFilter === f.id ? ' active' : ''
-                            }`}
-                            onClick={() => {
-                              haptic('tap');
-                              setActiveFilter(f.id);
-                              setFilterOpen(false);
-                            }}
-                          >
-                            {f.label}
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                  </div>
+                  )}
                 </div>
-                <div className="history-trends">
-                  <div className="trend-card trend-card-wide">
-                    <div className="trend-title">Avg drop (last 14)</div>
-                    <div className="trend-value">${avgDrop.toFixed(2)}</div>
-                    <Sparkline data={drops} stroke={dropStroke} fill={dropFill} />
-                  </div>
-                  <div className="trend-row">
-                    <div className="trend-card">
-                      <div className="trend-title">Record drop</div>
-                      <div className={`trend-value${record > 0 ? ' up' : ''}`}>
-                        {record > 0 ? `$${record.toFixed(2)}` : '—'}
-                      </div>
+                <div className="history-filter-row">
+                  <button
+                    className={`history-filter-toggle${
+                      filterOpen ? ' open' : ''
+                    }${activeFilter !== 'all' ? ' active' : ''}`}
+                    onClick={() => {
+                      haptic('tap');
+                      setFilterOpen((v) => !v);
+                    }}
+                    aria-expanded={filterOpen}
+                  >
+                    <span>
+                      {HISTORY_FILTERS.find((f) => f.id === activeFilter)?.label ||
+                        'All'}
+                    </span>
+                    <i className="fa-solid fa-chevron-down history-filter-chev icon-14" />
+                  </button>
+                  {filterOpen && (
+                    <div className="history-filter-dropdown">
+                      {HISTORY_FILTERS.map((f) => (
+                        <button
+                          key={f.id}
+                          className={`history-filter-option${
+                            activeFilter === f.id ? ' active' : ''
+                          }`}
+                          onClick={() => {
+                            haptic('tap');
+                            setActiveFilter(f.id);
+                            setFilterOpen(false);
+                          }}
+                        >
+                          {f.label}
+                        </button>
+                      ))}
                     </div>
-                    <div className="trend-card">
-                      <div className="trend-title">Total drops</div>
-                      <div className="trend-value">{history.length}</div>
+                  )}
+                </div>
+              </div>
+              <div className="history-trends">
+                <div className="trend-card trend-card-wide">
+                  <div className="trend-title">Avg drop (last 14)</div>
+                  <div className="trend-value">${avgDrop.toFixed(2)}</div>
+                  <Sparkline data={drops} stroke={dropStroke} fill={dropFill} />
+                </div>
+                <div className="trend-row">
+                  <div className="trend-card">
+                    <div className="trend-title">Record drop</div>
+                    <div className={`trend-value${record > 0 ? ' up' : ''}`}>
+                      {record > 0 ? `$${record.toFixed(2)}` : '—'}
                     </div>
                   </div>
-                </div>
-                {isFiltering && (
-                  <div className="history-results-count">
-                    {filtered.length} result
-                    {filtered.length !== 1 ? 's' : ''}
+                  <div className="trend-card">
+                    <div className="trend-title">Total drops</div>
+                    <div className="trend-value">{history.length}</div>
                   </div>
-                )}
-              </>
-            )}
-            {history.length === 0 ? (
-              <div className="history-empty">
-                <div className="history-empty-icon">
-                  <i className="fa-solid fa-clock-rotate-left"></i>
                 </div>
-                <div className="history-empty-title">No drops yet</div>
-                <div className="history-empty-sub">Completed counts will appear here</div>
               </div>
-            ) : filtered.length === 0 ? (
-              <div className="history-empty">
-                <div className="history-empty-icon">
-                  <i className="fa-solid fa-magnifying-glass"></i>
+              {isFiltering && (
+                <div className="history-results-count">
+                  {filtered.length} result
+                  {filtered.length !== 1 ? 's' : ''}
                 </div>
-                <div className="history-empty-title">No results</div>
-                <div className="history-empty-sub">Try a different search or filter</div>
+              )}
+            </>
+          )}
+          {history.length === 0 ? (
+            <div className="history-empty">
+              <div className="history-empty-icon">
+                <i className="fa-solid fa-clock-rotate-left"></i>
               </div>
-            ) : (
-              <div className="history-list">
-                {filtered.map((e, i) => {
-                  const orderedIdx = ordered.findIndex((o) => o === e);
-                  const historyIdx =
-                    orderedIdx >= 0 ? history.length - 1 - orderedIdx : -1;
-                  return (
-                    <SwipeableHistoryEntry
-                      key={e.ts + '_' + i}
-                      rowId={e.ts + '_' + i}
-                      entry={e}
-                      record={record}
-                      formatTime={formatTime}
-                      onDelete={
-                        !isKiosk && historyIdx >= 0
-                          ? () => deleteEntryByIdx(historyIdx)
-                          : undefined
-                      }
-                      openRowId={openSwipeRow}
-                      onSwipeStart={setOpenSwipeRow}
-                    />
-                  );
-                })}
+              <div className="history-empty-title">No drops yet</div>
+              <div className="history-empty-sub">Completed counts will appear here</div>
+            </div>
+          ) : filtered.length === 0 ? (
+            <div className="history-empty">
+              <div className="history-empty-icon">
+                <i className="fa-solid fa-magnifying-glass"></i>
               </div>
-            )}
-          </div>
-        </>
-      )}
-    </AnimatedSheet>
+              <div className="history-empty-title">No results</div>
+              <div className="history-empty-sub">Try a different search or filter</div>
+            </div>
+          ) : (
+            <div className="history-list">
+              {filtered.map((e, i) => {
+                const orderedIdx = ordered.findIndex((o) => o === e);
+                const historyIdx =
+                  orderedIdx >= 0 ? history.length - 1 - orderedIdx : -1;
+                return (
+                  <SwipeableHistoryEntry
+                    key={e.ts + '_' + i}
+                    rowId={e.ts + '_' + i}
+                    entry={e}
+                    record={record}
+                    formatTime={formatTime}
+                    onDelete={
+                      !isKiosk && historyIdx >= 0
+                        ? () => deleteEntryByIdx(historyIdx)
+                        : undefined
+                    }
+                    openRowId={openSwipeRow}
+                    onSwipeStart={setOpenSwipeRow}
+                  />
+                );
+              })}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
   );
 }

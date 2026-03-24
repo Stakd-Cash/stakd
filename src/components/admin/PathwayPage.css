@@ -1,0 +1,373 @@
+@import '../../styles/tokens.css';
+
+.pathway-page {
+  position: fixed;
+  inset: 0;
+  background: var(--pw-bg);
+  color: var(--pw-copy);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 24px 16px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  z-index: 50;
+}
+
+.pathway-container {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  position: relative;
+  z-index: 1;
+  margin-top: auto;
+  margin-bottom: auto;
+  animation: pathwayFadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes pathwayFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.pathway-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--pw-copy);
+}
+
+.pathway-brand-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: var(--pw-accent);
+  display: grid;
+  place-items: center;
+  box-shadow: 0 4px 12px rgba(222, 115, 86, 0.18);
+}
+
+.pathway-brand-icon img {
+  width: 24px;
+  height: 24px;
+  filter: brightness(0) invert(1);
+}
+
+.pathway-brand-name {
+  font-family: var(--pw-display);
+  letter-spacing: -0.02em;
+}
+
+.pathway-card {
+  width: 100%;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--pw-bg) 98%, #2d2d2e 2%) 0%,
+    var(--pw-bg) 100%
+  );
+  border: 1px solid var(--pw-border);
+  border-radius: 24px;
+  padding: 36px 32px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+}
+
+.pathway-card-header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.pathway-eyebrow {
+  display: inline-block;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--pw-muted);
+  margin-bottom: 12px;
+}
+
+.pathway-title {
+  font-family: var(--pw-display);
+  font-size: clamp(1.5rem, 5vw, 1.8rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--pw-copy);
+  margin: 0 0 10px;
+}
+
+.pathway-subtitle {
+  font-size: 0.95rem;
+  color: var(--pw-muted);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.pathway-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pathway-option {
+  width: 100%;
+  min-height: 72px;
+  padding: 18px 20px;
+  border: 1px solid var(--pw-border);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--pw-copy);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  text-align: left;
+  transition: all 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+}
+
+.pathway-option:hover {
+  border-color: rgba(222, 115, 86, 0.35);
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.pathway-option:active {
+  transform: translateY(0) scale(0.98);
+  transition: transform 0s;
+}
+
+.pathway-option-primary {
+  border-color: rgba(222, 115, 86, 0.3);
+  background: var(--pw-accent-soft);
+}
+
+.pathway-option-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: var(--pw-accent);
+  flex-shrink: 0;
+}
+
+.pathway-option-primary .pathway-option-icon {
+  background: var(--pw-accent);
+  color: #fff;
+}
+
+.pathway-option-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+}
+
+.pathway-option-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--pw-copy);
+}
+
+.pathway-option-sub {
+  font-size: 0.8rem;
+  color: var(--pw-muted);
+  font-weight: 500;
+}
+
+.pathway-option-arrow {
+  color: var(--pw-muted);
+  font-size: 0.85rem;
+  opacity: 0.5;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.pathway-option:hover .pathway-option-arrow {
+  opacity: 1;
+  color: var(--pw-accent);
+  transform: translateX(2px);
+}
+
+.pathway-submit {
+  height: 52px;
+  background: var(--pw-accent);
+  border: none;
+  border-radius: 14px;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 8px;
+  transition: all 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  width: 100%;
+}
+
+.pathway-submit:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.pathway-submit:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(222, 115, 86, 0.15);
+}
+
+.pathway-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pathway-loading-text {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pathway-back-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  align-self: flex-start;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--pw-border);
+  border-radius: 12px;
+  padding: 8px 14px;
+  color: var(--pw-muted);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  margin-bottom: 20px;
+}
+
+.pathway-back-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--pw-copy);
+  transform: translateX(-2px);
+}
+
+.pathway-back-btn i {
+  font-size: 0.85rem;
+}
+
+.pathway-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pathway-signout {
+  background: transparent;
+  border: none;
+  color: var(--pw-muted);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.pathway-signout:hover {
+  color: var(--pw-copy);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.pathway-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 40px 0;
+  color: var(--pw-muted);
+  font-size: 0.95rem;
+}
+
+.pathway-loading i {
+  font-size: 1.5rem;
+  color: var(--pw-accent);
+}
+
+html[data-theme='light'] .pathway-card {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--pw-bg) 98%, #f8f6f3 2%) 0%,
+    var(--pw-bg) 100%
+  );
+  box-shadow: 0 16px 40px rgba(97, 45, 45, 0.08);
+}
+
+html[data-theme='light'] .pathway-option {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+html[data-theme='light'] .pathway-option:hover {
+  background: rgba(255, 255, 255, 0.85);
+}
+
+html[data-theme='light'] .pathway-option-primary {
+  background: rgba(222, 115, 86, 0.08);
+}
+
+html[data-theme='light'] .pathway-option-icon {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+html[data-theme='light'] .pathway-back-btn {
+  background: rgba(0, 0, 0, 0.03);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+html[data-theme='light'] .pathway-back-btn:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+@media (max-width: 480px) {
+  .pathway-page {
+    padding: 20px 16px;
+  }
+
+  .pathway-card {
+    padding: 28px 24px;
+    border-radius: 24px;
+  }
+
+  .pathway-title {
+    font-size: 1.4rem;
+  }
+}

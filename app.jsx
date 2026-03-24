@@ -1,4 +1,4 @@
-﻿import React, {
+import React, {
   useState,
   useEffect,
   useLayoutEffect,
@@ -9,6 +9,8 @@
 } from 'react';
 import { createRoot } from 'react-dom/client';
 import { useShallow } from 'zustand/react/shallow';
+import './src/components/CountPage.css';
+import './src/components/ResultPage.css';
 
 // --- Utilities ---
 import { toCents, fromCents, rowValue } from './src/utils/money.js';
@@ -62,6 +64,7 @@ import { PathwayPage } from './src/components/admin/PathwayPage.jsx';
 import { PinPad } from './src/components/admin/PinPad.jsx';
 import { PlanSelector } from './src/components/admin/PlanSelector.jsx';
 import { hasActiveSubscription } from './src/lib/billing.js';
+import { FreeKioskMode } from './src/components/FreeKioskMode.jsx';
 
 // ---------------------------------------------------------------------------
 // ScrollToTop — resets scroll on page navigation
@@ -424,10 +427,12 @@ function App() {
       <header className="gh-header">
         <div className="gh-header-brand" aria-label="stakd">
           <div className="gh-logo">
-            <img src="/favicon.png" alt="stakd" decoding="async" />
+            <img src="/src/stakd-logo-mark.svg" alt="stakd" decoding="async" />
           </div>
           <div className="gh-brand-copy">
-            <span className="gh-brand-name">stakd</span>
+            <span className="gh-brand-name">
+              <img src="/src/stakd-logo-text.svg" alt="stakd" decoding="async" height="18" />
+            </span>
             <span className="gh-brand-context">{companyLabel}</span>
           </div>
           {currentStaff?.name && (
@@ -482,7 +487,7 @@ function App() {
       {/* Main content */}
       <main
         id="main-content"
-        className={`main-content${showPageCount ? ' main-content-count' : ''}`}
+        className="main-content main-content-count"
       >
         <div className="page-root">
           {/* Page 1: Count */}
@@ -498,27 +503,7 @@ function App() {
             >
               <ScrollToTop />
               <div className="calc-ui">
-                <section className="calc-summary login-card">
-                  <div className="login-card-header">
-                    <span className="login-eyebrow">{companyLabel}</span>
-                    <h1 className="login-title">{summaryTitle}</h1>
-                    <p className="login-subtitle">{summarySubtitle}</p>
-                  </div>
-                  <div className="calc-summary-stats admin-stat-row">
-                    <div className={`admin-stat ${summaryStatusTone}`.trim()}>
-                      <div className="admin-stat-label">{statusLabel}</div>
-                      <div className="admin-stat-value">{statusValue}</div>
-                    </div>
-                    <div className="admin-stat">
-                      <div className="admin-stat-label">Target</div>
-                      <div className="admin-stat-value">${TARGET.toFixed(2)}</div>
-                    </div>
-                  </div>
-                  <div className="calc-summary-note">
-                    <span className="calc-summary-note-dot" />
-                    <span>{summaryNote}</span>
-                  </div>
-                </section>
+
 
                 <CountPage
                   totalBillsCents={totalBillsCents}
@@ -546,24 +531,26 @@ function App() {
               className={`page-slide page-slide-result${getPageAnimClass(2)}`}
             >
               <ScrollToTop />
-              <ResultPage
-                actualDropTotal={actualDropTotal}
-                totalCash={totalCash}
-                TARGET={TARGET}
-                dropDetails={dropDetails}
-                overageCents={overageCents}
-                remainingDrawer={remainingDrawer}
-                undroppableCents={undroppableCents}
-                totalBillsCents={totalBillsCents}
-                totalCoinsCents={totalCoinsCents}
-                drawerOpen={drawerOpen}
-                setDrawerOpen={setDrawerOpen}
-                cash={cash}
-                billsMode={billsMode}
-                coinsMode={coinsMode}
-                coinRolls={coinRolls}
-                goToCount={goToCount}
-              />
+              <div className="calc-ui">
+                <ResultPage
+                  actualDropTotal={actualDropTotal}
+                  totalCash={totalCash}
+                  TARGET={TARGET}
+                  dropDetails={dropDetails}
+                  overageCents={overageCents}
+                  remainingDrawer={remainingDrawer}
+                  undroppableCents={undroppableCents}
+                  totalBillsCents={totalBillsCents}
+                  totalCoinsCents={totalCoinsCents}
+                  drawerOpen={drawerOpen}
+                  setDrawerOpen={setDrawerOpen}
+                  cash={cash}
+                  billsMode={billsMode}
+                  coinsMode={coinsMode}
+                  coinRolls={coinRolls}
+                  goToCount={goToCount}
+                />
+              </div>
             </div>
           )}
         </div>
@@ -647,7 +634,7 @@ function AuthGuard({ children, navigate, replaceNavigate }) {
   const { user, loading: authLoading } = useAuthStore();
   if (authLoading) {
     return (
-      <div className="admin-loading">
+      <div className="admin-loading stakd-pattern-bg">
         <div className="admin-spinner" />
         <p>Loading...</p>
       </div>
@@ -668,7 +655,7 @@ function CompanyGuard({ children, navigate, replaceNavigate, inactiveMode = 'ren
 
   if (authLoading) {
     return (
-      <div className="admin-loading">
+      <div className="admin-loading stakd-pattern-bg">
         <div className="admin-spinner" />
         <p>Loading workspace...</p>
       </div>
@@ -677,7 +664,7 @@ function CompanyGuard({ children, navigate, replaceNavigate, inactiveMode = 'ren
 
   if (!company) {
     return (
-      <div className="admin-empty">
+      <div className="admin-empty stakd-pattern-bg">
         <h2>No Company Found</h2>
         <p>You haven&apos;t created or joined a company yet.</p>
         <button className="admin-submit" onClick={() => navigate('/login')}>
@@ -716,7 +703,7 @@ function OnboardingRoute({ navigate, replaceNavigate }) {
 
   if (!company) {
     return (
-      <div className="admin-empty">
+      <div className="admin-empty stakd-pattern-bg">
         <h2>No Company Found</h2>
         <p>You haven&apos;t created or joined a company yet.</p>
         <button className="admin-submit" onClick={() => navigate('/login')}>
@@ -770,7 +757,7 @@ function KioskRoute({ navigate, replaceNavigate }) {
 
   if (!company) {
     return (
-      <div className="admin-empty">
+      <div className="admin-empty stakd-pattern-bg">
         <h2>No Company Found</h2>
         <p>You haven&apos;t created or joined a company yet.</p>
         <button className="admin-submit" onClick={() => navigate('/login')}>Go to Login</button>
@@ -795,6 +782,44 @@ function KioskRoute({ navigate, replaceNavigate }) {
       onSuccess={handleKioskPinSuccess}
       onBack={handleBack}
     />
+  );
+}
+
+// ---------------------------------------------------------------------------
+// KioskAuthFork — free mode if unauthenticated, paid flow if authed
+// ---------------------------------------------------------------------------
+function KioskAuthFork({ navigate, replaceNavigate }) {
+  const { user, loading: authLoading } = useAuthStore();
+
+  if (authLoading) {
+    return (
+      <div className="admin-loading stakd-pattern-bg">
+        <div className="admin-spinner" />
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
+  // No authenticated user — render free kiosk mode
+  if (!user) {
+    return (
+      <FreeKioskMode>
+        <App />
+      </FreeKioskMode>
+    );
+  }
+
+  // Authenticated user — existing paid flow
+  return (
+    <AuthGuard navigate={navigate} replaceNavigate={replaceNavigate}>
+      <CompanyGuard
+        navigate={navigate}
+        replaceNavigate={replaceNavigate}
+        inactiveMode="redirect"
+      >
+        <KioskRoute navigate={navigate} replaceNavigate={replaceNavigate} />
+      </CompanyGuard>
+    </AuthGuard>
   );
 }
 
@@ -861,18 +886,10 @@ function Root() {
     );
   }
 
-  // Kiosk mode (/kiosk) — cashier PIN login + counter
+  // Kiosk mode (/kiosk) — free mode if unauthenticated, paid PIN flow if authed
   if (route === 'kiosk') {
     return (
-      <AuthGuard navigate={navigate} replaceNavigate={replaceNavigate}>
-        <CompanyGuard
-          navigate={navigate}
-          replaceNavigate={replaceNavigate}
-          inactiveMode="redirect"
-        >
-          <KioskRoute navigate={navigate} replaceNavigate={replaceNavigate} />
-        </CompanyGuard>
-      </AuthGuard>
+      <KioskAuthFork navigate={navigate} replaceNavigate={replaceNavigate} />
     );
   }
 

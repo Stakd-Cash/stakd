@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react';
+import './PathwayPage.css';
 import { useAuthStore } from '../../store/useAuthStore.js';
 
 export function PathwayPage({ navigate, replaceNavigate }) {
@@ -11,7 +12,7 @@ export function PathwayPage({ navigate, replaceNavigate }) {
 
   if (loading) {
     return (
-      <div className="pathway-page">
+      <div className="pathway-page stakd-pattern-bg">
         <div className="pathway-container">
           <div className="pathway-loading">
             <i className="fa-solid fa-circle-notch fa-spin" />
@@ -24,13 +25,12 @@ export function PathwayPage({ navigate, replaceNavigate }) {
 
   if (!company) {
     return (
-      <div className="pathway-page">
+      <div className="pathway-page stakd-pattern-bg">
         <div className="pathway-container">
           <div className="pathway-brand">
-            <div className="pathway-brand-icon">
-              <img src="/favicon.svg" alt="Stakd" width="28" height="28" />
-            </div>
-            <span className="pathway-brand-name">stakd</span>
+            <span className="pathway-brand-name">
+              <img src="/src/stakd-logo-text.svg" alt="stakd" height="35" />
+            </span>
           </div>
           <div className="pathway-card">
             <div className="pathway-card-header">
@@ -48,13 +48,12 @@ export function PathwayPage({ navigate, replaceNavigate }) {
   }
 
   return (
-    <div className="pathway-page">
+    <div className="pathway-page stakd-pattern-bg">
       <div className="pathway-container">
         <div className="pathway-brand">
-          <div className="pathway-brand-icon">
-            <img src="/favicon.svg" alt="Stakd" width="28" height="28" />
-          </div>
-          <span className="pathway-brand-name">stakd</span>
+          <span className="pathway-brand-name">
+            <img src="/src/stakd-logo-text.svg" alt="stakd" height="35" />
+          </span>
         </div>
 
         <div className="pathway-card">

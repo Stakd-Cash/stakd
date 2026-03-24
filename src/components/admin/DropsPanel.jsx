@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { supabase } from '../../lib/supabase.js';
 import { CustomSelect, CustomDatePicker } from './UIComponents.jsx';
+import { OnboardingEmptyState } from './OnboardingEmptyState.jsx';
+import { lsGet, lsSet } from '../../utils/storage.js';
 
 function today() {
   return new Date().toISOString().slice(0, 10);
@@ -364,10 +366,18 @@ function getPresetDates(preset) {
   }
 }
 
-export function DropsPanel({ company, staff, isAdmin }) {
+export function DropsPanel({ company, currentStaff, isAdmin, onAddCashier, navigate }) {
   const [drops, setDrops] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState(null);
+  const [onboardingLoading, setOnboardingLoading] = useState(true);
+  const [onboardingError, setOnboardingError] = useState(null);
+  const [onboardingStatus, setOnboardingStatus] = useState({
+    hasStaff: false,
+    hasDrops: false,
+  });
+  const [showOnboarding, setShowOnboarding] = useState(false);
+  const [tutorialSkipped, setTutorialSkipped] = useState(false);
   const [rangePreset, setRangePreset] = useState('today');
   const [dateFrom, setDateFrom] = useState(today());
   const [dateTo, setDateTo] = useState(today());
@@ -383,10 +393,13 @@ export function DropsPanel({ company, staff, isAdmin }) {
   const [displayLimit, setDisplayLimit] = useState(PAGE_SIZE);
   const realtimeDebounceRef = useRef(null);
   const presetDebounceRef = useRef(null);
+  const exitTimerRef = useRef(null);
+  const prevHasDropsRef = useRef(null);
 
   const companyId = company?.id;
-  const staffId = staff?.id;
+  const staffId = currentStaff?.id;
   const isMultiDay = dateFrom !== dateTo;
+  const onboardingSkipKey = companyId ? `stakd_onboarding_skip:${companyId}` : null;
 
   // Auto-swap if dateFrom > dateTo
   useEffect(() => {
@@ -410,6 +423,94 @@ export function DropsPanel({ company, staff, isAdmin }) {
       }, 150);
     }
   }, []);
+
+  useEffect(() => {
+    if (!onboardingSkipKey) {
+      setTutorialSkipped(false);
+      return;
+    }
+
+    setTutorialSkipped(lsGet(onboardingSkipKey, false));
+  }, [onboardingSkipKey]);
+
+  // Load first-run onboarding status separately from the date-filtered table query.
+  useEffect(() => {
+    if (!companyId) return;
+    let cancelled = false;
+
+    (async () => {
+      setOnboardingLoading(true);
+      setOnboardingError(null);
+
+      const [staffResult, dropResult] = await Promise.all([
+        supabase
+          .from('staff')
+          .select('id', { count: 'exact', head: true })
+          .eq('company_id', companyId)
+          .neq('role', 'owner'),
+        supabase
+          .from('drops')
+          .select('id', { count: 'exact', head: true })
+          .eq('company_id', companyId),
+      ]);
+
+      if (cancelled) return;
+
+      if (staffResult.error || dropResult.error) {
+        setOnboardingError(staffResult.error?.message || dropResult.error?.message || 'Failed to load onboarding status.');
+        setOnboardingStatus({ hasStaff: false, hasDrops: false });
+      } else {
+        setOnboardingStatus({
+          hasStaff: (staffResult.count ?? 0) > 0,
+          hasDrops: (dropResult.count ?? 0) > 0,
+        });
+      }
+
+      setOnboardingLoading(false);
+    })();
+
+    return () => { cancelled = true; };
+  }, [companyId, refreshKey]);
+
+  useEffect(() => {
+    if (onboardingLoading) return;
+
+    const prevHasDrops = prevHasDropsRef.current;
+
+    if (tutorialSkipped) {
+      clearTimeout(exitTimerRef.current);
+      setShowOnboarding(false);
+    } else if (!onboardingStatus.hasDrops) {
+      clearTimeout(exitTimerRef.current);
+      setShowOnboarding(true);
+    } else if (prevHasDrops === false) {
+      clearTimeout(exitTimerRef.current);
+      setShowOnboarding(true);
+      exitTimerRef.current = setTimeout(() => {
+        setShowOnboarding(false);
+      }, 980);
+    } else {
+      setShowOnboarding(false);
+    }
+
+    prevHasDropsRef.current = onboardingStatus.hasDrops;
+  }, [onboardingLoading, onboardingStatus.hasDrops, tutorialSkipped]);
+
+  useEffect(() => {
+    return () => clearTimeout(exitTimerRef.current);
+  }, []);
+
+  useEffect(() => {
+    prevHasDropsRef.current = null;
+    clearTimeout(exitTimerRef.current);
+  }, [companyId]);
+
+  const handleSkipTutorial = useCallback(() => {
+    setTutorialSkipped(true);
+    clearTimeout(exitTimerRef.current);
+    setShowOnboarding(false);
+    if (onboardingSkipKey) lsSet(onboardingSkipKey, true);
+  }, [onboardingSkipKey]);
 
   // Fetch drops
   useEffect(() => {
@@ -458,18 +559,14 @@ export function DropsPanel({ company, staff, isAdmin }) {
         table: 'drops',
         filter: `company_id=eq.${companyId}`,
       }, (payload) => {
-        if (payload.eventType === 'INSERT') {
-          const newDrop = payload.new;
-          if (newDrop.shift_date >= dateFrom && newDrop.shift_date <= dateTo) {
-            // Debounce: batch rapid inserts into one re-fetch
-            clearTimeout(realtimeDebounceRef.current);
-            realtimeDebounceRef.current = setTimeout(() => {
-              setRefreshKey((k) => k + 1);
-            }, 800);
-          }
-        } else if (payload.eventType === 'DELETE') {
+        if (payload.eventType === 'DELETE') {
           setDrops((prev) => prev.filter((d) => d.id !== payload.old.id));
         }
+
+        clearTimeout(realtimeDebounceRef.current);
+        realtimeDebounceRef.current = setTimeout(() => {
+          setRefreshKey((k) => k + 1);
+        }, payload.eventType === 'DELETE' ? 180 : 420);
       })
       .subscribe();
 
@@ -484,7 +581,6 @@ export function DropsPanel({ company, staff, isAdmin }) {
   const handleDeleteDrop = useCallback(async (dropId) => {
     setDeletingId(dropId);
     setDeleteError(null);
-    const dropToDelete = drops.find((d) => d.id === dropId);
     const { error } = await supabase.from('drops').delete().eq('id', dropId);
     if (error) {
       setDeleteError(error.message);
@@ -493,7 +589,7 @@ export function DropsPanel({ company, staff, isAdmin }) {
       setExpandedDrop(null);
     }
     setDeletingId(null);
-  }, [drops, companyId, staff?.id]);
+  }, []);
 
   const totalCents = drops.reduce((sum, d) => sum + d.amount_cents, 0);
   const totalTargetCents = drops.reduce((sum, d) => sum + d.target_cents, 0);
@@ -550,6 +646,68 @@ export function DropsPanel({ company, staff, isAdmin }) {
   );
 
   const csvLabel = dateFrom === dateTo ? dateFrom : `${dateFrom}_to_${dateTo}`;
+  const panelError = loadError || onboardingError;
+
+  if (loading || onboardingLoading) {
+    return (
+      <div className="admin-panel">
+        {renderStatsSkeleton()}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <div className="adm-sk adm-sk-row" />
+          <div className="adm-sk adm-sk-row" style={{ opacity: 0.7 }} />
+          <div className="adm-sk adm-sk-row" style={{ opacity: 0.5 }} />
+        </div>
+      </div>
+    );
+  }
+
+  if (panelError) {
+    return (
+      <div className="admin-panel">
+        <div className="admin-empty-state">
+          <i className="fa-solid fa-triangle-exclamation" />
+          <p>{panelError}</p>
+          <button className="admin-btn-sm" onClick={() => setRefreshKey((k) => k + 1)}>
+            Retry
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (showOnboarding) {
+    return (
+      <>
+        <div className="admin-panel" aria-hidden="true" />
+        <OnboardingEmptyState
+          company={company}
+          navigate={navigate}
+          onSkipTutorial={handleSkipTutorial}
+          onStaffAdded={() => setRefreshKey((k) => k + 1)}
+        />
+      </>
+    );
+  }
+
+  if (tutorialSkipped && !onboardingStatus.hasDrops) {
+    return (
+      <div className="admin-panel">
+        <div className="admin-empty-state">
+          <i className={`fa-solid ${onboardingStatus.hasStaff ? 'fa-inbox' : 'fa-user-plus'}`} />
+          <p>
+            {onboardingStatus.hasStaff
+              ? 'Tutorial skipped. The first completed count will show up here.'
+              : "Tutorial skipped. Add a cashier from Staff whenever you're ready."}
+          </p>
+          {!onboardingStatus.hasStaff && (
+            <button className="admin-btn-sm" onClick={onAddCashier}>
+              Go to Staff
+            </button>
+          )}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="admin-panel">
@@ -702,21 +860,7 @@ export function DropsPanel({ company, staff, isAdmin }) {
         </div>
       )}
 
-      {loading ? (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          <div className="adm-sk adm-sk-row" />
-          <div className="adm-sk adm-sk-row" style={{ opacity: .7 }} />
-          <div className="adm-sk adm-sk-row" style={{ opacity: .5 }} />
-        </div>
-      ) : loadError ? (
-        <div className="admin-empty-state">
-          <i className="fa-solid fa-triangle-exclamation" />
-          <p>{loadError}</p>
-          <button className="admin-btn-sm" onClick={() => setRefreshKey((k) => k + 1)}>
-            Retry
-          </button>
-        </div>
-      ) : drops.length === 0 ? (
+      {drops.length === 0 ? (
         <div className="admin-empty-state">
           <i className="fa-solid fa-inbox" />
           <p>No drops for {isMultiDay ? 'this period' : 'this date'}.</p>

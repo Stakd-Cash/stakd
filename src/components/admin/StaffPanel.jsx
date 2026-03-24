@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { supabase } from '../../lib/supabase.js';
 import { hashPin, generateSalt, useAuthStore } from '../../store/useAuthStore.js';
@@ -17,7 +17,7 @@ const PERMISSIONS = [
 
 const ROLE_LABELS = { cashier: 'Crew Member', manager: 'Manager', owner: 'Owner' };
 
-export function StaffPanel({ company }) {
+export function StaffPanel({ company, openAddRequest = 0, onOnboardingAddSuccess }) {
   const currentStaff = useAuthStore((s) => s.activeStaff || s.staff);
   const currentRole = currentStaff?.role || 'cashier';
   const currentPerms = currentStaff?.permissions || {};
@@ -50,6 +50,8 @@ export function StaffPanel({ company }) {
   const [myPinConfirm, setMyPinConfirm] = useState('');
   const [myPinError, setMyPinError] = useState(null);
   const [myPinSaving, setMyPinSaving] = useState(false);
+  const addNameInputRef = useRef(null);
+  const onboardingAddFlowRef = useRef(false);
 
   const companyId = company?.id;
 
@@ -59,6 +61,23 @@ export function StaffPanel({ company }) {
     loadStaff(ctrl);
     return () => { ctrl.cancelled = true; };
   }, [companyId]);
+
+  useEffect(() => {
+    if (!openAddRequest || !canEdit) return undefined;
+
+    onboardingAddFlowRef.current = true;
+    setShowAdd(true);
+    setAddError(null);
+    setNewName('');
+    setNewPin('');
+    setNewRole('cashier');
+
+    const raf = window.requestAnimationFrame(() => {
+      addNameInputRef.current?.focus();
+    });
+
+    return () => window.cancelAnimationFrame(raf);
+  }, [canEdit, openAddRequest]);
 
   async function loadStaff(ctrl) {
     setLoading(true);
@@ -100,12 +119,22 @@ export function StaffPanel({ company }) {
       setNewRole('cashier');
       setShowAdd(false);
       await loadStaff({ cancelled: false });
+      if (onboardingAddFlowRef.current) {
+        onboardingAddFlowRef.current = false;
+        onOnboardingAddSuccess?.();
+      }
     } catch (err) {
       setAddError(err.message);
     } finally {
       setAdding(false);
     }
   }
+
+  const handleToggleAddForm = useCallback(() => {
+    onboardingAddFlowRef.current = false;
+    setAddError(null);
+    setShowAdd((open) => !open);
+  }, []);
 
   const openEdit = useCallback((s) => {
     setEditing(s);
@@ -278,7 +307,7 @@ export function StaffPanel({ company }) {
         {canEdit && (
           <button
             className="admin-btn-sm"
-            onClick={() => setShowAdd(!showAdd)}
+            onClick={handleToggleAddForm}
           >
             <i className={`fa-solid ${showAdd ? 'fa-xmark' : 'fa-plus'}`} />
             {showAdd ? ' Cancel' : ' Add Staff'}
@@ -351,12 +380,14 @@ export function StaffPanel({ company }) {
           <label className="admin-field">
             <span>Name</span>
             <input
+              ref={addNameInputRef}
               type="text"
               value={newName}
               onChange={(e) => setNewName(e.target.value)}
               required
               placeholder="Jane Smith"
               maxLength={100}
+              autoFocus
             />
           </label>
           <label className="admin-field">

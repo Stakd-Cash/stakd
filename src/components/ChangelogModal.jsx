@@ -168,7 +168,7 @@ export function ChangelogModal({ onClose }) {
           <div className="changelog-icon-row">
             <div className="changelog-logo">
               <img
-                src="/favicon.png"
+                src="/src/stakd-logo-mark.svg"
                 alt=""
                 decoding="async"
                 loading="lazy"

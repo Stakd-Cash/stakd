@@ -13,8 +13,8 @@ export const useLandingScroll = (steps) => {
     const Observer = window.IntersectionObserver;
     if (!Observer || reduceMotion) {
       page
-        .querySelectorAll('.js-reveal')
-        .forEach((node) => node.classList.add('is-visible'));
+        .querySelectorAll('.reveal')
+        .forEach((node) => node.classList.add('reveal--visible'));
       if (sceneNodes[0]) {
         setActiveScene(sceneNodes[0].getAttribute('data-scene-id'));
       }
@@ -25,12 +25,12 @@ export const useLandingScroll = (steps) => {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
+            entry.target.classList.add('reveal--visible');
             revealObserver.unobserve(entry.target);
           }
         });
       },
-      { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
+      { threshold: 0.15 }
     );
 
     let frameId = null;
@@ -66,7 +66,7 @@ export const useLandingScroll = (steps) => {
       frameId = window.requestAnimationFrame(updateActiveScene);
     };
 
-    page.querySelectorAll('.js-reveal').forEach((node) => revealObserver.observe(node));
+    page.querySelectorAll('.reveal').forEach((node) => revealObserver.observe(node));
     scheduleSceneUpdate();
     window.addEventListener('scroll', scheduleSceneUpdate, { passive: true });
     window.addEventListener('resize', scheduleSceneUpdate);

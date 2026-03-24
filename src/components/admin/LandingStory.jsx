@@ -8,7 +8,7 @@ const LandingStory = ({ activeScene }) => {
 
   return (
     <section className="landing-story">
-      <div className="landing-section-heading js-reveal">
+      <div className="landing-section-heading reveal">
         <p className="landing-section-kicker">How it works</p>
         <h2>One system from register to reconciliation.</h2>
         <p>

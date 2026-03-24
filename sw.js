@@ -1,6 +1,6 @@
 /* global Response */
 // Bump this version string with each deploy to invalidate old caches
-const CACHE_VERSION = '79d5cae800';
+const CACHE_VERSION = '80fb185e4e';
 
 // Never cache these origins (API endpoints, auth tokens, sensitive data)
 const NO_CACHE_ORIGINS = ['edebxzktapontcymqlzt.supabase.co', 'api.github.com'];
@@ -9,13 +9,13 @@ const CACHE_NAME = `stakd-v${CACHE_VERSION}`;
 const OFFLINE_SHELL = '/index.html';
 const PRECACHE_URLS = [
   OFFLINE_SHELL,
-  '/dist/app.js?v=79d5cae800',
-  '/styles.css?v=79d5cae800',
-  '/critical.css?v=79d5cae800',
-  '/favicon.png',
-  '/favicon.svg',
+  '/dist/app.js?v=80fb185e4e',
+  '/dist/app.css?v=80fb185e4e',
+  '/styles.css?v=80fb185e4e',
+  '/critical.css?v=80fb185e4e',
+  '/src/stakd-logo-mark.svg',
+  '/src/stakd-logo-text.svg',
   '/manifest.json',
-  '/src/styles/admin.css?v=79d5cae800',
 ];
 
 self.addEventListener('install', (event) => {

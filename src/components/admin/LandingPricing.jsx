@@ -4,7 +4,7 @@ import { PRICING_TIERS } from '../../data/landingPageData';
 const LandingPricing = ({ navigate }) => {
   return (
     <section className="landing-pricing">
-      <div className="landing-section-heading js-reveal">
+      <div className="landing-section-heading reveal">
         <p className="landing-section-kicker">Pricing</p>
         <h2>Free to try. Worth it once cash accountability matters.</h2>
         <p>
@@ -16,7 +16,7 @@ const LandingPricing = ({ navigate }) => {
         {PRICING_TIERS.map((tier, index) => (
           <article
             key={tier.name}
-            className={`landing-pricing-card js-reveal ${tier.primary ? 'primary' : ''}`}
+            className={`landing-pricing-card reveal ${tier.primary ? 'primary' : ''}`}
             style={{ transitionDelay: `${index * 110}ms` }}
           >
             <div className="landing-pricing-header">

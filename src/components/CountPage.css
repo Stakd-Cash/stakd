@@ -1,0 +1,211 @@
+@import '../styles/tokens.css';
+
+.app-root .calc-section-card.admin-table-wrap {
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+.app-root .calc-section-card .section-toggle-btn {
+  min-height: 64px;
+  padding: 14px 16px;
+  background: color-mix(in srgb, var(--kiosk-surface-strong) 88%, transparent);
+  border: none;
+  border-bottom: 1px solid var(--kiosk-border);
+  transition:
+    background-color var(--dur-fast) ease,
+    border-color var(--dur-fast) ease;
+}
+
+.app-root .calc-section-card .section-toggle-btn:hover {
+  background: color-mix(in srgb, var(--kiosk-surface-strong) 100%, transparent);
+}
+
+.app-root .calc-section-card .section-toggle-left {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.app-root .calc-section-card .section-toggle-right.admin-panel-actions {
+  flex: 0 0 auto;
+  min-width: fit-content;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.app-root .calc-section-card .badge {
+  min-height: 28px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--accent) 24%, var(--kiosk-border) 76%);
+  background: color-mix(in srgb, var(--accent-soft) 72%, var(--s-base) 28%);
+  color: var(--accent);
+  transition:
+    background-color var(--dur-normal) ease,
+    color var(--dur-normal) ease,
+    border-color var(--dur-normal) ease;
+}
+
+.app-root .calc-section-card .section-toggle-btn.has-value .badge {
+  background: color-mix(in srgb, var(--accent-soft) 82%, var(--s-base) 18%);
+  color: var(--accent);
+}
+
+.app-root .calc-section-card .mode-toggle {
+  background: color-mix(in srgb, var(--s-base) 84%, #080909 16%);
+  border: 1px solid var(--kiosk-border);
+  border-radius: 12px;
+}
+
+.app-root .calc-section-card .mode-toggle-pill {
+  background: var(--accent);
+  border-radius: 8px;
+}
+
+.app-root .calc-section-card .mode-btn.admin-btn-sm {
+  min-width: 62px;
+  color: var(--t-secondary);
+}
+
+.app-root .calc-section-card .mode-btn.admin-btn-sm.active {
+  color: var(--t-inverse);
+}
+
+.app-root .calc-section-card .section-body {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.denom-row,
+.app-root .calc-section-card .denom-row.admin-staff-card {
+  display: grid;
+  grid-template-columns: minmax(42px, 56px) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  min-height: 72px;
+  padding: 10px 12px;
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--kiosk-surface-strong) 72%, transparent);
+  border: 1px solid transparent;
+  box-shadow: none;
+  transition:
+    background-color 0.22s ease,
+    border-color 0.22s ease,
+    box-shadow 0.22s ease,
+    transform 0.18s var(--ease-bounce);
+}
+
+.denom-row:not(.has-value):hover,
+.app-root .calc-section-card .denom-row.admin-staff-card:not(.has-value):hover {
+  background: color-mix(in srgb, var(--kiosk-surface-strong) 92%, transparent);
+}
+
+.denom-row.has-value,
+.app-root .calc-section-card .denom-row.admin-staff-card.has-value {
+  background: color-mix(in srgb, var(--accent-soft) 72%, var(--kiosk-surface) 28%);
+  border-color: color-mix(in srgb, var(--accent) 24%, var(--kiosk-border) 76%);
+  box-shadow: 0 2px 12px rgba(222, 115, 86, 0.06);
+}
+
+.app-root .calc-section-card .denom-label {
+  width: auto;
+  min-width: 0;
+  text-align: left;
+  color: var(--t-primary);
+  letter-spacing: -0.03em;
+}
+
+.app-root .calc-section-card .denom-label.active,
+.app-root .calc-section-card .denom-row.has-value .denom-label {
+  color: var(--accent);
+}
+
+.app-root .calc-section-card .denom-input.admin-settings-input {
+  height: 48px;
+  padding: 0 58px 0 12px;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--s-base) 84%, #090b0e 16%);
+  border: 1px solid var(--kiosk-border);
+  color: var(--t-primary);
+  font-size: 18px;
+  font-weight: var(--weight-bold);
+}
+
+.app-root .calc-section-card .denom-input.admin-settings-input.has-prefix {
+  padding-left: 28px;
+}
+
+.app-root .calc-section-card .denom-input.admin-settings-input:focus {
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--kiosk-border) 60%);
+  box-shadow:
+    0 0 0 3px var(--accent-soft),
+    0 2px 8px rgba(222, 115, 86, 0.08);
+  background: color-mix(in srgb, var(--kiosk-surface) 92%, var(--s-base) 8%);
+}
+
+.app-root .calc-section-card .row-sub-inline {
+  right: 10px;
+  background: transparent;
+  color: var(--t-secondary);
+}
+
+.app-root .calc-section-card .stepper,
+.app-root .calc-section-card .denom-row.has-roll .stepper {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+}
+
+.step-btn,
+.roll-btn,
+.app-root .calc-section-card .step-btn.admin-icon-btn,
+.app-root .calc-section-card .roll-btn.admin-btn-sm {
+  min-height: 48px;
+  border-radius: 14px;
+  border: 1px solid var(--kiosk-border);
+  box-shadow: none;
+}
+
+.app-root .calc-section-card .step-btn.admin-icon-btn {
+  width: 48px;
+  background: color-mix(in srgb, var(--s-base) 86%, #090b0e 14%);
+  transition:
+    background-color var(--dur-fast) ease,
+    color var(--dur-fast) ease,
+    border-color var(--dur-fast) ease,
+    transform 0.12s var(--ease-bounce),
+    box-shadow 0.12s ease;
+  color: var(--t-secondary);
+}
+
+.app-root .calc-section-card .step-btn.admin-icon-btn.plus.active {
+  background: color-mix(in srgb, var(--accent-soft) 78%, var(--s-base) 22%);
+  border-color: color-mix(in srgb, var(--accent) 24%, var(--kiosk-border) 76%);
+  color: var(--accent);
+}
+
+.app-root .calc-section-card .roll-btn.admin-btn-sm {
+  min-width: 96px;
+  padding: 6px 10px;
+  justify-content: center;
+  background: color-mix(in srgb, var(--accent-soft) 26%, var(--s-base) 74%);
+  color: var(--accent);
+}
+
+.app-root .calc-section-card .roll-btn.admin-btn-sm.roll-holding {
+  background: color-mix(in srgb, var(--status-danger-bg) 72%, var(--s-base) 28%);
+  border-color: color-mix(in srgb, var(--status-danger) 22%, var(--kiosk-border) 78%);
+  color: var(--status-danger);
+}
+
+.app-root .calc-ui .hold-hint.login-subtitle {
+  margin: 0;
+  text-align: center;
+  color: var(--t-secondary);
+}

@@ -1,5 +1,32 @@
 import React, { useState, useEffect } from 'react';
+import './LoginPage.css';
 import { useAuthStore } from '../../store/useAuthStore.js';
+import {
+  BILLING_PLANS,
+  PAID_PLAN_KEYS,
+  POST_SIGNUP_CHECKOUT_PLAN_STORAGE_KEY,
+} from '../../lib/billing.js';
+
+const SIGNUP_PLAN_ICONS = {
+  solo: 'fa-seedling',
+  pro: 'fa-briefcase',
+  business: 'fa-building',
+};
+
+const SIGNUP_STEPS = [
+  {
+    title: 'Create your account',
+    sub: 'Use your work email and a password you will remember.',
+  },
+  {
+    title: 'Set up your workspace',
+    sub: 'Name your company and set the owner PIN for manager access.',
+  },
+  {
+    title: 'Choose your plan',
+    sub: 'Pick a plan now — checkout through Stripe opens right after you create the workspace.',
+  },
+];
 
 const MODE_CONTENT = {
   login: {
@@ -22,11 +49,13 @@ const MODE_CONTENT = {
 
 export function LoginPage({ navigate }) {
   const [mode, setMode] = useState('login');
+  const [signupStep, setSignupStep] = useState(1);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [companyName, setCompanyName] = useState('');
   const [companySlug, setCompanySlug] = useState('');
   const [ownerPin, setOwnerPin] = useState('');
+  const [selectedPlanKey, setSelectedPlanKey] = useState('pro');
   const [message, setMessage] = useState(null);
   const [resetSent, setResetSent] = useState(false);
   const [fieldErrors, setFieldErrors] = useState({});
@@ -59,7 +88,53 @@ export function LoginPage({ navigate }) {
 
   const switchMode = (nextMode) => {
     setMode(nextMode);
+    if (nextMode === 'signup') {
+      setSignupStep(1);
+      setSelectedPlanKey('pro');
+    }
     resetFeedback();
+  };
+
+  const validateSignupStep1 = () => {
+    const errs = {};
+    const normalizedEmail = email.trim();
+
+    if (!normalizedEmail) errs.email = 'Email is required.';
+    else if (!/\S+@\S+\.\S+/.test(normalizedEmail)) {
+      errs.email = 'Enter a valid email.';
+    }
+
+    if (!password) errs.password = 'Password is required.';
+    else if (password.length < 6) {
+      errs.password = 'Password must be at least 6 characters.';
+    }
+
+    setFieldErrors((prev) => ({
+      ...prev,
+      email: errs.email ?? null,
+      password: errs.password ?? null,
+    }));
+    return Object.keys(errs).length === 0;
+  };
+
+  const validateSignupStep2 = () => {
+    const errs = {};
+    if (!companyName.trim()) errs.companyName = 'Company name is required.';
+    if (!companySlug.trim()) errs.companySlug = 'Slug is required.';
+    else if (!/^[a-z0-9][a-z0-9-]{1,48}[a-z0-9]$/.test(companySlug)) {
+      errs.companySlug = '3-50 chars: lowercase letters, numbers, hyphens.';
+    }
+    if (!ownerPin || ownerPin.length < 4) {
+      errs.ownerPin = 'PIN must be at least 4 digits.';
+    }
+
+    setFieldErrors((prev) => ({
+      ...prev,
+      companyName: errs.companyName ?? null,
+      companySlug: errs.companySlug ?? null,
+      ownerPin: errs.ownerPin ?? null,
+    }));
+    return Object.keys(errs).length === 0;
   };
 
   const validate = () => {
@@ -91,10 +166,28 @@ export function LoginPage({ navigate }) {
     return Object.keys(errs).length === 0;
   };
 
+  const goSignupNext = () => {
+    if (signupStep === 1) {
+      if (!validateSignupStep1()) return;
+    } else if (signupStep === 2) {
+      if (!validateSignupStep2()) return;
+    }
+    setSignupStep((s) => Math.min(3, s + 1));
+  };
+
+  const goSignupBack = () => {
+    setSignupStep((s) => Math.max(1, s - 1));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     clearError();
     setMessage(null);
+
+    if (mode === 'signup' && signupStep < 3) {
+      goSignupNext();
+      return;
+    }
 
     if (!validate()) return;
 
@@ -142,6 +235,10 @@ export function LoginPage({ navigate }) {
       switchMode('login');
       setMessage('Check your email to confirm the account, then sign in.');
     } else if (result?.success) {
+      sessionStorage.setItem(
+        POST_SIGNUP_CHECKOUT_PLAN_STORAGE_KEY,
+        selectedPlanKey
+      );
       navigate('/onboarding?step=plan');
     }
   };
@@ -186,38 +283,50 @@ export function LoginPage({ navigate }) {
     errorId,
     error,
     prefix = null,
+    helper = null,
     inputProps,
-  }) => (
-    <div className={`login-field${error ? ' has-error' : ''}`}>
-      <label htmlFor={id}>{label}</label>
-      {prefix ? (
-        <div className="login-slug-wrap">
-          <span className="login-slug-prefix">{prefix}</span>
+  }) => {
+    const hintId = helper ? `${id}-hint` : null;
+    const describedBy =
+      [error ? errorId : null, hintId].filter(Boolean).join(' ') || undefined;
+
+    return (
+      <div className={`login-field${error ? ' has-error' : ''}`}>
+        <label htmlFor={id}>{label}</label>
+        {prefix ? (
+          <div className="login-slug-wrap">
+            <span className="login-slug-prefix">{prefix}</span>
+            <input
+              id={id}
+              {...inputProps}
+              aria-invalid={error ? 'true' : 'false'}
+              aria-describedby={describedBy}
+            />
+          </div>
+        ) : (
           <input
             id={id}
             {...inputProps}
             aria-invalid={error ? 'true' : 'false'}
-            aria-describedby={error ? errorId : undefined}
+            aria-describedby={describedBy}
           />
-        </div>
-      ) : (
-        <input
-          id={id}
-          {...inputProps}
-          aria-invalid={error ? 'true' : 'false'}
-          aria-describedby={error ? errorId : undefined}
-        />
-      )}
-      {error && (
-        <span className="login-field-error" id={errorId}>
-          {error}
-        </span>
-      )}
-    </div>
-  );
+        )}
+        {helper && !error && (
+          <p className="login-field-hint" id={hintId}>
+            {helper}
+          </p>
+        )}
+        {error && (
+          <span className="login-field-error" id={errorId}>
+            {error}
+          </span>
+        )}
+      </div>
+    );
+  };
 
   return (
-    <div className="login-page">
+    <div className="login-page stakd-pattern-bg">
       <button
         className="login-back-btn"
         onClick={() => navigate('/')}
@@ -229,130 +338,317 @@ export function LoginPage({ navigate }) {
 
       <div className="login-container">
         <div className="login-brand">
-          <div className="login-brand-icon">
-            <img src="/favicon.svg" alt="Stakd" width="28" height="28" />
-          </div>
-          <span className="login-brand-name">stakd</span>
+          <span className="login-brand-name">
+            <img src="/src/stakd-logo-text.svg" alt="stakd" height="35" />
+          </span>
         </div>
 
         <div className="login-card">
-          <div className="login-card-header">
-            <span className="login-eyebrow">{content.label}</span>
-            <h1 className="login-title">{content.title}</h1>
-            <p className="login-subtitle">{content.copy}</p>
-          </div>
+          {mode === 'signup' ? (
+            <>
+              <div className="signup-progress" aria-label="Sign up progress">
+                {[1, 2, 3].map((n) => (
+                  <div
+                    key={n}
+                    className={`signup-progress-item${
+                      signupStep === n ? ' is-active' : ''
+                    }${signupStep > n ? ' is-complete' : ''}`}
+                    aria-current={signupStep === n ? 'step' : undefined}
+                  >
+                    <span className="signup-progress-dot" aria-hidden="true">
+                      {signupStep > n ? (
+                        <i className="fa-solid fa-check" />
+                      ) : (
+                        n
+                      )}
+                    </span>
+                    <span className="signup-progress-label">Step {n}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="login-card-header">
+                <span className="login-eyebrow">
+                  Step {signupStep} of 3
+                </span>
+                <h1 className="login-title">{SIGNUP_STEPS[signupStep - 1].title}</h1>
+                <p className="login-subtitle">{SIGNUP_STEPS[signupStep - 1].sub}</p>
+              </div>
+            </>
+          ) : (
+            <div className="login-card-header">
+              <span className="login-eyebrow">{content.label}</span>
+              <h1 className="login-title">{content.title}</h1>
+              <p className="login-subtitle">{content.copy}</p>
+            </div>
+          )}
 
           <form onSubmit={handleSubmit} className="login-form" noValidate>
-            {renderField({
-              id: 'email',
-              label: 'Email',
-              errorId: 'login-email-error',
-              error: fieldErrors.email,
-              inputProps: {
-                type: 'email',
-                value: email,
-                onChange: (e) => {
-                  setEmail(e.target.value);
-                  setResetSent(false);
-                  setFieldErrors((prev) => ({ ...prev, email: null }));
-                },
-                autoComplete: 'email',
-                autoCapitalize: 'none',
-                autoCorrect: 'off',
-                spellCheck: false,
-                inputMode: 'email',
-                autoFocus: true,
-                placeholder: 'you@company.com',
-              },
-            })}
-
-            {renderField({
-              id: 'password',
-              label: 'Password',
-              errorId: 'login-password-error',
-              error: fieldErrors.password,
-              inputProps: {
-                type: 'password',
-                value: password,
-                onChange: (e) => {
-                  setPassword(e.target.value);
-                  setFieldErrors((prev) => ({ ...prev, password: null }));
-                },
-                autoComplete: mode === 'login' ? 'current-password' : 'new-password',
-                placeholder: 'Enter password',
-                minLength: 6,
-              },
-            })}
-
-            {mode === 'signup' && (
+            {mode === 'login' && (
               <>
                 {renderField({
-                  id: 'companyName',
-                  label: 'Company Name',
-                  errorId: 'login-company-name-error',
-                  error: fieldErrors.companyName,
+                  id: 'email',
+                  label: 'Email',
+                  errorId: 'login-email-error',
+                  error: fieldErrors.email,
                   inputProps: {
-                    type: 'text',
-                    value: companyName,
+                    type: 'email',
+                    value: email,
                     onChange: (e) => {
-                      const nextCompanyName = e.target.value;
-                      const previousAutoSlug = slugify(companyName);
-                      setCompanyName(nextCompanyName);
-                      setFieldErrors((prev) => ({ ...prev, companyName: null }));
-                      if (!companySlug || companySlug === previousAutoSlug) {
-                        setCompanySlug(slugify(nextCompanyName));
-                      }
+                      setEmail(e.target.value);
+                      setResetSent(false);
+                      setFieldErrors((prev) => ({ ...prev, email: null }));
                     },
-                    autoComplete: 'organization',
-                    placeholder: 'Acme Coffee',
-                    maxLength: 100,
-                  },
-                })}
-
-                {renderField({
-                  id: 'ownerPin',
-                  label: 'Owner PIN',
-                  errorId: 'login-owner-pin-error',
-                  error: fieldErrors.ownerPin,
-                  inputProps: {
-                    type: 'password',
-                    inputMode: 'numeric',
-                    value: ownerPin,
-                    onChange: (e) => {
-                      setOwnerPin(e.target.value.replace(/\D/g, '').slice(0, 8));
-                      setFieldErrors((prev) => ({ ...prev, ownerPin: null }));
-                    },
-                    autoComplete: 'off',
-                    placeholder: '4 digits',
-                    maxLength: 8,
-                  },
-                })}
-
-                {renderField({
-                  id: 'companySlug',
-                  label: 'Company Slug',
-                  errorId: 'login-company-slug-error',
-                  error: fieldErrors.companySlug,
-                  prefix: 'stakd.cash/',
-                  inputProps: {
-                    type: 'text',
-                    value: companySlug,
-                    onChange: (e) => {
-                      setCompanySlug(slugify(e.target.value));
-                      setFieldErrors((prev) => ({ ...prev, companySlug: null }));
-                    },
-                    autoComplete: 'off',
+                    autoComplete: 'email',
                     autoCapitalize: 'none',
                     autoCorrect: 'off',
                     spellCheck: false,
-                    placeholder: 'acme-coffee',
-                    maxLength: 50,
+                    inputMode: 'email',
+                    autoFocus: true,
+                    placeholder: 'you@company.com',
                   },
                 })}
+
+                {renderField({
+                  id: 'password',
+                  label: 'Password',
+                  errorId: 'login-password-error',
+                  error: fieldErrors.password,
+                  inputProps: {
+                    type: 'password',
+                    value: password,
+                    onChange: (e) => {
+                      setPassword(e.target.value);
+                      setFieldErrors((prev) => ({ ...prev, password: null }));
+                    },
+                    autoComplete: 'current-password',
+                    placeholder: 'Enter password',
+                    minLength: 6,
+                  },
+                })}
+
+                {(error || message) && (
+                  <div className="login-feedback" aria-live="polite">
+                    {error && (
+                      <div className="login-error" role="alert">
+                        <i className="fa-solid fa-circle-exclamation" />
+                        {error}
+                      </div>
+                    )}
+                    {message && (
+                      <div className="login-message" role="status">
+                        <i className="fa-solid fa-circle-check" />
+                        {message}
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                <button type="submit" className="login-submit" disabled={loading}>
+                  {loading ? (
+                    <span className="login-loading">
+                      <i className="fa-solid fa-circle-notch fa-spin" />
+                      Please wait...
+                    </span>
+                  ) : (
+                    <>
+                      <span>{content.submitLabel}</span>
+                      <i className="fa-solid fa-arrow-right" />
+                    </>
+                  )}
+                </button>
               </>
             )}
 
-            {(error || message) && (
+            {mode === 'signup' && (
+              <div className="signup-step-panel" key={signupStep}>
+                {signupStep === 1 && (
+                  <>
+                    {renderField({
+                      id: 'email',
+                      label: 'Email',
+                      errorId: 'login-email-error',
+                      error: fieldErrors.email,
+                      inputProps: {
+                        type: 'email',
+                        value: email,
+                        onChange: (e) => {
+                          setEmail(e.target.value);
+                          setFieldErrors((prev) => ({ ...prev, email: null }));
+                        },
+                        autoComplete: 'email',
+                        autoCapitalize: 'none',
+                        autoCorrect: 'off',
+                        spellCheck: false,
+                        inputMode: 'email',
+                        autoFocus: true,
+                        placeholder: 'you@company.com',
+                      },
+                    })}
+
+                    {renderField({
+                      id: 'password',
+                      label: 'Password',
+                      errorId: 'login-password-error',
+                      error: fieldErrors.password,
+                      inputProps: {
+                        type: 'password',
+                        value: password,
+                        onChange: (e) => {
+                          setPassword(e.target.value);
+                          setFieldErrors((prev) => ({ ...prev, password: null }));
+                        },
+                        autoComplete: 'new-password',
+                        placeholder: 'Enter password',
+                        minLength: 6,
+                      },
+                    })}
+                  </>
+                )}
+
+                {signupStep === 2 && (
+                  <>
+                    {renderField({
+                      id: 'companyName',
+                      label: 'Company name',
+                      errorId: 'login-company-name-error',
+                      error: fieldErrors.companyName,
+                      inputProps: {
+                        type: 'text',
+                        value: companyName,
+                        onChange: (e) => {
+                          const nextCompanyName = e.target.value;
+                          const previousAutoSlug = slugify(companyName);
+                          setCompanyName(nextCompanyName);
+                          setFieldErrors((prev) => ({ ...prev, companyName: null }));
+                          if (!companySlug || companySlug === previousAutoSlug) {
+                            setCompanySlug(slugify(nextCompanyName));
+                          }
+                        },
+                        autoComplete: 'organization',
+                        placeholder: 'Acme Coffee',
+                        maxLength: 100,
+                        autoFocus: true,
+                      },
+                    })}
+
+                    <div
+                      className={`login-field signup-slug-preview${
+                        fieldErrors.companySlug ? ' has-error' : ''
+                      }`}
+                    >
+                      <span className="signup-slug-preview-label">Workspace URL</span>
+                      <div
+                        className="signup-slug-preview-box"
+                        aria-live="polite"
+                        id="signup-slug-preview"
+                      >
+                        <span className="signup-slug-prefix">stakd.cash/</span>
+                        <span
+                          className={
+                            companySlug ? 'signup-slug-value' : 'signup-slug-placeholder'
+                          }
+                        >
+                          {companySlug || 'your-workspace'}
+                        </span>
+                      </div>
+                      {fieldErrors.companySlug && (
+                        <span
+                          className="login-field-error"
+                          id="login-company-slug-error"
+                        >
+                          {fieldErrors.companySlug}
+                        </span>
+                      )}
+                    </div>
+
+                    {renderField({
+                      id: 'ownerPin',
+                      label: 'Owner PIN',
+                      errorId: 'login-owner-pin-error',
+                      error: fieldErrors.ownerPin,
+                      helper:
+                        'This 4-digit PIN gives you manager access on any device.',
+                      inputProps: {
+                        type: 'password',
+                        inputMode: 'numeric',
+                        value: ownerPin,
+                        onChange: (e) => {
+                          setOwnerPin(e.target.value.replace(/\D/g, '').slice(0, 8));
+                          setFieldErrors((prev) => ({ ...prev, ownerPin: null }));
+                        },
+                        autoComplete: 'off',
+                        placeholder: '4 digits',
+                        maxLength: 8,
+                      },
+                    })}
+                  </>
+                )}
+
+                {signupStep === 3 && (
+                  <>
+                    <div
+                      className="signup-plan-list"
+                      role="radiogroup"
+                      aria-label="Choose a plan"
+                    >
+                      {PAID_PLAN_KEYS.map((planKey) => {
+                        const plan = BILLING_PLANS[planKey];
+                        const selected = selectedPlanKey === planKey;
+                        const isPrimary = planKey === 'pro';
+                        return (
+                          <button
+                            key={planKey}
+                            type="button"
+                            role="radio"
+                            aria-checked={selected}
+                            className={`signup-plan-option${
+                              selected ? ' is-selected' : ''
+                            }${isPrimary ? ' is-primary' : ''}`}
+                            onClick={() => setSelectedPlanKey(planKey)}
+                          >
+                            <div className="signup-plan-option-icon">
+                              <i
+                                className={`fa-solid ${
+                                  SIGNUP_PLAN_ICONS[planKey] || 'fa-star'
+                                }`}
+                              />
+                            </div>
+                            <div className="signup-plan-option-text">
+                              <span className="signup-plan-option-title">
+                                {plan.name} — {plan.priceLabel}
+                              </span>
+                              <span className="signup-plan-option-sub">
+                                {plan.seatLimit === -1
+                                  ? 'Unlimited seats'
+                                  : `Up to ${plan.seatLimit} seats`}
+                                {' · '}
+                                {plan.summary}
+                              </span>
+                            </div>
+                            <span
+                              className={`signup-plan-check${
+                                selected ? ' is-on' : ''
+                              }`}
+                              aria-hidden="true"
+                            >
+                              <i className="fa-solid fa-circle-check" />
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    <p className="signup-plan-stripe-note">
+                      <i className="fa-solid fa-shield-halved" aria-hidden="true" />
+                      Payment is processed securely through Stripe after your workspace is
+                      created.
+                    </p>
+                  </>
+                )}
+              </div>
+            )}
+
+            {mode === 'signup' && (error || message) && (
               <div className="login-feedback" aria-live="polite">
                 {error && (
                   <div className="login-error" role="alert">
@@ -369,19 +665,63 @@ export function LoginPage({ navigate }) {
               </div>
             )}
 
-            <button type="submit" className="login-submit" disabled={loading}>
-              {loading ? (
-                <span className="login-loading">
-                  <i className="fa-solid fa-circle-notch fa-spin" />
-                  Please wait...
-                </span>
-              ) : (
-                <>
-                  <span>{content.submitLabel}</span>
+            {mode === 'signup' && signupStep === 1 && (
+              <button type="submit" className="login-submit" disabled={loading}>
+                <span>Next</span>
+                <i className="fa-solid fa-arrow-right" />
+              </button>
+            )}
+
+            {mode === 'signup' && signupStep === 2 && (
+              <div className="signup-nav">
+                <button
+                  type="button"
+                  className="signup-btn-secondary"
+                  onClick={goSignupBack}
+                  disabled={loading}
+                >
+                  Back
+                </button>
+                <button
+                  type="submit"
+                  className="login-submit signup-nav-primary"
+                  disabled={loading}
+                >
+                  <span>Next</span>
                   <i className="fa-solid fa-arrow-right" />
-                </>
-              )}
-            </button>
+                </button>
+              </div>
+            )}
+
+            {mode === 'signup' && signupStep === 3 && (
+              <div className="signup-nav">
+                <button
+                  type="button"
+                  className="signup-btn-secondary"
+                  onClick={goSignupBack}
+                  disabled={loading}
+                >
+                  Back
+                </button>
+                <button
+                  type="submit"
+                  className="login-submit signup-nav-primary"
+                  disabled={loading}
+                >
+                  {loading ? (
+                    <span className="login-loading">
+                      <i className="fa-solid fa-circle-notch fa-spin" />
+                      Please wait...
+                    </span>
+                  ) : (
+                    <>
+                      <span>{content.submitLabel}</span>
+                      <i className="fa-solid fa-arrow-right" />
+                    </>
+                  )}
+                </button>
+              </div>
+            )}
           </form>
 
           <div className="login-footer">

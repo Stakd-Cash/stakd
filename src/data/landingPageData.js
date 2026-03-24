@@ -1,7 +1,7 @@
 export const HERO_SIGNALS = [
-  { value: '2 hrs', label: 'saved per week on drawer audits' },
-  { value: 'Real-time', label: 'alerts when cash goes missing' },
-  { value: 'Zero', label: 'disputes with timestamped proof' },
+  { value: 'Faster counts', label: 'cashiers finish in under 60 seconds' },
+  { value: 'Real-time alerts', label: 'when cash goes missing mid-shift' },
+  { value: 'Timestamped proof', label: 'zero disputes at shift end' },
 ];
 
 export const STORY_STEPS = [
@@ -39,7 +39,7 @@ export const STORY_STEPS = [
       'Export reports for your bookkeeper in one click',
       'Resolve cash discrepancies in minutes, not hours',
     ],
-    signal: 'Court-ready documentation',
+    signal: 'Audit-ready records',
   },
 ];
 
@@ -91,7 +91,7 @@ export const PRICING_TIERS = [
       'Dark mode and haptics',
     ],
     buttonText: 'Open Calculator',
-    buttonPath: '/calc',
+    buttonPath: '/kiosk',
     icon: 'fa-calculator',
     primary: false,
   },
@@ -105,7 +105,6 @@ export const PRICING_TIERS = [
       'Cloud-synced drops across devices',
       '1 manager + 2 cashier accounts',
       'Drop history and reporting',
-      'Real-time variance alerts',
     ],
     buttonText: 'Get Started',
     buttonPath: '/login?mode=signup',

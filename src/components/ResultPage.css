@@ -1,0 +1,142 @@
+@import '../styles/tokens.css';
+
+.back-btn.pathway-back-btn {
+  margin: 0;
+}
+
+.drop-hero,
+.drawer-card,
+.save-drop-card {
+  border-radius: 28px;
+}
+
+.drop-hero-top,
+.drawer-header {
+  padding: 22px 22px 18px;
+  background: color-mix(in srgb, var(--kiosk-surface-strong) 84%, transparent);
+  border-bottom: 1px solid var(--kiosk-border);
+}
+
+.drop-amount,
+.drawer-total {
+  font-family: var(--font-display);
+  letter-spacing: -0.05em;
+}
+
+.drop-amount {
+  font-size: clamp(2.6rem, 9vw, 4.1rem);
+}
+
+.drop-hero-body {
+  padding: 18px 22px 22px;
+}
+
+.pull-row {
+  min-height: 60px;
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--kiosk-surface-strong) 76%, transparent);
+  border: 1px solid var(--kiosk-border);
+}
+
+.pull-count {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--accent-soft) 72%, var(--s-base) 28%);
+  border-color: color-mix(in srgb, var(--accent) 22%, var(--kiosk-border) 78%);
+}
+
+.share-btn {
+  width: 100%;
+  min-height: 52px;
+  border-radius: 16px;
+  border: 1px solid var(--kiosk-border);
+  background: color-mix(in srgb, var(--kiosk-surface-strong) 82%, transparent);
+  color: var(--t-primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 15px;
+  font-weight: var(--weight-bold);
+}
+
+.share-btn.copied {
+  background: color-mix(in srgb, var(--accent-soft) 78%, var(--s-base) 22%);
+  color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 22%, var(--kiosk-border) 78%);
+}
+
+.save-drop-card {
+  padding: 22px;
+}
+
+.save-drop-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.save-drop-staff {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent-soft) 72%, var(--s-base) 28%);
+  border: 1px solid color-mix(in srgb, var(--accent) 22%, var(--kiosk-border) 78%);
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: var(--weight-bold);
+}
+
+.save-drop-note {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+}
+
+.save-drop-note span {
+  font-size: 11px;
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--t-secondary);
+}
+
+.save-drop-note textarea {
+  width: 100%;
+  min-height: 88px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  border: 1px solid var(--kiosk-border);
+  background: color-mix(in srgb, var(--s-base) 84%, #090b0e 16%);
+  color: var(--t-primary);
+  font: inherit;
+  resize: vertical;
+}
+
+.save-drop-note textarea:focus {
+  outline: none;
+  border-color: color-mix(in srgb, var(--accent) 28%, var(--kiosk-border) 72%);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.save-drop-submit {
+  margin-top: 16px;
+}
+
+.save-drop-card.saved {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+}
+
+.save-drop-card.saved i {
+  color: var(--accent);
+}

@@ -4,7 +4,7 @@ import { PLATFORM_PILLARS } from '../../data/landingPageData';
 const LandingPillars = () => {
   return (
     <section className="landing-pillars">
-      <div className="landing-section-heading js-reveal">
+      <div className="landing-section-heading reveal">
         <p className="landing-section-kicker">Why stakd</p>
         <h2>Built for cash businesses, not office workers.</h2>
         <p>
@@ -16,7 +16,7 @@ const LandingPillars = () => {
         {PLATFORM_PILLARS.map((pillar, index) => (
           <article
             key={pillar.title}
-            className={`landing-pillar-card landing-pillar-card-${index + 1} js-reveal`}
+            className={`landing-pillar-card landing-pillar-card-${index + 1} reveal`}
             style={{ transitionDelay: `${index * 90}ms` }}
           >
             <div className="landing-pillar-icon">

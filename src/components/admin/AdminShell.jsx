@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { createPortal } from 'react-dom';
+import '../../styles/admin.css';
+import './AdminShell.css';
 import { useAuthStore } from '../../store/useAuthStore.js';
 import { useAppStore } from '../../store/useStore.js';
 import { supabase } from '../../lib/supabase.js';
@@ -22,8 +24,20 @@ import {
 
 const ROLE_LABELS = { cashier: 'Crew Member', manager: 'Manager', owner: 'Owner' };
 const ADMIN_ROLES = ['owner', 'manager'];
+const VALID_TABS = ['drops', 'analytics', 'staff', 'settings', 'audit'];
 
-export function AdminShell({ navigate, replaceNavigate }) {
+function getScopedAdminTabKey(companyId) {
+  return companyId ? `stakd_admin_tab:${companyId}` : null;
+}
+
+function isAllowedTab(tab, { isAdmin, isOwner }) {
+  if (tab === 'drops') return true;
+  if ((tab === 'analytics' || tab === 'staff') && isAdmin) return true;
+  if ((tab === 'settings' || tab === 'audit') && isOwner) return true;
+  return false;
+}
+
+export function AdminShell({ navigate, replaceNavigate, initialTab = null }) {
   const {
     user, company, staff, activeStaff,
     signOut, pinLogout, loading,
@@ -31,9 +45,7 @@ export function AdminShell({ navigate, replaceNavigate }) {
   } = useAuthStore();
   const theme = useAppStore((s) => s.theme);
   const setTheme = useAppStore((s) => s.setTheme);
-  const [tab, setTab] = useState(() => {
-    try { return sessionStorage.getItem('stakd_admin_tab') || 'drops'; } catch { return 'drops'; }
-  });
+  const [tab, setTab] = useState('drops');
   const [staffCount, setStaffCount] = useState(null);
   const [editingCompanyName, setEditingCompanyName] = useState(false);
   const [companyNameDraft, setCompanyNameDraft] = useState('');
@@ -48,6 +60,31 @@ export function AdminShell({ navigate, replaceNavigate }) {
   const [confirmLogout, setConfirmLogout] = useState(false);
   const [confirmHome, setConfirmHome] = useState(false);
   const [billingLoading, setBillingLoading] = useState(false);
+  const [staffAddRequest, setStaffAddRequest] = useState(0);
+
+  // The "current" staff is either the PIN-identified cashier or the logged-in owner/manager.
+  const currentStaff = activeStaff || staff;
+  const role = currentStaff?.role || 'cashier';
+  const isAdmin = role === 'owner' || role === 'manager';
+  const isOwner = role === 'owner';
+  const ownerRole = staff?.role || 'cashier';
+  const isOwnerAdmin = ownerRole === 'owner' || ownerRole === 'manager';
+  const scopedTabKey = getScopedAdminTabKey(company?.id);
+  const tabOptions = [
+    { value: 'drops', label: 'Drops' },
+    ...(isAdmin
+      ? [
+          { value: 'analytics', label: 'Analytics' },
+          { value: 'staff', label: `Staff${staffCount != null ? ` (${staffCount})` : ''}` },
+        ]
+      : []),
+    ...(isOwner
+      ? [
+          { value: 'settings', label: 'Settings' },
+          { value: 'audit', label: 'Audit Log' },
+        ]
+      : []),
+  ];
 
   const handleManageBilling = async () => {
     if (!company?.stripe_customer_id) return;
@@ -63,10 +100,32 @@ export function AdminShell({ navigate, replaceNavigate }) {
     }
   };
 
+  // Load the last admin tab for this company, but only if it is valid for the current role.
+  useEffect(() => {
+    if (!company?.id) return;
+
+    let nextTab = 'drops';
+    const normalizedInitialTab = VALID_TABS.includes(initialTab) ? initialTab : null;
+
+    if (normalizedInitialTab && isAllowedTab(normalizedInitialTab, { isAdmin, isOwner })) {
+      nextTab = normalizedInitialTab;
+    } else if (scopedTabKey) {
+      try {
+        const storedTab = sessionStorage.getItem(scopedTabKey);
+        if (storedTab && isAllowedTab(storedTab, { isAdmin, isOwner })) {
+          nextTab = storedTab;
+        }
+      } catch {}
+    }
+
+    setTab(nextTab);
+  }, [company?.id, initialTab, isAdmin, isOwner, scopedTabKey]);
+
   // Persist tab to sessionStorage
   useEffect(() => {
-    try { sessionStorage.setItem('stakd_admin_tab', tab); } catch {}
-  }, [tab]);
+    if (!scopedTabKey) return;
+    try { sessionStorage.setItem(scopedTabKey, tab); } catch {}
+  }, [scopedTabKey, tab]);
 
   // Fetch staff count for header
   useEffect(() => {
@@ -91,19 +150,6 @@ export function AdminShell({ navigate, replaceNavigate }) {
     html.classList.add('thm');
     setTimeout(() => html.classList.remove('thm'), 400);
   }, [setTheme]);
-
-  // The "current" staff is either the PIN-identified cashier or the logged-in owner/manager
-  const currentStaff = activeStaff || staff;
-  const role = currentStaff?.role || 'cashier';
-  const isAdmin = role === 'owner' || role === 'manager';
-  const isOwner = role === 'owner';
-  const ownerRole = staff?.role || 'cashier';
-  const isOwnerAdmin = ownerRole === 'owner' || ownerRole === 'manager';
-  const tabOptions = [
-    { value: 'drops', label: 'Drops' },
-    ...(isAdmin ? [{ value: 'analytics', label: 'Analytics' }, { value: 'staff', label: `Staff${staffCount != null ? ` (${staffCount})` : ''}` }] : []),
-    ...(isOwner ? [{ value: 'settings', label: 'Settings' }, { value: 'audit', label: 'Audit Log' }] : []),
-  ];
 
   const handleAdminPinSuccess = useCallback(() => {
     // PIN verified, now show dashboard
@@ -195,12 +241,21 @@ export function AdminShell({ navigate, replaceNavigate }) {
     navigate('/pathway');
   }, [pinLogout, navigate]);
 
+  const handleAddCashier = useCallback(() => {
+    setTab('staff');
+    setStaffAddRequest((count) => count + 1);
+  }, []);
+
+  const handleOnboardingAddSuccess = useCallback(() => {
+    setTab('drops');
+  }, []);
+
   // --- Compute transition class ---
   const transitionClass = phase === 'fading-out'
-    ? 'admin-view admin-view--out'
+    ? 'admin-view admin-view--out stakd-pattern-bg'
     : phase === 'fading-in'
-      ? 'admin-view admin-view--in'
-      : 'admin-view';
+      ? 'admin-view admin-view--in stakd-pattern-bg'
+      : 'admin-view stakd-pattern-bg';
 
   const planName = getPlanName(company?.plan);
   const subscriptionStatusLabel = formatSubscriptionStatus(company?.subscription_status);
@@ -262,7 +317,7 @@ export function AdminShell({ navigate, replaceNavigate }) {
       <header className="adm-dash-header">
         <div className="adm-dash-header-left">
           <div className="adm-dash-brand">
-            <img src="/favicon.svg" alt="Stakd" width="22" height="22" />
+            <img src="/src/stakd-logo-text.svg" alt="Stakd" width="22" height="22" />
           </div>
           <div className="adm-dash-identity">
             <h1 className="adm-dash-company">{company.name}</h1>
@@ -342,10 +397,22 @@ export function AdminShell({ navigate, replaceNavigate }) {
       {/* Content */}
       <main className="adm-dash-content">
         {tab === 'drops' && (
-          <DropsPanel company={company} currentStaff={currentStaff} isAdmin={isAdmin} />
+          <DropsPanel
+            company={company}
+            currentStaff={currentStaff}
+            isAdmin={isAdmin}
+            onAddCashier={handleAddCashier}
+            navigate={navigate}
+          />
         )}
         {tab === 'analytics' && isAdmin && <AnalyticsPanel companyId={company.id} />}
-        {tab === 'staff' && isAdmin && <StaffPanel company={company} />}
+        {tab === 'staff' && isAdmin && (
+          <StaffPanel
+            company={company}
+            openAddRequest={staffAddRequest}
+            onOnboardingAddSuccess={handleOnboardingAddSuccess}
+          />
+        )}
         {tab === 'audit' && isOwner && (
           <AuditLogPanel company={company} />
         )}

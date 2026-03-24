@@ -1,0 +1,50 @@
+/* ==========================================================================
+   stakd Design System - Typography
+   Shared body copy defaults and reusable type primitives.
+   ========================================================================== */
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--text-md);
+  line-height: var(--leading-normal);
+  color: var(--t-primary);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
+}
+
+.sk-heading {
+  font-size: var(--text-xl);
+  font-weight: var(--weight-heavy);
+  color: var(--t-primary);
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-tight);
+}
+
+.sk-subheading {
+  font-size: var(--text-md);
+  font-weight: var(--weight-semi);
+  color: var(--t-secondary);
+  line-height: var(--leading-normal);
+}
+
+.sk-label {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+  color: var(--t-secondary);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+}
+
+.sk-caption {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  color: var(--t-tertiary);
+  line-height: var(--leading-normal);
+}
