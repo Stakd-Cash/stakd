@@ -7,23 +7,23 @@
   background: color-mix(in srgb, var(--kiosk-surface-strong) 76%, transparent);
 }
 
-.panel-modal .history-search-wrap {
+.sk-modal--panel .history-search-wrap {
   padding: 14px 20px 12px;
 }
 
-.panel-modal .history-trends {
+.sk-modal--panel .history-trends {
   padding: 12px 20px;
 }
 
-.panel-modal .history-list {
+.sk-modal--panel .history-list {
   padding: 8px 16px 16px;
 }
 
-.panel-modal .history-empty {
+.sk-modal--panel .history-empty {
   padding: 40px 20px;
 }
 
-.panel-modal .history-hd-actions {
+.sk-modal--panel .history-hd-actions {
   display: flex;
   align-items: center;
   gap: 8px;

@@ -173,7 +173,7 @@ function buildChartSVG(entries, graphMode, fmtLabel) {
           </div>
         ))}
       </div>
-      <svg className="admin-graph-svg" viewBox={`0 0 ${W} ${H}`} style={{ overflow: 'visible' }}>
+      <svg className="admin-graph-svg" viewBox={`0 0 ${W} ${H}`}>
         <defs>
           <linearGradient id={strokeId} x1="0" y1="0" x2="1" y2="0" gradientUnits="objectBoundingBox">
             <stop offset="0%" stopColor="var(--brand)" stopOpacity="0.68" />
@@ -205,7 +205,7 @@ function buildChartSVG(entries, graphMode, fmtLabel) {
           );
         })}
 
-        <path d={fillPath} fill="rgba(255, 92, 92, 0.09)" stroke="none" />
+        <path d={fillPath} className="admin-graph-fill-area" stroke="none" />
         <path
           d={linePath}
           fill="none"
@@ -227,7 +227,7 @@ function buildChartSVG(entries, graphMode, fmtLabel) {
             opacity={i === peakIndex || i === pts.length - 1 ? 0.92 : 0.8}
           />
         ))}
-        <circle cx={last[0]} cy={last[1]} r="11" fill="rgba(255, 92, 92, 0.14)" />
+        <circle cx={last[0]} cy={last[1]} r="11" className="admin-graph-halo" />
 
         {peakIndex !== pts.length - 1 && (
           <g transform={`translate(${peakPoint[0]}, ${peakPoint[1] - 16})`}>
@@ -470,7 +470,7 @@ export function DropsPanel({ company, currentStaff, isAdmin, onAddCashier, navig
     })();
 
     return () => { cancelled = true; };
-  }, [companyId, refreshKey]);
+  }, [companyId]);
 
   useEffect(() => {
     if (onboardingLoading) return;
@@ -640,7 +640,7 @@ export function DropsPanel({ company, currentStaff, isAdmin, onAddCashier, navig
   const renderStatsSkeleton = () => (
     <div className="admin-stat-row">
       {[0, 1, 2, 3, ...(isAdmin ? [4] : [])].map((i) => (
-        <div key={i} className="adm-sk adm-sk-stat" style={{ animationDelay: `${i * .04}s` }} />
+        <div key={i} className="adm-sk adm-sk-stat" />
       ))}
     </div>
   );
@@ -652,10 +652,10 @@ export function DropsPanel({ company, currentStaff, isAdmin, onAddCashier, navig
     return (
       <div className="admin-panel">
         {renderStatsSkeleton()}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        <div className="admin-panel-skeleton-stack admin-panel-skeleton-stack--dim-rows">
           <div className="adm-sk adm-sk-row" />
-          <div className="adm-sk adm-sk-row" style={{ opacity: 0.7 }} />
-          <div className="adm-sk adm-sk-row" style={{ opacity: 0.5 }} />
+          <div className="adm-sk adm-sk-row" />
+          <div className="adm-sk adm-sk-row" />
         </div>
       </div>
     );
@@ -672,20 +672,6 @@ export function DropsPanel({ company, currentStaff, isAdmin, onAddCashier, navig
           </button>
         </div>
       </div>
-    );
-  }
-
-  if (showOnboarding) {
-    return (
-      <>
-        <div className="admin-panel" aria-hidden="true" />
-        <OnboardingEmptyState
-          company={company}
-          navigate={navigate}
-          onSkipTutorial={handleSkipTutorial}
-          onStaffAdded={() => setRefreshKey((k) => k + 1)}
-        />
-      </>
     );
   }
 
@@ -710,7 +696,22 @@ export function DropsPanel({ company, currentStaff, isAdmin, onAddCashier, navig
   }
 
   return (
-    <div className="admin-panel">
+    <>
+      {showOnboarding ? (
+        <OnboardingEmptyState
+          company={company}
+          navigate={navigate}
+          onSkipTutorial={handleSkipTutorial}
+          onStaffAdded={() => {
+            setOnboardingStatus((prev) => ({ ...prev, hasStaff: true }));
+            setRefreshKey((k) => k + 1);
+          }}
+        />
+      ) : null}
+      <div
+        className="admin-panel"
+        aria-hidden={showOnboarding ? 'true' : undefined}
+      >
       <div className="admin-panel-header">
         <h2>{isAdmin ? 'All Drops' : 'My Drops'}</h2>
         <div className="admin-panel-actions">
@@ -915,9 +916,9 @@ export function DropsPanel({ company, currentStaff, isAdmin, onAddCashier, navig
             </div>
           )}
           {deleteError && (
-            <div className="admin-error" style={{ marginBottom: 8 }}>
+            <div className="admin-error admin-error--mb">
               Failed to delete: {deleteError}
-              <button className="admin-btn-sm" style={{ marginLeft: 8 }} onClick={() => setDeleteError(null)}>Dismiss</button>
+              <button className="admin-btn-sm admin-error-dismiss" type="button" onClick={() => setDeleteError(null)}>Dismiss</button>
             </div>
           )}
           <div className="admin-table-wrap">
@@ -942,7 +943,6 @@ export function DropsPanel({ company, currentStaff, isAdmin, onAddCashier, navig
                       <tr
                         className={drop.note ? 'has-note' : ''}
                         onClick={() => setExpandedDrop(isExpanded ? null : drop.id)}
-                        style={{ cursor: drop.note ? 'pointer' : undefined }}
                       >
                         {isAdmin && <td data-label="Staff">{drop.staff?.name || '—'}</td>}
                         <td data-label="Amount" className="admin-amount">
@@ -958,7 +958,7 @@ export function DropsPanel({ company, currentStaff, isAdmin, onAddCashier, navig
                             hour: '2-digit',
                             minute: '2-digit',
                           })}
-                          {drop.note && <i className="fa-solid fa-note-sticky" style={{ marginLeft: 6, fontSize: 10, opacity: .5 }} />}
+                          {drop.note && <i className="fa-solid fa-note-sticky admin-drop-note-icon" />}
                         </td>
                         {isAdmin && (
                           <td data-label="Actions" className="admin-actions-cell" onClick={(e) => e.stopPropagation()}>
@@ -1008,8 +1008,8 @@ export function DropsPanel({ company, currentStaff, isAdmin, onAddCashier, navig
           </div>
           {filtered.length > displayLimit && (
             <button
-              className="admin-btn-sm"
-              style={{ width: '100%', justifyContent: 'center', marginTop: 8 }}
+              type="button"
+              className="admin-btn-sm admin-btn-load-more"
               onClick={() => setDisplayLimit((l) => l + PAGE_SIZE)}
             >
               Load more ({filtered.length - displayLimit} remaining)
@@ -1018,5 +1018,6 @@ export function DropsPanel({ company, currentStaff, isAdmin, onAddCashier, navig
         </>
       )}
     </div>
+    </>
   );
 }

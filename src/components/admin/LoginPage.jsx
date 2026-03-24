@@ -291,7 +291,7 @@ export function LoginPage({ navigate }) {
       [error ? errorId : null, hintId].filter(Boolean).join(' ') || undefined;
 
     return (
-      <div className={`login-field${error ? ' has-error' : ''}`}>
+      <div className={`sk-field${error ? ' has-error' : ''}`}>
         <label htmlFor={id}>{label}</label>
         {prefix ? (
           <div className="login-slug-wrap">
@@ -306,18 +306,19 @@ export function LoginPage({ navigate }) {
         ) : (
           <input
             id={id}
+            className="sk-input"
             {...inputProps}
             aria-invalid={error ? 'true' : 'false'}
             aria-describedby={describedBy}
           />
         )}
         {helper && !error && (
-          <p className="login-field-hint" id={hintId}>
+          <p className="sk-field-hint" id={hintId}>
             {helper}
           </p>
         )}
         {error && (
-          <span className="login-field-error" id={errorId}>
+          <span className="sk-field-error" id={errorId}>
             {error}
           </span>
         )}
@@ -326,9 +327,10 @@ export function LoginPage({ navigate }) {
   };
 
   return (
-    <div className="login-page stakd-pattern-bg">
+    <div className="login-page sk-page-full stakd-pattern-bg">
       <button
-        className="login-back-btn"
+        type="button"
+        className="sk-back-btn sk-back-btn--fixed"
         onClick={() => navigate('/')}
         aria-label="Go back"
       >
@@ -336,53 +338,53 @@ export function LoginPage({ navigate }) {
         <span>Back</span>
       </button>
 
-      <div className="login-container">
-        <div className="login-brand">
-          <span className="login-brand-name">
-            <img src="/src/stakd-logo-text.svg" alt="stakd" height="35" />
-          </span>
+      <div className="sk-auth-container">
+        <div className="sk-auth-logo">
+          <img src="/src/stakd-logo-text.svg" alt="stakd" height="35" />
         </div>
 
-        <div className="login-card">
+        <div className="sk-auth-card">
           {mode === 'signup' ? (
             <>
-              <div className="signup-progress" aria-label="Sign up progress">
+              <div className="sk-stepper" aria-label="Sign up progress">
                 {[1, 2, 3].map((n) => (
                   <div
                     key={n}
-                    className={`signup-progress-item${
+                    className={`sk-stepper-step${
                       signupStep === n ? ' is-active' : ''
                     }${signupStep > n ? ' is-complete' : ''}`}
                     aria-current={signupStep === n ? 'step' : undefined}
                   >
-                    <span className="signup-progress-dot" aria-hidden="true">
+                    <span className="sk-stepper-dot" aria-hidden="true">
                       {signupStep > n ? (
                         <i className="fa-solid fa-check" />
                       ) : (
                         n
                       )}
                     </span>
-                    <span className="signup-progress-label">Step {n}</span>
+                    <span className="sk-stepper-label">Step {n}</span>
                   </div>
                 ))}
               </div>
-              <div className="login-card-header">
-                <span className="login-eyebrow">
-                  Step {signupStep} of 3
-                </span>
-                <h1 className="login-title">{SIGNUP_STEPS[signupStep - 1].title}</h1>
-                <p className="login-subtitle">{SIGNUP_STEPS[signupStep - 1].sub}</p>
+              <div className="sk-auth-card-header">
+                <span className="sk-company-label">Step {signupStep} of 3</span>
+                <h1 className="sk-auth-heading">
+                  {SIGNUP_STEPS[signupStep - 1].title}
+                </h1>
+                <p className="sk-auth-subtext">
+                  {SIGNUP_STEPS[signupStep - 1].sub}
+                </p>
               </div>
             </>
           ) : (
-            <div className="login-card-header">
-              <span className="login-eyebrow">{content.label}</span>
-              <h1 className="login-title">{content.title}</h1>
-              <p className="login-subtitle">{content.copy}</p>
+            <div className="sk-auth-card-header">
+              <span className="sk-company-label">{content.label}</span>
+              <h1 className="sk-auth-heading">{content.title}</h1>
+              <p className="sk-auth-subtext">{content.copy}</p>
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="login-form" noValidate>
+          <form onSubmit={handleSubmit} className="sk-auth-form" noValidate>
             {mode === 'login' && (
               <>
                 {renderField({
@@ -427,15 +429,15 @@ export function LoginPage({ navigate }) {
                 })}
 
                 {(error || message) && (
-                  <div className="login-feedback" aria-live="polite">
+                  <div className="sk-alert-stack" aria-live="polite">
                     {error && (
-                      <div className="login-error" role="alert">
+                      <div className="sk-error" role="alert">
                         <i className="fa-solid fa-circle-exclamation" />
                         {error}
                       </div>
                     )}
                     {message && (
-                      <div className="login-message" role="status">
+                      <div className="sk-success" role="status">
                         <i className="fa-solid fa-circle-check" />
                         {message}
                       </div>
@@ -443,7 +445,11 @@ export function LoginPage({ navigate }) {
                   </div>
                 )}
 
-                <button type="submit" className="login-submit" disabled={loading}>
+                <button
+                  type="submit"
+                  className="sk-btn sk-btn-primary sk-btn-lg login-submit"
+                  disabled={loading}
+                >
                   {loading ? (
                     <span className="login-loading">
                       <i className="fa-solid fa-circle-notch fa-spin" />
@@ -460,7 +466,7 @@ export function LoginPage({ navigate }) {
             )}
 
             {mode === 'signup' && (
-              <div className="signup-step-panel" key={signupStep}>
+              <div className="sk-step-panel is-active" key={signupStep}>
                 {signupStep === 1 && (
                   <>
                     {renderField({
@@ -532,7 +538,7 @@ export function LoginPage({ navigate }) {
                     })}
 
                     <div
-                      className={`login-field signup-slug-preview${
+                      className={`sk-field signup-slug-preview${
                         fieldErrors.companySlug ? ' has-error' : ''
                       }`}
                     >
@@ -553,7 +559,7 @@ export function LoginPage({ navigate }) {
                       </div>
                       {fieldErrors.companySlug && (
                         <span
-                          className="login-field-error"
+                          className="sk-field-error"
                           id="login-company-slug-error"
                         >
                           {fieldErrors.companySlug}
@@ -638,7 +644,7 @@ export function LoginPage({ navigate }) {
                       })}
                     </div>
 
-                    <p className="signup-plan-stripe-note">
+                    <p className="sk-callout-note">
                       <i className="fa-solid fa-shield-halved" aria-hidden="true" />
                       Payment is processed securely through Stripe after your workspace is
                       created.
@@ -649,15 +655,15 @@ export function LoginPage({ navigate }) {
             )}
 
             {mode === 'signup' && (error || message) && (
-              <div className="login-feedback" aria-live="polite">
+              <div className="sk-alert-stack" aria-live="polite">
                 {error && (
-                  <div className="login-error" role="alert">
+                  <div className="sk-error" role="alert">
                     <i className="fa-solid fa-circle-exclamation" />
                     {error}
                   </div>
                 )}
                 {message && (
-                  <div className="login-message" role="status">
+                  <div className="sk-success" role="status">
                     <i className="fa-solid fa-circle-check" />
                     {message}
                   </div>
@@ -666,17 +672,21 @@ export function LoginPage({ navigate }) {
             )}
 
             {mode === 'signup' && signupStep === 1 && (
-              <button type="submit" className="login-submit" disabled={loading}>
+              <button
+                type="submit"
+                className="sk-btn sk-btn-primary sk-btn-lg login-submit"
+                disabled={loading}
+              >
                 <span>Next</span>
                 <i className="fa-solid fa-arrow-right" />
               </button>
             )}
 
             {mode === 'signup' && signupStep === 2 && (
-              <div className="signup-nav">
+              <div className="sk-nav-actions">
                 <button
                   type="button"
-                  className="signup-btn-secondary"
+                  className="sk-btn sk-btn-secondary sk-btn-lg signup-btn-secondary"
                   onClick={goSignupBack}
                   disabled={loading}
                 >
@@ -684,7 +694,7 @@ export function LoginPage({ navigate }) {
                 </button>
                 <button
                   type="submit"
-                  className="login-submit signup-nav-primary"
+                  className="sk-btn sk-btn-primary sk-btn-lg login-submit signup-nav-primary"
                   disabled={loading}
                 >
                   <span>Next</span>
@@ -694,10 +704,10 @@ export function LoginPage({ navigate }) {
             )}
 
             {mode === 'signup' && signupStep === 3 && (
-              <div className="signup-nav">
+              <div className="sk-nav-actions">
                 <button
                   type="button"
-                  className="signup-btn-secondary"
+                  className="sk-btn sk-btn-secondary sk-btn-lg signup-btn-secondary"
                   onClick={goSignupBack}
                   disabled={loading}
                 >
@@ -705,7 +715,7 @@ export function LoginPage({ navigate }) {
                 </button>
                 <button
                   type="submit"
-                  className="login-submit signup-nav-primary"
+                  className="sk-btn sk-btn-primary sk-btn-lg login-submit signup-nav-primary"
                   disabled={loading}
                 >
                   {loading ? (
@@ -724,11 +734,11 @@ export function LoginPage({ navigate }) {
             )}
           </form>
 
-          <div className="login-footer">
+          <div className="sk-auth-footer">
             {mode === 'login' && (
               <button
                 type="button"
-                className="login-text-btn"
+                className="sk-text-btn"
                 onClick={handlePasswordReset}
                 disabled={resetSent || loading}
               >
@@ -736,11 +746,11 @@ export function LoginPage({ navigate }) {
               </button>
             )}
 
-            <p className="login-switch">
+            <p className="sk-link-row">
               <span>{content.switchPrompt}</span>
               <button
                 type="button"
-                className="login-link"
+                className="sk-text-link"
                 onClick={() => switchMode(mode === 'login' ? 'signup' : 'login')}
               >
                 {content.switchAction}

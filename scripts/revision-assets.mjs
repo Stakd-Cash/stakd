@@ -26,18 +26,7 @@ export async function revisionAssets() {
     .replace(/\/dist\/app\.css\?v=[^"']+/g, `/dist/app.css?v=${version}`)
     .replace(/\/dist\/app\.js\?v=[^"']+/g, `/dist/app.js?v=${version}`);
 
-  const swSource = await readFile('sw.js', 'utf8');
-  const nextSw = swSource
-    .replace(/const CACHE_VERSION = '[^']+';/, `const CACHE_VERSION = '${version}';`)
-    .replace(/\/critical\.css\?v=[^']+/g, `/critical.css?v=${version}`)
-    .replace(/\/dist\/app\.css\?v=[^']+/g, `/dist/app.css?v=${version}`)
-    .replace(/\/dist\/app\.js\?v=[^']+/g, `/dist/app.js?v=${version}`)
-    .replace(/\/styles\.css\?v=[^']+/g, `/styles.css?v=${version}`);
-
-  await Promise.all([
-    writeFile('index.html', nextIndex),
-    writeFile('sw.js', nextSw),
-  ]);
+  await writeFile('index.html', nextIndex);
 
   return version;
 }

@@ -2,10 +2,16 @@ import React, { useRef } from 'react';
 
 let sparkSeq = 0;
 
+const defaultFillGradient = {
+  stopColor: 'var(--chart-blue)',
+  startOpacity: 0.18,
+  endOpacity: 0,
+};
+
 export function Sparkline({
   data,
   stroke = ['var(--brand)', 'var(--green)'],
-  fill = ['rgba(88,166,255,.18)', 'rgba(88,166,255,0)'],
+  fillGradient = defaultFillGradient,
 }) {
   if (!data || data.length < 2) return null;
 
@@ -63,8 +69,20 @@ export function Sparkline({
           <stop offset="100%" stopColor={stroke[1]} />
         </linearGradient>
         <linearGradient id={fillId} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor={fill[0]} />
-          <stop offset="100%" stopColor={fill[1]} />
+          <stop
+            offset="0%"
+            style={{
+              stopColor: fillGradient.stopColor,
+              stopOpacity: fillGradient.startOpacity,
+            }}
+          />
+          <stop
+            offset="100%"
+            style={{
+              stopColor: fillGradient.stopColor,
+              stopOpacity: fillGradient.endOpacity,
+            }}
+          />
         </linearGradient>
         <radialGradient id={glowId}>
           <stop offset="0%" stopColor={stroke[1]} stopOpacity="0.55" />

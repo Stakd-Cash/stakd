@@ -1504,35 +1504,6 @@ html[data-theme='light'] .progress-flag-tag {
   }
 }
 
-.sheet-handle {
-  display: flex;
-  justify-content: center;
-  padding: 12px 0 4px;
-}
-
-.sheet-handle-bar {
-  width: 36px;
-  height: 4px;
-  background: var(--s-inset);
-  border-radius: var(--r-full);
-}
-
-.sheet-hd {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--sp-3) var(--sp-5) 14px;
-  border-bottom: 1px solid var(--b-default);
-}
-
-.sheet-title {
-  font-size: var(--text-base);
-  font-weight: var(--weight-bold);
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  color: var(--t-secondary);
-}
-
 .sheet-body {
   overflow-y: auto;
   flex: 1;
@@ -1989,58 +1960,6 @@ html[data-theme='light'] .progress-flag-tag {
   gap: var(--sp-2);
 }
 
-.modal-btn {
-  width: 100%;
-  height: var(--size-btn);
-  border-radius: var(--r-md);
-  font-size: var(--text-lg);
-  font-weight: var(--weight-bold);
-  cursor: pointer;
-  border: none;
-}
-
-.modal-btn.danger {
-  background: var(--status-danger);
-  border-color: transparent;
-  color: #fff;
-}
-
-.modal-btn.danger:hover {
-  opacity: 0.88;
-}
-
-.modal-btn.cancel {
-  background: var(--s-overlay);
-  color: var(--t-secondary);
-  border: 1px solid var(--b-default);
-}
-
-.modal-btn.cancel:hover {
-  background: var(--s-inset);
-  color: var(--t-primary);
-  border-color: var(--b-strong);
-}
-
-.modal-btn:active {
-  transform: scale(0.97);
-  transition: transform 0s;
-}
-
-.modal-btn.primary {
-  background: var(--accent);
-  border-color: transparent;
-  color: var(--t-inverse);
-}
-
-.modal-btn.primary:hover {
-  opacity: 0.88;
-}
-
-.modal-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
 .about-logo {
   width: 64px;
   height: 64px;
@@ -2069,23 +1988,9 @@ html[data-theme='light'] .progress-flag-tag {
   line-height: 1.6;
 }
 
-.changelog-card {
-  background: var(--s-raised);
-  border: 1px solid var(--b-default);
-  border-radius: var(--r-lg);
-  padding: 0;
-  width: 100%;
-  max-width: min(360px, calc(100vw - 32px));
-  box-shadow: var(--sh-lg);
-  animation: slUp 0.3s cubic-bezier(0.34, 1.3, 0.64, 1);
-  display: flex;
-  flex-direction: column;
-  max-height: min(560px, 80vh);
-}
-
 .changelog-header {
-  padding: 22px 24px 14px;
-  border-bottom: 1px solid var(--b-default);
+  padding: var(--sp-8) var(--sp-10) var(--sp-4);
+  border-bottom: 1px solid var(--modal-border, var(--b-default));
   flex-shrink: 0;
 }
 
@@ -2116,22 +2021,18 @@ html[data-theme='light'] .progress-flag-tag {
 }
 
 .changelog-title {
-  font-size: 17px;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 5vw, 1.8rem);
   font-weight: 800;
-  color: var(--t-primary);
+  color: var(--modal-copy, var(--t-primary));
+  letter-spacing: var(--tracking-tight, -0.02em);
+  line-height: var(--leading-tight, 1.2);
 }
 
 .changelog-subtitle {
   font-size: 12px;
-  color: var(--t-secondary);
+  color: var(--modal-muted, var(--t-secondary));
   margin-top: 1px;
-}
-
-.changelog-body {
-  overflow-y: auto;
-  flex: 1;
-  padding: 8px 0;
-  -webkit-overflow-scrolling: touch;
 }
 
 .changelog-commit {
@@ -2235,12 +2136,6 @@ html[data-theme='light'] .progress-flag-tag {
   padding: 2px 6px;
 }
 
-.changelog-footer {
-  padding: 14px 24px;
-  border-top: 1px solid var(--b-default);
-  flex-shrink: 0;
-}
-
 .changelog-hide-row {
   display: flex;
   align-items: center;
@@ -2262,30 +2157,6 @@ html[data-theme='light'] .progress-flag-tag {
   cursor: pointer;
   user-select: none;
   line-height: 1.4;
-}
-
-.changelog-close-btn {
-  width: 100%;
-  height: 44px;
-  background: var(--brand);
-  border: none;
-  color: #fff;
-  font-size: 15px;
-  font-weight: 700;
-  border-radius: var(--r-md);
-  cursor: pointer;
-  transition:
-    background 0.15s ease,
-    transform 0.1s ease;
-}
-
-.changelog-close-btn:hover {
-  background: var(--brand-h);
-}
-
-.changelog-close-btn:active {
-  transform: scale(0.97);
-  transition: transform 0s;
 }
 
 .changelog-loading {
@@ -2703,8 +2574,7 @@ html[data-theme='light'] .progress-flag-tag {
   .header-icon.theme-spin,
   .sparkline-dot,
   .progress-flag-tag,
-  .footer-total-wrap.replay .footer-total-value,
-  .changelog-card {
+  .footer-total-wrap.replay .footer-total-value {
     animation: none !important;
   }
 
@@ -3127,29 +2997,6 @@ html[data-theme='light'] .progress-flag-tag {
   border-radius: inherit;
 }
 
-/* Sheet handle - bigger tap zone */
-.sheet-handle {
-  padding: 14px 0 6px;
-  cursor: grab;
-}
-
-.sheet-handle:active {
-  cursor: grabbing;
-}
-
-.sheet-handle-bar {
-  width: 40px;
-  height: 5px;
-  transition:
-    background-color 0.15s ease,
-    width 0.15s ease;
-}
-
-.sheet-handle:active .sheet-handle-bar {
-  background: var(--brand);
-  width: 52px;
-}
-
 /* Better back button - larger tap target */
 .back-btn {
   min-height: 48px;
@@ -3392,8 +3239,7 @@ html[data-theme='light'] .progress-flag-tag {
   animation: bdOut 0.2s ease forwards;
 }
 
-.modal-backdrop.modal-closing .modal-card,
-.modal-backdrop.modal-closing .changelog-card {
+.modal-backdrop.modal-closing .modal-card {
   animation: modalOut 0.2s ease forwards;
 }
 
@@ -4073,22 +3919,6 @@ html[data-theme='light'] .sheet--sidebar {
   max-height: 100vh;
 }
 
-/* Hide drag handle on desktop sidebar */
-.sheet--sidebar .sheet-handle {
-  display: none;
-}
-
-/* Sidebar sheet header adjustments */
-.sheet--sidebar .sheet-hd {
-  padding: 18px 24px 16px;
-  border-bottom: 1px solid var(--b-default);
-}
-
-.sheet--sidebar .sheet-title {
-  font-size: 15px;
-  letter-spacing: 0.6px;
-}
-
 /* Sidebar sheet body - full height scroll */
 .sheet--sidebar .sheet-body {
   flex: 1;
@@ -4587,19 +4417,6 @@ html.is-pointer .share-btn:hover {
 }
 
 /* Calculator button: subtle glow when ready */
-
-/* Confirm modal: cleaner buttons */
-.modal-btn {
-  transition:
-    background-color 0.12s ease,
-    transform 0.08s ease,
-    opacity 0.12s ease;
-}
-
-.modal-btn:active {
-  transform: scale(0.98);
-  transition: transform 0s;
-}
 
 /* Settings rows: cleaner hover on desktop */
 html.is-pointer .settings-row:hover {
@@ -6071,37 +5888,6 @@ html[data-theme='light'] .showcase-panel {
 .showcase-panel:hover {
   transform: translateY(-4px) scale(1.02);
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
-}
-
-.landing-link {
-  position: relative;
-  border: 0;
-  padding: 0;
-  background: transparent;
-  color: var(--landing-copy);
-  font: inherit;
-  font-weight: 700;
-  cursor: pointer;
-  transition: color 0.2s ease;
-}
-
-.landing-link::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background: var(--landing-accent);
-  transition: width 0.3s ease;
-}
-
-.landing-link:hover::after {
-  width: 100%;
-}
-
-.landing-link:hover {
-  color: #fff;
 }
 
 .landing-story-eyebrow {
@@ -8772,8 +8558,7 @@ html[data-theme='light']
 .app-root .calc-section-card.admin-table-wrap,
 .app-root .sticky-footer.calc-footer,
 .sheet,
-.modal-card,
-.changelog-card {
+.modal-card {
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
 }
@@ -9000,19 +8785,6 @@ html[data-theme='light']
   box-shadow: var(--sh-lg);
 }
 
-.sheet-hd {
-  padding: 18px 20px 16px;
-}
-
-.sheet-title {
-  font-family: var(--font-display);
-  font-size: var(--text-3xl);
-  font-weight: var(--weight-semi);
-  color: var(--t-primary);
-  text-transform: none;
-  letter-spacing: -0.02em;
-}
-
 .history-hd-actions {
   display: flex;
   flex-wrap: wrap;
@@ -9179,85 +8951,6 @@ html[data-theme='light'] .modal-card {
   box-shadow: 0 16px 40px rgba(97, 45, 45, 0.08);
 }
 
-.modal-card-wide {
-  max-width: 480px;
-}
-
-.modal-form-body {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  padding: 4px 28px 20px;
-}
-
-.modal-form-body .admin-field {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.modal-form-body .admin-field > span {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--modal-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.modal-form-body .admin-field input {
-  height: 48px;
-  width: 100%;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--modal-border);
-  border-radius: 14px;
-  padding: 0 16px;
-  font-size: 1rem;
-  color: var(--modal-copy);
-  transition: all 0.2s ease;
-}
-
-.modal-form-body .admin-field input::placeholder {
-  color: var(--modal-muted);
-  opacity: 0.6;
-}
-
-.modal-form-body .admin-field input:focus {
-  outline: none;
-  border-color: var(--modal-accent);
-  background: rgba(255, 255, 255, 0.06);
-  box-shadow: 0 0 0 3px var(--modal-accent-soft);
-}
-
-html[data-theme='light'] .modal-form-body .admin-field input {
-  background: rgba(255, 255, 255, 0.6);
-}
-
-html[data-theme='light'] .modal-form-body .admin-field input:focus {
-  background: rgba(255, 255, 255, 0.85);
-}
-
-.modal-form-body .admin-field-label {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--modal-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 4px;
-}
-
-.modal-form-body .staff-drawer-perms {
-  margin-top: 4px;
-}
-
-.modal-form-body .staff-perm-toggle {
-  border-color: var(--modal-border);
-}
-
-.modal-form-body .admin-error {
-  color: var(--status-danger);
-  font-size: 0.9rem;
-}
-
 .modal-eyebrow {
   display: inline-block;
   text-transform: uppercase;
@@ -9298,76 +8991,6 @@ html[data-theme='light'] .modal-form-body .admin-field input:focus {
   background: transparent;
 }
 
-.modal-btn {
-  height: 50px;
-  border-radius: 14px;
-  border: none;
-  font-size: 1rem;
-  font-weight: 700;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  transition: all 0.2s ease;
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
-}
-
-.modal-btn.cancel {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid var(--modal-border);
-  color: var(--modal-muted);
-}
-
-html[data-theme='light'] .modal-btn.cancel {
-  background: rgba(0, 0, 0, 0.03);
-}
-
-.modal-btn.cancel:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: var(--modal-copy);
-}
-
-html[data-theme='light'] .modal-btn.cancel:hover {
-  background: rgba(0, 0, 0, 0.06);
-  color: var(--modal-copy);
-}
-
-.modal-btn.danger {
-  background: var(--status-danger);
-  border-color: transparent;
-  color: #fff;
-  box-shadow: 0 4px 12px rgba(244, 71, 71, 0.18);
-}
-
-.modal-btn.danger:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(244, 71, 71, 0.25);
-}
-
-.modal-btn.danger:active:not(:disabled) {
-  transform: translateY(0);
-  box-shadow: 0 2px 8px rgba(244, 71, 71, 0.15);
-}
-
-.modal-btn.primary {
-  background: var(--modal-accent);
-  border-color: transparent;
-  color: #fff;
-  box-shadow: 0 4px 12px rgba(222, 115, 86, 0.18);
-}
-
-.modal-btn.primary:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(222, 115, 86, 0.25);
-}
-
-.modal-btn.primary:active:not(:disabled) {
-  transform: translateY(0);
-  box-shadow: 0 2px 8px rgba(222, 115, 86, 0.15);
-}
-
 .about-logo {
   margin: 28px auto 14px;
 }
@@ -9381,68 +9004,28 @@ html[data-theme='light'] .modal-btn.cancel:hover {
   color: var(--modal-muted);
 }
 
-.changelog-card {
-  background: linear-gradient(
-    180deg,
-    var(--s-overlay) 0%,
-    var(--s-raised) 100%
-  );
-  border-color: var(--modal-border);
-  border-radius: 24px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-  backdrop-filter: blur(10px);
-}
-
-html[data-theme='light'] .changelog-card {
-  background: linear-gradient(
-    180deg,
-    var(--s-raised) 0%,
-    var(--s-overlay) 100%
-  );
-  box-shadow: 0 16px 40px rgba(97, 45, 45, 0.08);
-}
-
 .changelog-header {
-  padding: 24px 28px 16px;
-  border-color: var(--modal-border);
+  padding: var(--sp-8) var(--sp-10) var(--sp-4);
+  border-bottom: 1px solid var(--modal-border);
 }
 
 .changelog-title {
   color: var(--modal-copy);
-  font-family: var(--modal-display);
-  font-size: 1.25rem;
-  letter-spacing: -0.01em;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 5vw, 1.8rem);
+  font-weight: 800;
+  letter-spacing: var(--tracking-tight, -0.02em);
+  line-height: var(--leading-tight, 1.2);
 }
 
 .changelog-subtitle {
   color: var(--modal-muted);
 }
 
-.changelog-footer {
-  padding: 16px 28px 24px;
-  border-color: var(--modal-border);
-  background: transparent;
-}
-
-.changelog-close-btn {
-  height: 50px;
-  border-radius: 14px;
-  background: var(--modal-accent);
-  font-size: 1rem;
-  font-weight: 700;
-  box-shadow: 0 4px 12px rgba(222, 115, 86, 0.18);
-  transition: all 0.2s ease;
-}
-
-.changelog-close-btn:hover {
-  background: var(--modal-accent);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(222, 115, 86, 0.25);
-}
-
-.changelog-close-btn:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 8px rgba(222, 115, 86, 0.15);
+@media (max-width: 480px) {
+  .changelog-header {
+    padding: var(--sp-8) var(--sp-7) var(--sp-4);
+  }
 }
 
 .changelog-commit-msg {
@@ -9457,8 +9040,7 @@ html[data-theme='light'] .changelog-card {
 
 @media (max-width: 640px) {
   .sheet,
-  .modal-card,
-  .changelog-card {
+  .modal-card {
     border-radius: 20px;
   }
 }
@@ -10736,8 +10318,7 @@ html[data-theme='light'] .changelog-card {
 .drawer-card,
 .save-drop-card,
 .sheet,
-.modal-card,
-.changelog-card {
+.modal-card {
   background: linear-gradient(
     180deg,
     color-mix(in srgb, var(--kiosk-surface) 96%, var(--s-base) 4%) 0%,
@@ -10970,8 +10551,7 @@ html[data-theme='light'] .changelog-card {
 }
 
 .sheet,
-.modal-card,
-.changelog-card {
+.modal-card {
   border-radius: 28px;
 }
 
@@ -11033,48 +10613,8 @@ html[data-theme='light'] .changelog-card {
 }
 
 /* ==========================================================================
-   PANEL MODAL — Settings & History as centered modals (login-card style)
+   PANEL MODAL — shell lives in components.css (.sk-modal.sk-modal--panel)
    ========================================================================== */
-
-.panel-modal-backdrop {
-  padding: 24px;
-}
-
-.panel-modal {
-  background: #252526;
-  border: 1px solid var(--b-default);
-  border-radius: 16px;
-  width: 100%;
-  max-width: 480px;
-  box-shadow:
-    0 24px 48px rgba(0, 0, 0, 0.28),
-    0 8px 20px rgba(0, 0, 0, 0.18);
-  animation: modalBounce 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.panel-modal--scrollable {
-  max-height: min(82vh, 720px);
-}
-
-.panel-modal-hd {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 18px 20px 14px;
-  border-bottom: 1px solid var(--b-default);
-  flex-shrink: 0;
-}
-
-.panel-modal-title {
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--t-primary);
-}
 
 .panel-modal-close {
   width: 36px;
@@ -11086,50 +10626,26 @@ html[data-theme='light'] .changelog-card {
   flex-shrink: 0;
 }
 
-.panel-modal-body {
-  flex: 1;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-}
-
-/* Settings body inside panel-modal */
-.panel-modal .settings-body {
+.sk-modal.sk-modal--panel .settings-body {
   padding: 0;
 }
 
-.panel-modal .settings-row {
+.sk-modal.sk-modal--panel .settings-row {
   padding: 16px 20px;
   border-bottom: 1px solid var(--b-subtle);
 }
 
-.panel-modal .settings-row:last-child {
+.sk-modal.sk-modal--panel .settings-row:last-child {
   border-bottom: none;
 }
 
-/* Light theme override */
-html[data-theme='light'] .panel-modal {
-  background: #f5f3f0;
-  box-shadow:
-    0 24px 48px rgba(0, 0, 0, 0.10),
-    0 8px 20px rgba(0, 0, 0, 0.06);
-}
-
-/* Closing animation */
-.modal-closing .panel-modal {
-  animation: modalOut 0.2s ease forwards;
-}
-
 @media (max-width: 520px) {
-  .panel-modal-backdrop {
-    padding: 12px;
-  }
-
-  .panel-modal {
+  .sk-modal.sk-modal--panel {
     max-width: 100%;
     border-radius: 14px;
   }
 
-  .panel-modal--scrollable {
+  .sk-modal.sk-modal--panel.sk-modal--panel-scroll {
     max-height: min(88vh, 720px);
   }
 }
@@ -11528,7 +11044,7 @@ html[data-theme='light'] .app-root .sticky-footer.calc-footer {
   to   { transform: translateY(0); }
 }
 
-.modal-closing .free-upsell-sheet {
+.sk-modal-closing .free-upsell-sheet {
   animation: freeSheetDown 0.2s var(--ease-default) both;
 }
 
@@ -11697,7 +11213,7 @@ html[data-theme='light'] .app-root .sticky-footer.calc-footer {
     to   { opacity: 1; transform: scale(1) translateY(0); }
   }
 
-  .modal-closing .free-upsell-sheet {
+  .sk-modal-closing .free-upsell-sheet {
     animation-name: freeSheetFadeOut;
   }
 

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { supabase } from '../../lib/supabase.js';
 import { hashPin, generateSalt, useAuthStore } from '../../store/useAuthStore.js';
+import { useFocusTrap } from '../../hooks/useFocusTrap.js';
 import { CustomSelect } from './UIComponents.jsx';
 
 const PERMISSIONS = [
@@ -52,6 +53,7 @@ export function StaffPanel({ company, openAddRequest = 0, onOnboardingAddSuccess
   const [myPinSaving, setMyPinSaving] = useState(false);
   const addNameInputRef = useRef(null);
   const onboardingAddFlowRef = useRef(false);
+  const editModalFocusRef = useFocusTrap(!!editing);
 
   const companyId = company?.id;
 
@@ -295,7 +297,7 @@ export function StaffPanel({ company, openAddRequest = 0, onOnboardingAddSuccess
             {s.active ? 'Deactivate' : 'Activate'}
           </button>
         )}
-        {canEdit && <i className="fa-solid fa-chevron-right" style={{ color: 'var(--t2)', fontSize: 12 }} />}
+        {canEdit && <i className="fa-solid fa-chevron-right admin-staff-chevron" />}
       </div>
     </div>
   );
@@ -317,7 +319,7 @@ export function StaffPanel({ company, openAddRequest = 0, onOnboardingAddSuccess
 
       {/* Self-service PIN change button */}
       {currentStaff && (
-        <div style={{ marginBottom: 8 }}>
+        <div className="admin-pin-change-intro">
           <button
             className="admin-btn-sm"
             onClick={() => { setShowMyPinChange(!showMyPinChange); setMyPinError(null); setMyCurrentPin(''); setMyPin(''); setMyPinConfirm(''); }}
@@ -326,7 +328,7 @@ export function StaffPanel({ company, openAddRequest = 0, onOnboardingAddSuccess
             {showMyPinChange ? ' Cancel' : ' Change My PIN'}
           </button>
           {showMyPinChange && (
-            <form onSubmit={handleMyPinChange} className="admin-add-form" style={{ marginTop: 8 }}>
+            <form onSubmit={handleMyPinChange} className="admin-add-form admin-add-form--pin">
               <label className="admin-field">
                 <span>Current PIN</span>
                 <input
@@ -424,9 +426,13 @@ export function StaffPanel({ company, openAddRequest = 0, onOnboardingAddSuccess
       {loading ? (
         <div className="admin-loading-inline">
           <div className="admin-spinner" />
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%' }}>
+          <div className="admin-staff-skeleton-stack">
             {[0, 1, 2].map((i) => (
-              <div key={i} className="adm-sk adm-sk-row" style={{ animationDelay: `${i * .06}s` }} />
+              <div
+                key={i}
+                className="adm-sk adm-sk-row admin-staff-skeleton-row"
+                style={{ animationDelay: `${i * 0.06}s` }}
+              />
             ))}
           </div>
         </div>
@@ -442,7 +448,7 @@ export function StaffPanel({ company, openAddRequest = 0, onOnboardingAddSuccess
               Active ({activeStaff.length})
             </div>
             {activeStaff.length === 0 ? (
-              <div className="admin-empty-state" style={{ padding: '12px' }}>
+              <div className="admin-empty-state admin-empty-state--tight">
                 <p>No active staff members.</p>
               </div>
             ) : (
@@ -466,23 +472,23 @@ export function StaffPanel({ company, openAddRequest = 0, onOnboardingAddSuccess
 
       {/* Deactivate confirmation */}
       {confirmDeactivate && createPortal(
-        <div className="modal-backdrop" onClick={() => setConfirmDeactivate(null)}>
-          <div className="modal-card" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-title">
-              <span className="modal-eyebrow">Confirm action</span>
+        <div className="sk-backdrop" onClick={() => setConfirmDeactivate(null)} role="presentation">
+          <div className="sk-modal" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-labelledby="staff-deactivate-title">
+            <div className="sk-modal-title" id="staff-deactivate-title">
+              <span className="sk-modal-eyebrow">Confirm action</span>
               <br />
               Confirm Deactivation
             </div>
-            <div className="modal-body">
+            <div className="sk-modal-body">
               Are you sure you want to deactivate <strong>{confirmDeactivate.name}</strong>?<br />
               They will no longer be able to log in via PIN.
-              {toggleError && <div className="admin-error" style={{ marginTop: 12 }}>{toggleError}</div>}
+              {toggleError && <div className="admin-error">{toggleError}</div>}
             </div>
-            <div className="modal-actions">
-              <button className="modal-btn danger" onClick={() => doToggleActive(confirmDeactivate)}>
+            <div className="sk-modal-actions">
+              <button type="button" className="sk-btn sk-btn-danger sk-btn-lg" onClick={() => doToggleActive(confirmDeactivate)}>
                 Deactivate
               </button>
-              <button className="modal-btn cancel" onClick={() => setConfirmDeactivate(null)}>
+              <button type="button" className="sk-btn sk-btn-secondary sk-btn-lg" onClick={() => setConfirmDeactivate(null)}>
                 Cancel
               </button>
             </div>
@@ -493,18 +499,26 @@ export function StaffPanel({ company, openAddRequest = 0, onOnboardingAddSuccess
 
       {/* Edit staff modal */}
       {canEdit && editing && createPortal(
-        <div className="modal-backdrop" onClick={closeEdit}>
-          <div className="modal-card modal-card-wide" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-title">
-              <span className="modal-eyebrow">Staff profile</span>
+        <div className="sk-backdrop" onClick={closeEdit} role="presentation">
+          <div
+            className="sk-modal sk-modal-wide"
+            ref={editModalFocusRef}
+            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="staff-edit-title"
+          >
+            <div className="sk-modal-title" id="staff-edit-title">
+              <span className="sk-modal-eyebrow">Staff profile</span>
               <br />
               Edit {editing.name}
             </div>
 
-            <form onSubmit={handleSaveEdit} className="modal-form-body">
+            <form onSubmit={handleSaveEdit} className="sk-modal-form">
               <label className="admin-field">
                 <span>Name</span>
                 <input
+                  className="sk-input"
                   type="text"
                   value={editName}
                   onChange={(e) => setEditName(e.target.value)}
@@ -530,6 +544,7 @@ export function StaffPanel({ company, openAddRequest = 0, onOnboardingAddSuccess
               <label className="admin-field">
                 <span>New PIN (leave blank to keep current)</span>
                 <input
+                  className="sk-input"
                   type="password"
                   inputMode="numeric"
                   value={editPin}
@@ -584,11 +599,11 @@ export function StaffPanel({ company, openAddRequest = 0, onOnboardingAddSuccess
 
               {editError && <div className="admin-error">{editError}</div>}
 
-              <div className="modal-actions">
-                <button type="submit" className="modal-btn primary" disabled={saving}>
+              <div className="sk-modal-actions">
+                <button type="submit" className="sk-btn sk-btn-primary sk-btn-lg" disabled={saving}>
                   {saving ? 'Saving...' : 'Save Changes'}
                 </button>
-                <button type="button" className="modal-btn cancel" onClick={closeEdit}>
+                <button type="button" className="sk-btn sk-btn-secondary sk-btn-lg" onClick={closeEdit}>
                   Cancel
                 </button>
               </div>

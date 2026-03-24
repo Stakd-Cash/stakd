@@ -1,0 +1,114 @@
+@import '../../styles/tokens.css';
+
+.stakd-onboarding-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--sp-4);
+}
+
+.login-page .stakd-onboarding-primary {
+  width: 100%;
+}
+
+.login-page .stakd-onboarding-skip {
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Login-style fields (auth-equivalent tokens on .login-page) */
+.stakd-onboarding-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1_5);
+}
+
+.stakd-onboarding-field span:first-of-type {
+  display: block;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semi);
+  color: var(--login-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: 1.35;
+}
+
+.stakd-onboarding-field input {
+  min-height: var(--sp-12);
+  box-sizing: border-box;
+  width: 100%;
+  background: color-mix(in srgb, var(--s-raised) 40%, transparent);
+  border: 1px solid var(--login-border);
+  border-radius: var(--r-md);
+  padding: var(--sp-3) var(--sp-4);
+  font-size: var(--text-md);
+  color: var(--login-copy);
+  transition:
+    border-color var(--dur-normal) var(--ease-default),
+    box-shadow var(--dur-normal) var(--ease-default),
+    background-color var(--dur-normal) var(--ease-default);
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.stakd-onboarding-field input::placeholder {
+  color: var(--login-muted);
+  opacity: 0.6;
+}
+
+.stakd-onboarding-field input:focus {
+  border-color: var(--login-accent);
+  background: color-mix(in srgb, var(--s-raised) 55%, transparent);
+  box-shadow: 0 0 0 3px var(--login-accent-soft);
+}
+
+.stakd-onboarding-field input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.stakd-onboarding-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+.stakd-onboarding-form .stakd-onboarding-primary {
+  width: 100%;
+  margin-top: 0;
+}
+
+html[data-theme='light'] .stakd-onboarding-field input {
+  background: color-mix(in srgb, var(--s-raised) 85%, var(--s-base));
+  border-color: var(--login-border);
+  color: var(--login-copy);
+}
+
+html[data-theme='light'] .stakd-onboarding-field input:focus {
+  background: color-mix(in srgb, var(--s-raised) 95%, var(--s-base));
+}
+
+/* Step progress: two dots (steps 2–3 of the numbered subflow) */
+.stakd-onboarding-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2_5);
+  margin-top: var(--sp-1);
+}
+
+.stakd-onboarding-dots span {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--r-full);
+  background: color-mix(in srgb, var(--login-muted) 45%, transparent);
+  transition:
+    background var(--dur-normal) var(--ease-default),
+    transform var(--dur-normal) var(--ease-default);
+}
+
+.stakd-onboarding-dots span[aria-current='step'] {
+  background: var(--login-accent);
+  transform: scale(1.15);
+}

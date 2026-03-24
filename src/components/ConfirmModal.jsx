@@ -16,7 +16,7 @@ export function ConfirmModal({ title, body, confirmLabel, onConfirm, onCancel })
 
   return (
     <div
-      className={`modal-backdrop${closing ? ' modal-closing' : ''}`}
+      className={`sk-backdrop${closing ? ' sk-modal-closing' : ''}`}
       onClick={(e) => {
         if (e.target === e.currentTarget) triggerClose(onCancel);
       }}
@@ -24,22 +24,24 @@ export function ConfirmModal({ title, body, confirmLabel, onConfirm, onCancel })
       aria-modal="true"
       aria-label={title}
     >
-      <div className="modal-card" ref={focusRef} onClick={(e) => e.stopPropagation()}>
-        <div className="modal-title">
-          <span className="modal-eyebrow">Confirm action</span>
+      <div className="sk-modal" ref={focusRef} onClick={(e) => e.stopPropagation()}>
+        <div className="sk-modal-title">
+          <span className="sk-modal-eyebrow">Confirm action</span>
           <br />
           {title}
         </div>
-        <div className="modal-body">{body}</div>
-        <div className="modal-actions">
+        <div className="sk-modal-body">{body}</div>
+        <div className="sk-modal-actions">
           <button
-            className="modal-btn danger"
+            type="button"
+            className="sk-btn sk-btn-danger sk-btn-lg"
             onClick={() => triggerClose(onConfirm)}
           >
             {confirmLabel}
           </button>
           <button
-            className="modal-btn cancel"
+            type="button"
+            className="sk-btn sk-btn-secondary sk-btn-lg"
             onClick={() => triggerClose(onCancel)}
           >
             Cancel

@@ -424,7 +424,7 @@ export function AdminShell({ navigate, replaceNavigate, initialTab = null }) {
             {settingsError && (
               <div className="admin-error admin-error-inline">
                 {settingsError}
-                <button className="admin-btn-sm" style={{ marginLeft: 8 }} onClick={() => setSettingsError(null)}>Dismiss</button>
+                <button type="button" className="admin-btn-sm" onClick={() => setSettingsError(null)}>Dismiss</button>
               </div>
             )}
 
@@ -571,10 +571,10 @@ export function AdminShell({ navigate, replaceNavigate, initialTab = null }) {
 
               <div className="admin-settings-actions">
                 <button
+                  type="button"
                   className="admin-submit"
                   onClick={handleManageBilling}
                   disabled={billingLoading || !company?.stripe_customer_id}
-                  style={{ width: '100%' }}
                 >
                   <i className={`fa-solid ${billingLoading ? 'fa-circle-notch fa-spin' : 'fa-arrow-up-right-from-square'}`} />
                   {billingLoading ? 'Opening Stripe...' : 'Manage Billing'}
@@ -635,9 +635,9 @@ export function AdminShell({ navigate, replaceNavigate, initialTab = null }) {
                       {deleting ? 'Deleting...' : 'Permanently Delete'}
                     </button>
                     <button
+                      type="button"
                       className="admin-btn-sm"
                       onClick={() => { setConfirmDelete(false); setDeleteSlug(''); }}
-                      style={{ height: 40 }}
                     >
                       Cancel
                     </button>

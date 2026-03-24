@@ -28,7 +28,7 @@ export function SettingsPanel({
 
   return (
     <div
-      className={`modal-backdrop panel-modal-backdrop${closing ? ' modal-closing' : ''}`}
+      className={`sk-backdrop${closing ? ' sk-modal-closing' : ''}`}
       onClick={(e) => {
         if (e.target === e.currentTarget) {
           haptic('tap');
@@ -39,9 +39,9 @@ export function SettingsPanel({
       aria-modal="true"
       aria-label="Settings"
     >
-      <div className="panel-modal" ref={focusRef} onClick={(e) => e.stopPropagation()}>
-        <div className="panel-modal-hd">
-          <span className="panel-modal-title">Settings</span>
+      <div className="sk-modal sk-modal-wide sk-modal--panel" ref={focusRef} onClick={(e) => e.stopPropagation()}>
+        <div className="sk-modal-panel-hd">
+          <span className="sk-modal-panel-title">Settings</span>
           <button
             className="icon-btn admin-icon-btn panel-modal-close"
             onClick={() => {
@@ -54,7 +54,7 @@ export function SettingsPanel({
             <i className="fa-solid fa-xmark icon-18" />
           </button>
         </div>
-        <div className="settings-body">
+        <div className="sk-modal-panel-body settings-body">
           <div className="settings-row">
             <div>
               <div className="settings-label">Drop History</div>

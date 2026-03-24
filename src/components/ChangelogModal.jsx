@@ -158,31 +158,39 @@ export function ChangelogModal({ onClose }) {
 
   return (
     <div
-      className={`modal-backdrop${closing ? ' modal-closing' : ''}`}
+      className={`sk-backdrop${closing ? ' sk-modal-closing' : ''}`}
       onClick={(e) => {
         if (e.target === e.currentTarget) handleClose();
       }}
+      role="dialog"
+      aria-modal="true"
+      aria-label="What&apos;s New"
     >
-      <div className="changelog-card" onClick={(e) => e.stopPropagation()}>
-        <div className="changelog-header">
-          <div className="changelog-icon-row">
-            <div className="changelog-logo">
-              <img
-                src="/src/stakd-logo-mark.svg"
-                alt=""
-                decoding="async"
-                loading="lazy"
-              />
-            </div>
-            <div>
-              <div className="changelog-title">What&apos;s New</div>
-              <div className="changelog-subtitle">
-                Latest update · stakd
+      <div
+        className="sk-modal sk-modal--stack"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="sk-modal-title sk-modal-title--start">
+          <div className="changelog-header">
+            <div className="changelog-icon-row">
+              <div className="changelog-logo">
+                <img
+                  src="/src/stakd-logo-mark.svg"
+                  alt=""
+                  decoding="async"
+                  loading="lazy"
+                />
+              </div>
+              <div>
+                <div className="changelog-title">What&apos;s New</div>
+                <div className="changelog-subtitle">
+                  Latest update · stakd
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="changelog-body">
+        <div className="sk-modal-body">
           {err ? (
             <div className="changelog-error">
               <div className="changelog-error-icon">
@@ -214,7 +222,7 @@ export function ChangelogModal({ onClose }) {
             </div>
           )}
         </div>
-        <div className="changelog-footer">
+        <div className="sk-modal-actions">
           <div className="changelog-hide-row">
             <input
               id="cl-show"
@@ -228,12 +236,12 @@ export function ChangelogModal({ onClose }) {
             </label>
           </div>
           <button
-            className="changelog-close-btn"
+            type="button"
+            className="sk-btn sk-btn-primary sk-btn-lg"
             onClick={() => {
               haptic('tap');
               handleClose();
             }}
-            type="button"
           >
             Got it
           </button>

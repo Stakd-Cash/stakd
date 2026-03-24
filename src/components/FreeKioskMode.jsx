@@ -173,7 +173,7 @@ function UpsellSheet({ onClose }) {
 
   return (
     <div
-      className={`modal-backdrop panel-modal-backdrop${closing ? ' modal-closing' : ''}`}
+      className={`sk-backdrop${closing ? ' sk-modal-closing' : ''}`}
       onClick={(e) => { if (e.target === e.currentTarget) close(); }}
       role="dialog"
       aria-modal="true"
@@ -239,15 +239,19 @@ function FreeHistoryPanel({ onClose }) {
 
   return (
     <div
-      className={`modal-backdrop panel-modal-backdrop${closing ? ' modal-closing' : ''}`}
+      className={`sk-backdrop${closing ? ' sk-modal-closing' : ''}`}
       onClick={(e) => { if (e.target === e.currentTarget) { haptic('tap'); close(); } }}
       role="dialog"
       aria-modal="true"
       aria-label="Free Drop History"
     >
-      <div className="panel-modal panel-modal--scrollable" ref={focusRef} onClick={(e) => e.stopPropagation()}>
-        <div className="panel-modal-hd">
-          <span className="panel-modal-title">Drop History</span>
+      <div
+        className="sk-modal sk-modal-wide sk-modal--panel sk-modal--panel-scroll"
+        ref={focusRef}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="sk-modal-panel-hd">
+          <span className="sk-modal-panel-title">Drop History</span>
           <div className="history-hd-actions">
             <button
               className="icon-btn admin-icon-btn panel-modal-close"
@@ -259,7 +263,7 @@ function FreeHistoryPanel({ onClose }) {
             </button>
           </div>
         </div>
-        <div className="panel-modal-body">
+        <div className="sk-modal-panel-body">
           {drops.length === 0 ? (
             <div className="history-empty">
               <div className="history-empty-icon">

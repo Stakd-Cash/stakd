@@ -60,7 +60,7 @@ export function PinPad({ company, onSuccess, onBack, roleFilter, prompt }) {
     })();
   }, [company.id, roleFilter]);
 
-  const filteredStaff = staffList.filter(s => 
+  const filteredStaff = staffList.filter(s =>
     s.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -93,14 +93,17 @@ export function PinPad({ company, onSuccess, onBack, roleFilter, prompt }) {
     }
   }, []);
 
-  const handleStaffButtonClick = useCallback((e, staffMember) => {
-    if (touchGestureRef.current.moved) {
-      touchGestureRef.current.moved = false;
-      e.preventDefault();
-      return;
-    }
-    handleSelectStaff(staffMember);
-  }, [handleSelectStaff]);
+  const handleStaffButtonClick = useCallback(
+    (e, staffMember) => {
+      if (touchGestureRef.current.moved) {
+        touchGestureRef.current.moved = false;
+        e.preventDefault();
+        return;
+      }
+      handleSelectStaff(staffMember);
+    },
+    [handleSelectStaff]
+  );
 
   const handleBack = useCallback(() => {
     setStep('select');
@@ -145,47 +148,49 @@ export function PinPad({ company, onSuccess, onBack, roleFilter, prompt }) {
 
   // Staff skeleton
   const renderStaffSkeleton = () => (
-    <div className="pinpad-staff-list scrollable" style={{ gap: '10px' }}>
+    <div className="pinpad-staff-list scrollable">
       {[0, 1, 2].map((i) => (
-        <div key={i} className="adm-sk adm-sk-row" style={{ animationDelay: `${i * .06}s` }} />
+        <div key={i} className="adm-sk adm-sk-row" />
       ))}
     </div>
   );
 
   // PIN dots — only show filled dots, reserve min-height so nothing shifts
   const renderDots = () => (
-    <div ref={dotsRef} className={`pin-dots${shaking ? ' shake' : ''}`}>
+    <div ref={dotsRef} className={`sk-pin-dots${shaking ? ' shake' : ''}`}>
       {Array.from({ length: pin.length }, (_, i) => (
-        <div key={i} className="pin-dot" />
+        <div key={i} className="sk-pin-dot" />
       ))}
     </div>
   );
 
   return (
-    <div className={`pathway-page stakd-pattern-bg pathway-page--pinpad pathway-page--${step}`}>
-      <div className="pathway-container">
-        <div className="pathway-brand">
-          <span className="pathway-brand-name">
-            <img src="/src/stakd-logo-text.svg" alt="stakd" height="35" />
-          </span>
+    <div
+      className={`pathway-page sk-page-full stakd-pattern-bg pathway-page--pinpad pathway-page--${step}`}
+    >
+      <div className="sk-auth-container">
+        <div className="sk-auth-logo">
+          <img src="/src/stakd-logo-text.svg" alt="stakd" height="35" />
         </div>
 
         {/* Step 1: Select a user */}
         {step === 'select' && (
-          <div className="pathway-card pathway-card--staff-select">
+          <div className="sk-auth-card pathway-card--staff-select">
             {onBack && (
-              <button className="pathway-back-btn" onClick={onBack}>
+              <button type="button" className="sk-back-btn" onClick={onBack}>
                 <i className="fa-solid fa-arrow-left" />
                 <span>Back</span>
               </button>
             )}
-            <div className="pathway-card-header">
-              <span className="pathway-eyebrow">{company.name}</span>
-              <h1 className="pathway-title">{prompt || 'Select a manager to log in as'}</h1>
-              <p className="pathway-subtitle">Tap your name below to continue.</p>
+            <div className="sk-auth-card-header">
+              <span className="sk-company-label">{company.name}</span>
+              <h1 className="sk-auth-heading">
+                {prompt || 'Select a manager to log in as'}
+              </h1>
+              <p className="sk-auth-subtext">Tap your name below to continue.</p>
             </div>
 
-            <div className="pinpad-search">
+            <div className="sk-search-input">
               <i className="fa-solid fa-magnifying-glass" />
               <input
                 type="text"
@@ -195,7 +200,9 @@ export function PinPad({ company, onSuccess, onBack, roleFilter, prompt }) {
               />
             </div>
 
-            {staffLoading ? renderStaffSkeleton() : filteredStaff.length === 0 ? (
+            {staffLoading ? (
+              renderStaffSkeleton()
+            ) : filteredStaff.length === 0 ? (
               <div className="pinpad-empty">
                 <i className="fa-solid fa-user-xmark" />
                 <p>No staff members found.</p>
@@ -209,19 +216,20 @@ export function PinPad({ company, onSuccess, onBack, roleFilter, prompt }) {
                 {filteredStaff.map((s) => (
                   <button
                     key={s.id}
-                    className="pinpad-staff-btn"
+                    type="button"
+                    className="sk-staff-row"
                     onTouchStart={handleStaffTouchStart}
                     onTouchMove={handleStaffTouchMove}
                     onClick={(e) => handleStaffButtonClick(e, s)}
                   >
-                    <div className="pinpad-staff-avatar">
-                      {s.name.charAt(0).toUpperCase()}
+                    <div className="sk-avatar">{s.name.charAt(0).toUpperCase()}</div>
+                    <div className="sk-staff-row-body">
+                      <span className="sk-staff-row-name">{s.name}</span>
+                      <span className="sk-staff-row-role">
+                        {ROLE_LABELS[s.role] || s.role}
+                      </span>
                     </div>
-                    <div className="pinpad-staff-info">
-                      <span className="pinpad-staff-name">{s.name}</span>
-                      <span className="pinpad-staff-role">{ROLE_LABELS[s.role] || s.role}</span>
-                    </div>
-                    <i className="fa-solid fa-arrow-right pinpad-staff-arrow" />
+                    <i className="fa-solid fa-arrow-right sk-staff-row-arrow" />
                   </button>
                 ))}
               </div>
@@ -231,15 +239,15 @@ export function PinPad({ company, onSuccess, onBack, roleFilter, prompt }) {
 
         {/* Step 2: Enter PIN */}
         {step === 'pin' && selectedStaff && (
-          <div className="pathway-card">
-            <button className="pathway-back-btn" onClick={handleBack}>
+          <div className="sk-auth-card">
+            <button type="button" className="sk-back-btn" onClick={handleBack}>
               <i className="fa-solid fa-arrow-left" />
               <span>Not {selectedStaff.name}?</span>
             </button>
 
-            <div className="pathway-card-header">
-              <span className="pathway-eyebrow">{company.name}</span>
-              <h1 className="pathway-title">
+            <div className="sk-auth-card-header">
+              <span className="sk-company-label">{company.name}</span>
+              <h1 className="sk-auth-heading">
                 Hi {selectedStaff.name.split(' ')[0]}, enter your PIN
               </h1>
             </div>
@@ -253,11 +261,12 @@ export function PinPad({ company, onSuccess, onBack, roleFilter, prompt }) {
               </div>
             )}
 
-            <div className="pinpad-grid">
+            <div className="sk-pin-grid">
               {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((d) => (
                 <button
                   key={d}
-                  className="pinpad-key"
+                  type="button"
+                  className="sk-pin-key"
                   onClick={() => handleDigit(String(d))}
                   disabled={loading}
                 >
@@ -265,21 +274,27 @@ export function PinPad({ company, onSuccess, onBack, roleFilter, prompt }) {
                 </button>
               ))}
               <button
-                className="pinpad-key pinpad-key-action"
-                onClick={() => { setPin(''); setError(null); }}
+                type="button"
+                className="sk-pin-key sk-pin-key--action"
+                onClick={() => {
+                  setPin('');
+                  setError(null);
+                }}
                 disabled={loading}
               >
                 Clear
               </button>
               <button
-                className="pinpad-key"
+                type="button"
+                className="sk-pin-key"
                 onClick={() => handleDigit('0')}
                 disabled={loading}
               >
                 0
               </button>
               <button
-                className="pinpad-key pinpad-key-action"
+                type="button"
+                className="sk-pin-key sk-pin-key--action"
                 onClick={handleBackspace}
                 disabled={loading}
               >
@@ -288,7 +303,8 @@ export function PinPad({ company, onSuccess, onBack, roleFilter, prompt }) {
             </div>
 
             <button
-              className="pathway-submit"
+              type="button"
+              className="sk-btn sk-btn-primary sk-btn-lg pathway-submit"
               onClick={handleSubmit}
               disabled={loading || pin.length < 4}
             >

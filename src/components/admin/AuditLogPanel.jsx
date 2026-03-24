@@ -76,9 +76,9 @@ export function AuditLogPanel({ company }) {
     return (
       <div className="admin-panel">
         <div className="admin-panel-header"><h2>Audit Log</h2></div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        <div className="admin-panel-skeleton-stack">
           {[0, 1, 2].map((i) => (
-            <div key={i} className="adm-sk adm-sk-row" style={{ animationDelay: `${i * .06}s` }} />
+            <div key={i} className="adm-sk adm-sk-row" />
           ))}
         </div>
       </div>
@@ -145,8 +145,8 @@ export function AuditLogPanel({ company }) {
           </div>
           {entries.length > displayLimit && (
             <button
-              className="admin-btn-sm"
-              style={{ width: '100%', justifyContent: 'center', marginTop: 8 }}
+              type="button"
+              className="admin-btn-sm admin-btn-load-more"
               onClick={() => setDisplayLimit((l) => l + PAGE_SIZE)}
             >
               Load more ({entries.length - displayLimit} remaining)

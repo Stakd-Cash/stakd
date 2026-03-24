@@ -73,7 +73,7 @@
   --s-base:     #1e1e1e;          /* page / app background            */
   --s-raised:   #252526;          /* cards, panels                     */
   --s-overlay:  #2d2d2d;          /* elevated: headers, footers, menus */
-  --s-inset:    #2e2e2e;          /* sunken: inputs, tracks, wells     */
+  --s-inset:    #3c3c3c;          /* sunken: inputs, tracks, wells     */
   --s-backdrop: rgba(0, 0, 0, 0.55); /* modal / sheet scrim           */
 
   /* ── Borders ── */
@@ -106,6 +106,13 @@
   --status-warning:    var(--c-yellow-500);
   --status-warning-bg: var(--c-yellow-bg);
   --status-warning-bd: var(--c-yellow-bd);
+  --status-info:    #3b82f6;
+  --status-info-bg: rgba(59, 130, 246, 0.12);
+  --status-info-bd: rgba(59, 130, 246, 0.22);
+
+  /* ── Charts / sparklines (SVG gradients reference via stopColor) ── */
+  --chart-blue: #58a6ff;
+  --chart-danger: #ff5c5c;
 
   /* ── Shadows ── */
   --sh-xs:  0 1px 2px rgba(0, 0, 0, 0.20);
@@ -113,6 +120,8 @@
   --sh-md:  0 4px 12px rgba(0, 0, 0, 0.35);
   --sh-lg:  0 10px 40px rgba(0, 0, 0, 0.50);
   --sh-xl:  0 24px 64px rgba(0, 0, 0, 0.55);
+  --sh-auth-card: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --sh-auth-staff-hover: 0 4px 12px rgba(0, 0, 0, 0.08);
 
   /* ── Typography ── */
   --font-sans:    -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -183,6 +192,7 @@
   --z-modal:   200;
   --z-toast:   300;
   --z-tooltip: 1000;
+  --z-auth:    50;               /* login, pathway, kiosk auth shells  */
 
   /* ── Sizing ── */
   --size-touch:  44px;   /* minimum touch target              */
@@ -212,7 +222,12 @@
   --glass-bg-s:   rgba(255, 255, 255, 0.015);
   --glass-border: rgba(255, 255, 255, 0.08);
   --glass-blur:   blur(16px) saturate(160%);
-  
+
+  /* Control surfaces (buttons, overlays) */
+  --control-hover-bg: rgba(120, 120, 128, 0.12);
+  --skeleton-shimmer-mid: rgba(255, 255, 255, 0.06);
+  --t-on-solid: var(--c-white);
+
   /* Admin / Pathway */
   --kiosk-h:           36px;
   --ad-bg:             var(--s-base);
@@ -279,6 +294,9 @@ html[data-theme='light'] {
   --status-warning:    #bf8803;
   --status-warning-bg: rgba(191, 136, 3, 0.10);
   --status-warning-bd: rgba(191, 136, 3, 0.20);
+  --status-info:    #3b82f6;
+  --status-info-bg: rgba(59, 130, 246, 0.1);
+  --status-info-bd: rgba(59, 130, 246, 0.2);
 
   /* Shadows */
   --sh-xs:  0 1px 2px rgba(0, 0, 0, 0.05);
@@ -286,13 +304,17 @@ html[data-theme='light'] {
   --sh-md:  0 4px 12px rgba(0, 0, 0, 0.10);
   --sh-lg:  0 10px 40px rgba(0, 0, 0, 0.15);
   --sh-xl:  0 24px 64px rgba(0, 0, 0, 0.18);
+  --sh-auth-card: 0 16px 40px rgba(97, 45, 45, 0.08);
+  --sh-auth-staff-hover: 0 4px 12px rgba(0, 0, 0, 0.06);
 
   /* Glass */
   --glass-bg:     rgba(255, 255, 255, 0.55);
   --glass-bg-s:   rgba(255, 255, 255, 0.35);
   --glass-border: rgba(0, 0, 0, 0.08);
   --glass-blur:   blur(16px) saturate(140%);
-  
+
+  --skeleton-shimmer-mid: rgba(0, 0, 0, 0.04);
+
   /* Admin / Pathway */
   --ad-bg:      #f5f3ef;
   --ad-surface: rgba(255, 255, 255, 0.7);
@@ -345,7 +367,10 @@ html[data-theme='light'] .login-page {
   --login-muted: #6b6560;
 }
 
-.modal-backdrop {
+.modal-backdrop,
+.sk-backdrop {
+  /* Same recipe as .login-page --login-bg — modal card lift matches sk-auth-card */
+  --modal-surface-base: color-mix(in srgb, var(--s-base) 86%, #090b0e 14%);
   --modal-border: color-mix(in srgb, var(--b-default) 72%, rgba(255, 255, 255, 0.09) 28%);
   --modal-copy: color-mix(in srgb, var(--t-primary) 94%, #f7efe8 6%);
   --modal-muted: color-mix(in srgb, var(--t-secondary) 82%, #cabdb6 18%);
@@ -354,7 +379,9 @@ html[data-theme='light'] .login-page {
   --modal-display: var(--font-display);
 }
 
-html[data-theme='light'] .modal-backdrop {
+html[data-theme='light'] .modal-backdrop,
+html[data-theme='light'] .sk-backdrop {
+  --modal-surface-base: color-mix(in srgb, #f5f3f0 92%, #faf8f6 8%);
   --modal-border: rgba(0, 0, 0, 0.08);
   --modal-copy: #2a2522;
   --modal-muted: #6b6560;

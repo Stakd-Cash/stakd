@@ -2,6 +2,8 @@ import { useState, useEffect, useCallback } from 'react';
 
 /**
  * Minimal path-based router for the PWA (GitHub Pages compatible).
+ * Uses pathname + history API (not the hash). For static hosts, every path
+ * (e.g. /admin) must fall back to index.html or a full reload will 404.
  *
  * Routes:
  *   /          → landing page

@@ -16,62 +16,6 @@
   z-index: 50;
 }
 
-.login-container {
-  width: 100%;
-  max-width: 420px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 28px;
-  position: relative;
-  z-index: 1;
-  margin-top: auto;
-  margin-bottom: auto;
-  animation: loginFadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-@keyframes loginFadeIn {
-  0% {
-    opacity: 0;
-    transform: translateY(20px) scale(0.98);
-  }
-
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-.login-brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: var(--login-copy);
-}
-
-.login-brand-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 14px;
-  background: var(--login-accent);
-  display: grid;
-  place-items: center;
-  box-shadow: 0 4px 12px rgba(254, 92, 92, 0.18);
-}
-
-.login-brand-icon img {
-  width: 24px;
-  height: 24px;
-  filter: brightness(0) invert(1);
-}
-
-.login-brand-name {
-  font-family: var(--login-display);
-  letter-spacing: -0.02em;
-}
-
 .login-card {
   width: 100%;
   background: linear-gradient(
@@ -125,66 +69,7 @@
   gap: 24px;
 }
 
-.login-field {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.login-field label {
-  display: block;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--login-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  line-height: 1.35;
-}
-
-.login-field input {
-  min-height: 48px;
-  box-sizing: border-box;
-  width: 100%;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--login-border);
-  border-radius: 14px;
-  padding: 12px 16px;
-  font-size: 1rem;
-  color: var(--login-copy);
-  transition: all 0.2s ease;
-}
-
-.login-field input::placeholder {
-  color: var(--login-muted);
-  opacity: 0.6;
-}
-
-.login-field input:focus {
-  outline: none;
-  border-color: var(--login-accent);
-  background: rgba(255, 255, 255, 0.06);
-  box-shadow: 0 0 0 3px var(--login-accent-soft);
-}
-
-.login-field.has-error input {
-  border-color: var(--red);
-  background: rgba(248, 81, 73, 0.06);
-}
-
-.login-field-error {
-  font-size: 0.8rem;
-  color: var(--red);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.login-field-error::before {
-  content: '\f071';
-  font-family: 'Font Awesome 6 Free';
-  font-weight: 900;
-  font-size: 0.75rem;
-}
+/* Field chrome migrated to components.css (sk-field, sk-input). */
 
 .login-slug-wrap {
   display: flex;
@@ -227,52 +112,19 @@
   box-shadow: none;
 }
 
-.login-field.has-error .login-slug-wrap {
+.sk-field.has-error .login-slug-wrap {
   border-color: var(--red);
   background: rgba(248, 81, 73, 0.06);
 }
 
-.login-feedback {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.login-error,
-.login-message {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 16px;
-  border-radius: 12px;
-  font-size: 0.9rem;
-  line-height: 1.4;
-}
-
-.login-error {
-  background: rgba(248, 81, 73, 0.1);
-  border: 1px solid rgba(248, 81, 73, 0.2);
-  color: var(--red);
-}
-
-.login-message {
-  background: rgba(63, 185, 80, 0.1);
-  border: 1px solid rgba(63, 185, 80, 0.2);
-  color: var(--green);
-}
-
-.login-error i,
-.login-message i {
-  font-size: 1rem;
-  flex-shrink: 0;
-}
+/* login-feedback / login-error / login-message → sk-alert-stack, sk-error, sk-success in components.css */
 
 .login-submit {
   height: 52px;
   background: var(--login-accent);
   border: none;
   border-radius: 14px;
-  color: #fff;
+  color: var(--t-on-solid);
   font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
@@ -305,77 +157,25 @@
   gap: 10px;
 }
 
-.login-footer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 14px;
-  margin-top: 16px;
-  padding-top: 24px;
-  border-top: 1px solid var(--login-border);
-}
+/* sk-auth-footer, sk-text-btn, sk-link-row, sk-text-link → components.css */
 
-.login-text-btn {
-  background: transparent;
-  border: none;
-  color: var(--login-muted);
-  font-size: 0.9rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: color 0.2s ease;
-}
-
-.login-text-btn:hover:not(:disabled) {
-  color: var(--login-copy);
-}
-
-.login-text-btn:disabled {
-  color: var(--login-accent);
-  cursor: default;
-}
-
-.login-switch {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.9rem;
-  color: var(--login-muted);
-  margin: 0;
-}
-
-.login-link {
-  background: transparent;
-  border: none;
-  color: var(--login-accent);
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  padding: 0;
-}
-
-.login-link:hover {
-  color: var(--login-accent-strong);
-  text-decoration: underline;
-}
-
-html[data-theme='light'] .login-card {
+html[data-theme='light'] .login-page .sk-auth-card {
   background: linear-gradient(
     180deg,
     color-mix(in srgb, var(--login-bg) 98%, #f8f6f3 2%) 0%,
     var(--login-bg) 100%
   );
-  box-shadow: 0 16px 40px rgba(97, 45, 45, 0.08);
+  box-shadow: var(--sh-auth-card);
 }
 
-html[data-theme='light'] .login-field input,
+html[data-theme='light'] .login-page .sk-field .sk-input,
 html[data-theme='light'] .login-slug-wrap {
-  background: rgba(255, 255, 255, 0.6);
+  background: color-mix(in srgb, var(--s-raised) 60%, transparent);
 }
 
-html[data-theme='light'] .login-field input:focus,
+html[data-theme='light'] .login-page .sk-field .sk-input:focus,
 html[data-theme='light'] .login-slug-wrap:focus-within {
-  background: rgba(255, 255, 255, 0.85);
+  background: color-mix(in srgb, var(--s-raised) 85%, transparent);
 }
 
 @media (max-width: 480px) {
@@ -383,128 +183,19 @@ html[data-theme='light'] .login-slug-wrap:focus-within {
     padding: 20px 16px;
   }
 
-  .login-card {
+  .login-page .sk-auth-card {
     padding: 32px 28px;
     border-radius: 24px;
   }
 
-  .login-title {
+  .login-page .sk-auth-heading {
     font-size: 1.4rem;
   }
 }
 
 /* -------------------------------------------------------------------------- */
-/* Signup — multi-step flow                                                   */
+/* Signup — multi-step flow (stepper + panel → components.css sk-stepper*)   */
 /* -------------------------------------------------------------------------- */
-
-.signup-progress {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 8px;
-  margin-bottom: 20px;
-  padding: 0 2px;
-}
-
-.signup-progress-item {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  min-width: 0;
-  position: relative;
-  text-align: center;
-}
-
-.signup-progress-item:not(:last-child)::after {
-  content: '';
-  position: absolute;
-  top: 14px;
-  left: calc(50% + 18px);
-  right: calc(-50% + 18px);
-  height: 2px;
-  background: var(--login-border);
-  z-index: 0;
-  pointer-events: none;
-}
-
-.signup-progress-item.is-complete:not(:last-child)::after {
-  background: var(--login-accent);
-  opacity: 0.55;
-}
-
-.signup-progress-dot {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: var(--login-muted);
-  background: rgba(255, 255, 255, 0.06);
-  border: 2px solid var(--login-border);
-  position: relative;
-  z-index: 1;
-  transition:
-    color 0.2s ease,
-    border-color 0.2s ease,
-    background 0.2s ease;
-}
-
-.signup-progress-item.is-active .signup-progress-dot {
-  color: #fff;
-  background: var(--login-accent);
-  border-color: var(--login-accent);
-  box-shadow: 0 0 0 3px var(--login-accent-soft);
-}
-
-.signup-progress-item.is-complete .signup-progress-dot {
-  color: #fff;
-  background: var(--login-accent);
-  border-color: var(--login-accent);
-  font-size: 0.65rem;
-}
-
-.signup-progress-label {
-  font-size: 0.65rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--login-muted);
-  line-height: 1.2;
-}
-
-.signup-progress-item.is-active .signup-progress-label {
-  color: var(--login-copy);
-}
-
-.signup-step-panel {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  animation: signupStepIn 0.38s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-@keyframes signupStepIn {
-  from {
-    opacity: 0;
-    transform: translateX(14px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-.login-field-hint {
-  margin: 0;
-  font-size: 0.85rem;
-  line-height: 1.45;
-  color: var(--login-muted);
-}
 
 .signup-slug-preview-label {
   display: block;
@@ -548,7 +239,7 @@ html[data-theme='light'] .login-slug-wrap:focus-within {
   opacity: 0.65;
 }
 
-.signup-slug-preview.has-error .signup-slug-preview-box {
+.sk-field.signup-slug-preview.has-error .signup-slug-preview-box {
   border-color: var(--red);
   background: rgba(248, 81, 73, 0.06);
 }
@@ -640,30 +331,16 @@ html[data-theme='light'] .login-slug-wrap:focus-within {
   color: var(--login-accent);
 }
 
-.signup-plan-stripe-note {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  margin: 4px 0 0;
-  font-size: 0.85rem;
-  line-height: 1.45;
-  color: var(--login-muted);
-}
+/* signup-plan-stripe-note → sk-callout-note in components.css */
 
-.signup-plan-stripe-note i {
-  margin-top: 2px;
-  flex-shrink: 0;
-  opacity: 0.85;
-}
-
-.signup-nav {
+.sk-nav-actions {
   display: flex;
   gap: 12px;
   margin-top: 6px;
   width: 100%;
 }
 
-.signup-nav .signup-nav-primary {
+.sk-nav-actions .signup-nav-primary {
   flex: 1;
   min-width: 0;
   margin-top: 0;
@@ -697,101 +374,16 @@ html[data-theme='light'] .login-slug-wrap:focus-within {
   cursor: not-allowed;
 }
 
-@media (max-width: 380px) {
-  .signup-progress-label {
-    font-size: 0.6rem;
-  }
-
-  .signup-progress-dot {
-    width: 26px;
-    height: 26px;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .login-container {
-    animation: none;
-  }
-
-  .signup-step-panel {
+  .sk-auth-container {
     animation: none;
   }
 
   .login-submit,
-  .login-link,
-  .login-text-btn {
+  .sk-text-link,
+  .sk-text-btn {
     transition: none;
   }
 }
 
-.login-back-btn {
-  position: fixed;
-  top: 24px;
-  left: 24px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid var(--login-border);
-  border-radius: 12px;
-  padding: 8px 14px;
-  color: var(--login-muted);
-  font-size: 0.9rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  z-index: 10;
-}
-
-.login-back-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: var(--login-copy);
-  transform: translateX(-2px);
-}
-
-.login-back-btn i {
-  font-size: 0.85rem;
-}
-
-.landing-login-hint {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 20px;
-  font-size: 0.9rem;
-  color: var(--landing-muted);
-}
-
-.landing-link {
-  background: transparent;
-  border: none;
-  color: var(--landing-accent);
-  font-weight: 600;
-  cursor: pointer;
-  padding: 0;
-  font-size: 0.9rem;
-  transition: all 0.2s ease;
-}
-
-.landing-link:hover {
-  color: var(--landing-accent-strong);
-  text-decoration: underline;
-}
-
-html[data-theme='light'] .login-back-btn {
-  background: rgba(255, 255, 255, 0.6);
-}
-
-html[data-theme='light'] .login-back-btn:hover {
-  background: rgba(255, 255, 255, 0.8);
-}
-
-@media (max-width: 480px) {
-  .login-back-btn {
-    top: 16px;
-    left: 16px;
-    padding: 8px 12px;
-    font-size: 0.85rem;
-  }
-}
+/* Back control: .login-page .sk-back-btn--fixed in components.css */

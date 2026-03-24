@@ -356,16 +356,39 @@ html[data-theme='light'] .adm-sk::after {
 
 .admin-analytics-header {
   animation: adminCardIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  align-items: flex-start;
+  gap: var(--sp-4);
+}
+
+.admin-analytics-header h2 {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
 }
 
 .admin-analytics-filters {
   animation: adminRowIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
   animation-delay: 0.06s;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-6);
+  overflow-x: auto;
+  padding-bottom: var(--sp-1);
 }
 
 .admin-analytics-alerts {
   animation: adminCardIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
   animation-delay: 0.1s;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-6);
+}
+
+.admin-analytics-alerts .admin-alert p {
+  margin: var(--sp-1) 0 0;
+  font-size: 13px;
 }
 
 .admin-analytics-alerts .admin-alert {
@@ -447,6 +470,248 @@ html[data-theme='light'] .adm-sk::after {
 }
 .admin-analytics-section .admin-table tbody tr:nth-child(5) {
   animation-delay: 0.42s;
+}
+
+/* Analytics layout + typography (Phase 6b — no inline layout on panel) */
+/* Centers content; pairs with .admin-panel (overrides column gap for empty state) */
+.admin-panel.admin-analytics-loading {
+  min-height: 300px;
+  justify-content: center;
+  align-items: center;
+}
+
+.admin-analytics-loading-inner {
+  text-align: center;
+  color: var(--t-secondary);
+}
+
+.admin-analytics-loading-icon {
+  width: 32px;
+  height: 32px;
+  display: block;
+  margin: 0 auto var(--sp-3);
+}
+
+.admin-analytics-subline {
+  color: var(--t-secondary);
+  font-size: 13px;
+  margin: var(--sp-1) 0 0;
+}
+
+.admin-analytics-stats {
+  margin-bottom: var(--sp-6);
+}
+
+.admin-analytics-split {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--sp-6);
+  margin-bottom: var(--sp-6);
+}
+
+.admin-card-title--row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.admin-analytics-icon-warning {
+  color: var(--status-warning);
+}
+
+.admin-list--scroll {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.admin-analytics-table-card {
+  margin-bottom: var(--sp-6);
+  overflow-x: auto;
+}
+
+.admin-flex-row-gap {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.admin-text-strong {
+  font-weight: 600;
+  color: var(--t-primary);
+}
+
+.admin-text-caption {
+  font-size: 12px;
+  color: var(--t-secondary);
+}
+
+.admin-text-caption-capitalize {
+  font-size: 12px;
+  color: var(--t-secondary);
+  text-transform: capitalize;
+}
+
+.admin-text-right {
+  text-align: right;
+}
+
+.admin-text-strong-num {
+  font-weight: 600;
+}
+
+.admin-flex-center-gap {
+  display: flex;
+  gap: var(--sp-1);
+  justify-content: center;
+}
+
+.admin-table-th-num,
+.admin-table-td-num {
+  text-align: right;
+}
+
+.admin-table-th-center,
+.admin-table-td-center {
+  text-align: center;
+}
+
+.admin-table-td-medium {
+  font-weight: 500;
+}
+
+.admin-table-td-nowrap {
+  white-space: nowrap;
+}
+
+.admin-text-var--pos {
+  color: var(--status-success);
+}
+
+.admin-text-var--neg {
+  color: var(--status-danger);
+}
+
+.admin-stat-icon--success {
+  color: var(--status-success);
+}
+
+.admin-stat-icon--brand {
+  color: var(--brand);
+}
+
+.admin-stat-icon--info {
+  color: var(--status-info);
+}
+
+.admin-stat-icon--var-pos {
+  color: var(--status-success);
+}
+
+.admin-stat-icon--var-neg {
+  color: var(--status-danger);
+}
+
+.admin-stat-value--var-pos {
+  color: var(--status-success);
+}
+
+.admin-stat-value--var-neg {
+  color: var(--status-danger);
+}
+
+.admin-analytics-loss-hd {
+  padding: var(--sp-4) var(--sp-5);
+  border-bottom: 1px solid var(--status-danger-bd);
+  background: var(--status-danger-bg);
+}
+
+.admin-analytics-loss-hd h3 {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  color: var(--status-danger);
+  font-size: 16px;
+}
+
+.admin-analytics-loss-hd p {
+  margin: var(--sp-1) 0 0;
+  font-size: 13px;
+  color: var(--t-secondary);
+}
+
+.admin-analytics-loss-table-wrap {
+  overflow-x: auto;
+}
+
+/* Chart: danger-tinted fills (replaces inline SVG rgba) */
+.admin-graph-fill-area {
+  fill: color-mix(in srgb, var(--status-danger) 9%, transparent);
+}
+
+.admin-graph-halo {
+  fill: color-mix(in srgb, var(--status-danger) 14%, transparent);
+}
+
+/* Skeleton stagger for .adm-sk (matches sk-skeleton-row--stagger timing) */
+.admin-stat-row > .adm-sk:nth-child(1)::after {
+  animation-delay: 0ms;
+}
+.admin-stat-row > .adm-sk:nth-child(2)::after {
+  animation-delay: 80ms;
+}
+.admin-stat-row > .adm-sk:nth-child(3)::after {
+  animation-delay: 160ms;
+}
+.admin-stat-row > .adm-sk:nth-child(4)::after {
+  animation-delay: 240ms;
+}
+.admin-stat-row > .adm-sk:nth-child(5)::after {
+  animation-delay: 320ms;
+}
+
+.admin-panel-skeleton-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.admin-panel-skeleton-stack > .adm-sk-row:nth-child(1)::after {
+  animation-delay: 0ms;
+}
+.admin-panel-skeleton-stack > .adm-sk-row:nth-child(2)::after {
+  animation-delay: 80ms;
+}
+.admin-panel-skeleton-stack > .adm-sk-row:nth-child(3)::after {
+  animation-delay: 160ms;
+}
+
+.admin-panel-skeleton-stack--dim-rows > .adm-sk-row:nth-child(2) {
+  opacity: 0.7;
+}
+.admin-panel-skeleton-stack--dim-rows > .adm-sk-row:nth-child(3) {
+  opacity: 0.5;
+}
+
+.admin-error--mb {
+  margin-bottom: var(--sp-2);
+}
+
+.admin-error-dismiss {
+  margin-left: var(--sp-2);
+}
+
+.admin-btn-load-more {
+  display: inline-flex;
+  width: 100%;
+  justify-content: center;
+  margin-top: var(--sp-2);
+}
+
+.admin-drop-note-icon {
+  margin-left: var(--sp-1_5);
+  font-size: 10px;
+  opacity: 0.5;
 }
 
 .admin-field {
@@ -1845,6 +2110,30 @@ html[data-theme='light'] .adm-dash .staff-edit-modal-actions {
   font-size: 14px;
 }
 
+.admin-staff-skeleton-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  width: 100%;
+}
+
+.admin-staff-chevron {
+  color: var(--t-secondary);
+  font-size: 12px;
+}
+
+.admin-pin-change-intro {
+  margin-bottom: var(--sp-2);
+}
+
+.admin-add-form--pin {
+  margin-top: var(--sp-2);
+}
+
+.admin-empty-state--tight {
+  padding: var(--sp-3);
+}
+
 .admin-empty-state {
   text-align: center;
   padding: 48px 24px;
@@ -2403,7 +2692,7 @@ html[data-theme='light'] .adm-dash .staff-edit-modal-actions {
     min-height: 80px;
   }
 
-  .pin-dots {
+  .sk-pin-dots {
     margin-bottom: 16px;
   }
 
@@ -3239,6 +3528,19 @@ html[data-theme='light'] .adm-dash .staff-edit-modal-actions {
 
 .admin-error-inline {
   margin: 0 0 12px;
+}
+
+.admin-error-inline .admin-btn-sm {
+  margin-left: var(--sp-2);
+}
+
+.settings-billing-card .admin-settings-actions .admin-submit {
+  width: 100%;
+}
+
+.admin-danger-confirm .admin-settings-actions .admin-btn-sm {
+  min-height: 40px;
+  height: 40px;
 }
 
 .admin-settings-actions {

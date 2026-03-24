@@ -49,22 +49,6 @@
   color: var(--pw-copy);
 }
 
-.pathway-brand-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 14px;
-  background: var(--pw-accent);
-  display: grid;
-  place-items: center;
-  box-shadow: 0 4px 12px rgba(222, 115, 86, 0.18);
-}
-
-.pathway-brand-icon img {
-  width: 24px;
-  height: 24px;
-  filter: brightness(0) invert(1);
-}
-
 .pathway-brand-name {
   font-family: var(--pw-display);
   letter-spacing: -0.02em;
@@ -362,12 +346,12 @@ html[data-theme='light'] .pathway-back-btn:hover {
     padding: 20px 16px;
   }
 
-  .pathway-card {
+  .pathway-page .sk-auth-card {
     padding: 28px 24px;
     border-radius: 24px;
   }
 
-  .pathway-title {
+  .pathway-page .sk-auth-heading {
     font-size: 1.4rem;
   }
 }

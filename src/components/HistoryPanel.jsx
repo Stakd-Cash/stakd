@@ -62,7 +62,11 @@ export function HistoryPanel({
   const drops = useMemo(() => recent.map((e) => e.dropped), [recent]);
   const avgDrop = drops.length ? drops.reduce((s, v) => s + v, 0) / drops.length : 0;
   const dropStroke = ['var(--brand)', 'var(--brand-h)'];
-  const dropFill = ['rgba(255,92,92,.2)', 'rgba(255,92,92,0)'];
+  const dropFillGradient = {
+    stopColor: 'var(--chart-danger)',
+    startOpacity: 0.2,
+    endOpacity: 0,
+  };
 
   const exportCSV = () => {
     haptic('tap');
@@ -159,7 +163,7 @@ export function HistoryPanel({
 
   return (
     <div
-      className={`modal-backdrop panel-modal-backdrop${closing ? ' modal-closing' : ''}`}
+      className={`sk-backdrop${closing ? ' sk-modal-closing' : ''}`}
       onClick={(e) => {
         if (e.target === e.currentTarget) {
           haptic('tap');
@@ -170,9 +174,13 @@ export function HistoryPanel({
       aria-modal="true"
       aria-label="Drop History"
     >
-      <div className="panel-modal panel-modal--scrollable" ref={focusRef} onClick={(e) => e.stopPropagation()}>
-        <div className="panel-modal-hd">
-          <span className="panel-modal-title">Drop History</span>
+      <div
+        className="sk-modal sk-modal-wide sk-modal--panel sk-modal--panel-scroll"
+        ref={focusRef}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="sk-modal-panel-hd">
+          <span className="sk-modal-panel-title">Drop History</span>
           <div className="history-hd-actions">
             {history.length > 0 && !isKiosk && (
               <button
@@ -206,7 +214,7 @@ export function HistoryPanel({
             </button>
           </div>
         </div>
-        <div className="panel-modal-body" ref={sheetBodyRef}>
+        <div className="sk-modal-panel-body" ref={sheetBodyRef}>
           {history.length > 0 && (
             <>
               <div className="history-search-wrap">
@@ -278,7 +286,11 @@ export function HistoryPanel({
                 <div className="trend-card trend-card-wide">
                   <div className="trend-title">Avg drop (last 14)</div>
                   <div className="trend-value">${avgDrop.toFixed(2)}</div>
-                  <Sparkline data={drops} stroke={dropStroke} fill={dropFill} />
+                  <Sparkline
+                    data={drops}
+                    stroke={dropStroke}
+                    fillGradient={dropFillGradient}
+                  />
                 </div>
                 <div className="trend-row">
                   <div className="trend-card">
