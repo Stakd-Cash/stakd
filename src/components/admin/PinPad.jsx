@@ -166,7 +166,7 @@ export function PinPad({ company, onSuccess, onBack, roleFilter, prompt }) {
 
   return (
     <div
-      className={`pathway-page sk-page-full stakd-pattern-bg pathway-page--pinpad pathway-page--${step}`}
+      className={`pathway-page sk-page-full pathway-page--pinpad pathway-page--${step}`}
     >
       <div className="sk-auth-container">
         <div className="sk-auth-logo">

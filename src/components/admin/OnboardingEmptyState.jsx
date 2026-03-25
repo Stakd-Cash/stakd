@@ -161,7 +161,7 @@ export function OnboardingEmptyState({
 
   const shell = (
     <div
-      className="login-page sk-page-full stakd-pattern-bg"
+      className="login-page sk-page-full"
       role="dialog"
       aria-modal="true"
       aria-label="First-run setup"

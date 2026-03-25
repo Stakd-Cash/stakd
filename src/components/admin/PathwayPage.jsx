@@ -12,7 +12,7 @@ export function PathwayPage({ navigate, replaceNavigate }) {
 
   if (loading) {
     return (
-      <div className="pathway-page sk-page-full stakd-pattern-bg">
+      <div className="pathway-page sk-page-full">
         <div className="sk-auth-container">
           <div className="pathway-loading">
             <i className="fa-solid fa-circle-notch fa-spin" />
@@ -25,7 +25,7 @@ export function PathwayPage({ navigate, replaceNavigate }) {
 
   if (!company) {
     return (
-      <div className="pathway-page sk-page-full stakd-pattern-bg">
+      <div className="pathway-page sk-page-full">
         <div className="sk-auth-container">
           <div className="sk-auth-logo">
             <img src="/src/stakd-logo-text.svg" alt="stakd" height="35" />
@@ -52,7 +52,7 @@ export function PathwayPage({ navigate, replaceNavigate }) {
   }
 
   return (
-    <div className="pathway-page sk-page-full stakd-pattern-bg">
+    <div className="pathway-page sk-page-full">
       <div className="sk-auth-container">
         <div className="sk-auth-logo">
           <img src="/src/stakd-logo-text.svg" alt="stakd" height="35" />

@@ -1,7 +1,17 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { createPortal } from 'react-dom';
+import {
+  LayoutGrid,
+  BarChart3,
+  Users,
+  Settings,
+  ClipboardList,
+  Menu,
+  House,
+  LogOut,
+} from 'lucide-react';
 import '../../styles/admin.css';
-import './AdminShell.css';
+import '../../styles/admin-portal.css';
 import { useAuthStore } from '../../store/useAuthStore.js';
 import { useAppStore } from '../../store/useStore.js';
 import { supabase } from '../../lib/supabase.js';
@@ -61,6 +71,7 @@ export function AdminShell({ navigate, replaceNavigate, initialTab = null }) {
   const [confirmHome, setConfirmHome] = useState(false);
   const [billingLoading, setBillingLoading] = useState(false);
   const [staffAddRequest, setStaffAddRequest] = useState(0);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // The "current" staff is either the PIN-identified cashier or the logged-in owner/manager.
   const currentStaff = activeStaff || staff;
@@ -250,12 +261,18 @@ export function AdminShell({ navigate, replaceNavigate, initialTab = null }) {
     setTab('drops');
   }, []);
 
+  const closeSidebar = useCallback(() => setSidebarOpen(false), []);
+  const selectTab = useCallback((next) => {
+    setTab(next);
+    setSidebarOpen(false);
+  }, []);
+
   // --- Compute transition class ---
   const transitionClass = phase === 'fading-out'
-    ? 'admin-view admin-view--out stakd-pattern-bg'
+    ? 'admin-view admin-view--out'
     : phase === 'fading-in'
-      ? 'admin-view admin-view--in stakd-pattern-bg'
-      : 'admin-view stakd-pattern-bg';
+      ? 'admin-view admin-view--in'
+      : 'admin-view';
 
   const planName = getPlanName(company?.plan);
   const subscriptionStatusLabel = formatSubscriptionStatus(company?.subscription_status);
@@ -312,90 +329,155 @@ export function AdminShell({ navigate, replaceNavigate, initialTab = null }) {
 
   return (
     <div className={transitionClass}>
-    <div className="adm-dash">
-      {/* Header */}
-      <header className="adm-dash-header">
-        <div className="adm-dash-header-left">
-          <div className="adm-dash-brand">
-            <img src="/src/stakd-logo-text.svg" alt="Stakd" width="22" height="22" />
-          </div>
-          <div className="adm-dash-identity">
-            <h1 className="adm-dash-company">{company.name}</h1>
-            <span className="adm-dash-slug">{company.slug}</span>
+    <div className={`ap-root${sidebarOpen ? ' ap-sidebar-open' : ''}`}>
+      <button
+        type="button"
+        className="ap-scrim"
+        aria-label="Close menu"
+        onClick={closeSidebar}
+      />
+      <aside className="ap-sidebar" aria-label="Main navigation">
+        <div className="ap-sidebar-brand">
+          <div className="ap-sidebar-logo">
+            <div className="ap-sidebar-logo-mark">
+              <img src="/src/stakd-logo-mark.svg" alt="" width="24" height="24" />
+            </div>
+            <div>
+              <p className="ap-sidebar-company">{company.name}</p>
+              <p className="ap-sidebar-email">{user?.email || '—'}</p>
+            </div>
           </div>
         </div>
-        <div className="adm-dash-header-right">
-          <div className="adm-dash-user">
-            <span className="adm-dash-user-name">{currentStaff?.name || user?.email}</span>
-            <span className={`adm-dash-role ${role}`}>{ROLE_LABELS[role] || role}</span>
+        <nav className="ap-nav">
+          <div className="ap-nav-group">
+            <p className="ap-nav-section-label">Workspace</p>
+            <button
+              type="button"
+              className={`ap-nav-item${tab === 'drops' ? ' active' : ''}`}
+              onClick={() => selectTab('drops')}
+            >
+              <LayoutGrid size={18} strokeWidth={2} aria-hidden />
+              Drops
+            </button>
+            {isAdmin && (
+              <button
+                type="button"
+                className={`ap-nav-item${tab === 'analytics' ? ' active' : ''}`}
+                onClick={() => selectTab('analytics')}
+              >
+                <BarChart3 size={18} strokeWidth={2} aria-hidden />
+                Analytics
+              </button>
+            )}
+            {isAdmin && (
+              <button
+                type="button"
+                className={`ap-nav-item${tab === 'staff' ? ' active' : ''}`}
+                onClick={() => selectTab('staff')}
+              >
+                <Users size={18} strokeWidth={2} aria-hidden />
+                Staff
+                {staffCount != null && (
+                  <span className="ap-nav-badge">{staffCount}</span>
+                )}
+              </button>
+            )}
           </div>
+          {isOwner && (
+            <>
+              <div className="ap-nav-spacer" aria-hidden />
+              <div className="ap-nav-group">
+                <p className="ap-nav-section-label">Company</p>
+                <button
+                  type="button"
+                  className={`ap-nav-item${tab === 'settings' ? ' active' : ''}`}
+                  onClick={() => selectTab('settings')}
+                >
+                  <Settings size={18} strokeWidth={2} aria-hidden />
+                  Settings
+                </button>
+                <button
+                  type="button"
+                  className={`ap-nav-item${tab === 'audit' ? ' active' : ''}`}
+                  onClick={() => selectTab('audit')}
+                >
+                  <ClipboardList size={18} strokeWidth={2} aria-hidden />
+                  Audit log
+                </button>
+              </div>
+            </>
+          )}
+        </nav>
+        <div className="ap-sidebar-footer">
           {isOwnerAdmin && (
             <button
-              className="adm-dash-icon-btn"
-              onClick={() => setConfirmHome(true)}
-              data-tooltip="Back to mode select"
-              data-tooltip-pos="right"
+              type="button"
+              className="ap-sidebar-foot-btn"
+              onClick={() => { setConfirmHome(true); closeSidebar(); }}
             >
-              <i className="fa-solid fa-house" />
+              <House size={18} strokeWidth={2} aria-hidden />
+              Mode select
             </button>
           )}
-          <button className="adm-dash-icon-btn" onClick={() => setConfirmLogout(true)} data-tooltip="Sign out" data-tooltip-pos="left">
-            <i className="fa-solid fa-right-from-bracket" />
+          <button
+            type="button"
+            className="ap-sidebar-foot-btn"
+            onClick={() => { setConfirmLogout(true); closeSidebar(); }}
+          >
+            <LogOut size={18} strokeWidth={2} aria-hidden />
+            Sign out
           </button>
         </div>
-      </header>
+      </aside>
 
-      {/* Tab bar */}
-      <div className="adm-dash-mobile-tabs">
-        <CustomSelect
-          value={tab}
-          onChange={setTab}
-          options={tabOptions}
-        />
-      </div>
-      <nav className="adm-dash-tabs">
-        <button
-          className={`adm-dash-tab${tab === 'drops' ? ' active' : ''}`}
-          onClick={() => setTab('drops')}
-        >
-          <i className="fa-solid fa-money-bill-wave" /> Drops
-        </button>
-        {isAdmin && (
+      <div className="ap-main">
+        <header className="ap-main-top">
           <button
-            className={`adm-dash-tab${tab === 'analytics' ? ' active' : ''}`}
-            onClick={() => setTab('analytics')}
+            type="button"
+            className="ap-menu-btn"
+            aria-label="Open menu"
+            onClick={() => setSidebarOpen(true)}
           >
-            <i className="fa-solid fa-chart-line" /> Analytics
+            <Menu size={22} strokeWidth={2} />
           </button>
-        )}
-        {isAdmin && (
-          <button
-            className={`adm-dash-tab${tab === 'staff' ? ' active' : ''}`}
-            onClick={() => setTab('staff')}
-          >
-            <i className="fa-solid fa-users" /> Staff{staffCount != null ? ` (${staffCount})` : ''}
-          </button>
-        )}
-        {isOwner && (
-          <button
-            className={`adm-dash-tab${tab === 'settings' ? ' active' : ''}`}
-            onClick={() => setTab('settings')}
-          >
-            <i className="fa-solid fa-gear" /> Settings
-          </button>
-        )}
-        {isOwner && (
-          <button
-            className={`adm-dash-tab${tab === 'audit' ? ' active' : ''}`}
-            onClick={() => setTab('audit')}
-          >
-            <i className="fa-solid fa-clipboard-list" /> Audit Log
-          </button>
-        )}
-      </nav>
+          <div className="ap-main-user">
+            <div className="ap-main-user-text">
+              <span className="ap-main-user-name">{currentStaff?.name || user?.email}</span>
+              <span className="ap-main-user-meta">{company.slug}</span>
+            </div>
+            <span className={`ap-role-pill ${role}`}>{ROLE_LABELS[role] || role}</span>
+          </div>
+          <div className="ap-main-actions">
+            {isOwnerAdmin && (
+              <button
+                type="button"
+                className="ap-icon-btn"
+                onClick={() => setConfirmHome(true)}
+                title="Back to mode select"
+              >
+                <House size={18} strokeWidth={2} />
+              </button>
+            )}
+            <button
+              type="button"
+              className="ap-icon-btn"
+              onClick={() => setConfirmLogout(true)}
+              title="Sign out"
+            >
+              <LogOut size={18} strokeWidth={2} />
+            </button>
+          </div>
+        </header>
 
-      {/* Content */}
-      <main className="adm-dash-content">
+        <div className="adm-dash-mobile-tabs ap-mobile-tab-fallback">
+          <CustomSelect
+            value={tab}
+            onChange={setTab}
+            options={tabOptions}
+          />
+        </div>
+
+        <main className="ap-main-scroll">
         {tab === 'drops' && (
           <DropsPanel
             company={company}
@@ -417,7 +499,7 @@ export function AdminShell({ navigate, replaceNavigate, initialTab = null }) {
           <AuditLogPanel company={company} />
         )}
         {tab === 'settings' && isOwner && (
-          <div className="admin-panel">
+          <div className="admin-panel ap-settings">
             <div className="admin-panel-header">
               <h2>Company Settings</h2>
             </div>
@@ -647,7 +729,8 @@ export function AdminShell({ navigate, replaceNavigate, initialTab = null }) {
             </div>
           </div>
         )}
-      </main>
+        </main>
+      </div>
     </div>
     {confirmLogout && createPortal(
       <ConfirmModal

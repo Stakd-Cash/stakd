@@ -2,6 +2,12 @@ import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react'
 import { supabase } from '../../lib/supabase.js';
 import { CustomSelect, CustomDatePicker } from './UIComponents.jsx';
 import { OnboardingEmptyState } from './OnboardingEmptyState.jsx';
+import {
+  EarningsLineChartDesign,
+  computeChartWindow,
+  computeFetchDropsRange,
+} from './EarningsLineChartDesign.jsx';
+import { ChartZoomToolbar } from './ChartZoomToolbar.jsx';
 import { lsGet, lsSet } from '../../utils/storage.js';
 
 function today() {
@@ -25,17 +31,6 @@ function fmtVariance(cents) {
   const neg = cents < 0;
   const abs = Math.abs(cents);
   return (neg ? '-$' : '+$') + (abs / 100).toFixed(2);
-}
-
-function fmtChartCompact(value, graphMode) {
-  if (graphMode === 'count') return `${value}`;
-  const neg = value < 0;
-  const dollars = Math.abs(value) / 100;
-  let formatted;
-  if (dollars >= 10000) formatted = `$${Math.round(dollars / 1000)}k`;
-  else if (dollars >= 1000) formatted = `$${(dollars / 1000).toFixed(1)}k`;
-  else formatted = `$${Math.round(dollars)}`;
-  return neg ? `-${formatted}` : formatted;
 }
 
 function niceCeiling(value) {
@@ -80,229 +75,6 @@ function useCountUp(target, duration = 600) {
   return display;
 }
 
-// --- Chart building helper ---
-let chartSeq = 0;
-
-function buildChartSVG(entries, graphMode, fmtLabel) {
-  const idRef = ++chartSeq;
-  if (entries.length === 0) return (
-    <div className="admin-graph-body">
-      <div className="admin-graph-empty">No data to chart</div>
-    </div>
-  );
-
-  const values = entries.map(([, v]) => graphMode === 'count' ? v.count : v.totalCents);
-  const rawMax = Math.max(...values);
-  const maxVal = niceCeiling(rawMax);
-  const minVal = 0;
-
-  const W = 360;
-  const H = 210;
-  const padLeft = 40;
-  const padRight = 10;
-  const padTop = 18;
-  const padBot = 32;
-  const usableW = W - padLeft - padRight;
-  const usableH = H - padTop - padBot;
-  const range = maxVal - minVal || 1;
-
-  const strokeId = `adm-stroke-${idRef}`;
-
-  const pts = entries.map(([, v], i) => {
-    const val = graphMode === 'count' ? v.count : v.totalCents;
-    const x = padLeft + (entries.length === 1 ? usableW / 2 : (i / (entries.length - 1)) * usableW);
-    const y = padTop + (1 - (val - minVal) / range) * usableH;
-    return [x, y];
-  });
-
-  const buildPath = (ps) => {
-    if (ps.length < 2) return `M${ps[0][0]},${ps[0][1]}`;
-    let d = `M${ps[0][0]},${ps[0][1]}`;
-    for (let i = 1; i < ps.length; i++) {
-      const [x0, y0] = ps[i - 1];
-      const [x1, y1] = ps[i];
-      const cx = (x0 + x1) / 2;
-      d += ` C${cx},${y0} ${cx},${y1} ${x1},${y1}`;
-    }
-    return d;
-  };
-
-  const linePath = buildPath(pts);
-  const last = pts[pts.length - 1];
-  const first = pts[0];
-  const fillPath = `${linePath} L${last[0]},${H - padBot} L${first[0]},${H - padBot} Z`;
-  const peakIndex = values.indexOf(rawMax);
-  const peakPoint = pts[peakIndex];
-  const totalValue = values.reduce((sum, value) => sum + value, 0);
-  const averageValue = Math.round(totalValue / values.length);
-  const summaryItems = [
-    {
-      label: graphMode === 'count' ? 'Entries' : 'Period total',
-      value: fmtChartCompact(totalValue, graphMode),
-    },
-    {
-      label: 'Average',
-      value: fmtChartCompact(averageValue, graphMode),
-    },
-    {
-      label: 'Peak',
-      value: fmtChartCompact(rawMax, graphMode),
-    },
-  ];
-
-  const labelTarget = 5;
-  const labelStep = entries.length <= labelTarget ? 1 : Math.ceil((entries.length - 1) / (labelTarget - 1));
-  const yTicks = Array.from({ length: 4 }, (_, index) => {
-    const ratio = index / 3;
-    const value = Math.round(maxVal * (1 - ratio));
-    return {
-      value,
-      y: padTop + ratio * usableH,
-    };
-  });
-  const latestLabel = graphMode === 'count' ? `${values[values.length - 1]}` : fmtMoney(values[values.length - 1]);
-  const peakLabel = graphMode === 'count' ? `${rawMax}` : fmtMoney(rawMax);
-
-  return (
-    <div className="admin-graph-body">
-      <div className="admin-graph-metrics">
-        {summaryItems.map((item) => (
-          <div key={item.label} className="admin-graph-metric">
-            <span className="admin-graph-metric-label">{item.label}</span>
-            <strong className="admin-graph-metric-value">{item.value}</strong>
-          </div>
-        ))}
-      </div>
-      <svg className="admin-graph-svg" viewBox={`0 0 ${W} ${H}`}>
-        <defs>
-          <linearGradient id={strokeId} x1="0" y1="0" x2="1" y2="0" gradientUnits="objectBoundingBox">
-            <stop offset="0%" stopColor="var(--brand)" stopOpacity="0.68" />
-            <stop offset="100%" stopColor="var(--brand)" stopOpacity="0.88" />
-          </linearGradient>
-        </defs>
-
-        {yTicks.map((tick) => {
-          return (
-            <g key={tick.value}>
-              <line
-                x1={padLeft}
-                y1={tick.y}
-                x2={W - padRight}
-                y2={tick.y}
-                stroke="var(--bd)"
-                strokeWidth="1"
-                strokeDasharray={tick.value === 0 ? 'none' : '4,8'}
-                opacity={tick.value === 0 ? 0.8 : 0.55}
-              />
-              <text
-                x={0}
-                y={tick.y + 4}
-                className="admin-graph-axis-label"
-              >
-                {fmtChartCompact(tick.value, graphMode)}
-              </text>
-            </g>
-          );
-        })}
-
-        <path d={fillPath} className="admin-graph-fill-area" stroke="none" />
-        <path
-          d={linePath}
-          fill="none"
-          stroke={`url(#${strokeId})`}
-          strokeWidth="3.25"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-
-        {pts.map(([x, y], i) => (
-          <circle
-            key={i}
-            cx={x}
-            cy={y}
-            r={i === peakIndex || i === pts.length - 1 ? '4' : '2.75'}
-            fill="var(--brand)"
-            stroke="var(--bg1)"
-            strokeWidth="1.75"
-            opacity={i === peakIndex || i === pts.length - 1 ? 0.92 : 0.8}
-          />
-        ))}
-        <circle cx={last[0]} cy={last[1]} r="11" className="admin-graph-halo" />
-
-        {peakIndex !== pts.length - 1 && (
-          <g transform={`translate(${peakPoint[0]}, ${peakPoint[1] - 16})`}>
-            <text textAnchor="middle" className="admin-graph-point-label admin-graph-point-label-peak">
-              Peak {peakLabel}
-            </text>
-          </g>
-        )}
-
-        <g transform={`translate(${last[0]}, ${last[1] - 16})`}>
-          <text textAnchor="end" className="admin-graph-point-label admin-graph-point-label-latest">
-            Now {latestLabel}
-          </text>
-        </g>
-
-        {entries.map(([key], i) => {
-          const shouldRender = i === 0 || i === entries.length - 1 || i % labelStep === 0;
-          if (!shouldRender) return null;
-          const x = padLeft + (entries.length === 1 ? usableW / 2 : (i / (entries.length - 1)) * usableW);
-          return (
-            <text
-              key={key}
-              x={x}
-              y={H - 8}
-              textAnchor="middle"
-              className="admin-graph-x-label"
-            >
-              {fmtLabel(key)}
-            </text>
-          );
-        })}
-      </svg>
-    </div>
-  );
-}
-
-// --- Hourly chart (single-day) ---
-function DropsChart({ drops, graphMode }) {
-  const entries = useMemo(() => {
-    const hourMap = new Map();
-    drops.forEach((d) => {
-      const h = new Date(d.created_at).getHours();
-      if (!hourMap.has(h)) hourMap.set(h, { count: 0, totalCents: 0 });
-      const entry = hourMap.get(h);
-      entry.count++;
-      entry.totalCents += d.amount_cents;
-    });
-    return Array.from(hourMap.entries()).sort((a, b) => a[0] - b[0]);
-  }, [drops]);
-
-  const fmtLabel = (hour) => hour === 0 ? '12a' : hour === 12 ? '12p' : hour > 12 ? (hour - 12) + 'p' : hour + 'a';
-  return buildChartSVG(entries, graphMode, fmtLabel);
-}
-
-// --- Daily chart (multi-day range) ---
-function DailyChart({ drops, graphMode }) {
-  const entries = useMemo(() => {
-    const dayMap = new Map();
-    drops.forEach((d) => {
-      const day = d.shift_date;
-      if (!dayMap.has(day)) dayMap.set(day, { count: 0, totalCents: 0 });
-      const entry = dayMap.get(day);
-      entry.count++;
-      entry.totalCents += d.amount_cents;
-    });
-    return Array.from(dayMap.entries()).sort((a, b) => a[0].localeCompare(b[0]));
-  }, [drops]);
-
-  const fmtLabel = (dateStr) => {
-    const [, m, d] = dateStr.split('-');
-    return `${parseInt(m)}/${parseInt(d)}`;
-  };
-  return buildChartSVG(entries, graphMode, fmtLabel);
-}
-
 // --- CSV Export (RFC 4180 compliant — properly escapes commas, quotes, newlines) ---
 function csvCell(val) {
   const s = String(val);
@@ -345,6 +117,8 @@ const RANGE_PRESETS = [
   { key: 'today', label: 'Today' },
   { key: 'week', label: 'This Week' },
   { key: 'month', label: 'This Month' },
+  { key: '6m', label: '6 mo' },
+  { key: '1y', label: '1 yr' },
   { key: 'custom', label: 'Custom' },
 ];
 
@@ -362,13 +136,123 @@ function getPresetDates(preset) {
     case 'today': return { from: t, to: t };
     case 'week': return { from: startOfWeek(), to: t };
     case 'month': return { from: daysAgo(29), to: t };
+    case '6m': return { from: daysAgo(180), to: t };
+    case '1y': return { from: daysAgo(365), to: t };
     default: return { from: t, to: t };
   }
+}
+
+function staffInitials(name) {
+  const p = String(name).trim().split(/\s+/).filter(Boolean);
+  if (p.length >= 2) return (p[0][0] + p[1][0]).toUpperCase();
+  return String(name).slice(0, 2).toUpperCase() || '?';
+}
+
+function hueFromString(s) {
+  let h = 0;
+  for (let i = 0; i < s.length; i += 1) h = (h + s.charCodeAt(i) * 17) % 360;
+  return h;
+}
+
+const BAR_METRICS = [
+  { key: 'earnings', label: 'Earnings' },
+  { key: 'count', label: 'Drops' },
+  { key: 'avg', label: 'Avg' },
+];
+
+/** Top crew horizontal bars — matches reference layout (tabs + shared zoom + in-bar label). */
+function DropsByUserChart({
+  rows,
+  chartZoom,
+  onChartZoomChange,
+  barMetric,
+  onBarMetricChange,
+}) {
+  const sorted = useMemo(
+    () => [...rows].sort((a, b) => b.totalCents - a.totalCents).slice(0, 8),
+    [rows],
+  );
+
+  const { values, formatVal, rawMax } = useMemo(() => {
+    const vals = sorted.map((r) => {
+      const n = r.drops.length;
+      if (barMetric === 'count') return n;
+      if (barMetric === 'avg') return n > 0 ? Math.round(r.totalCents / n) : 0;
+      return r.totalCents;
+    });
+    const mx = Math.max(...vals, 1);
+    const fmt = (v) => {
+      if (barMetric === 'count') return String(v);
+      return fmtMoney(v);
+    };
+    return { values: vals, formatVal: fmt, rawMax: niceCeiling(mx) };
+  }, [sorted, barMetric]);
+
+  const maxVal = rawMax;
+
+  return (
+    <div className="ap-bars-card">
+      <div className="ap-bars-head">
+        <div className="ap-bars-tabs" role="tablist" aria-label="Bar breakdown">
+          {BAR_METRICS.map(({ key, label }) => (
+            <button
+              key={key}
+              type="button"
+              role="tab"
+              aria-selected={barMetric === key}
+              className={`ap-bars-tab${barMetric === key ? ' active' : ''}`}
+              onClick={() => onBarMetricChange(key)}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+        <ChartZoomToolbar
+          value={chartZoom}
+          onChange={onChartZoomChange}
+          ariaLabel="Bar chart zoom within loaded range"
+        />
+      </div>
+      <div className="ap-bars-divider" />
+      <div className="ap-emp-bars">
+        {sorted.length === 0 ? (
+          <div className="ap-bars-empty">No crew data in this range</div>
+        ) : (
+          sorted.map((r, i) => {
+            const v = values[i];
+            const pct = maxVal > 0 ? (v / maxVal) * 100 : 0;
+            const h = hueFromString(r.name);
+            return (
+              <div key={r.name} className="ap-hbar-row">
+                <div
+                  className="ap-hbar-avatar"
+                  style={{
+                    background: `linear-gradient(145deg, hsl(${h} 42% 42%), hsl(${h} 38% 28%))`,
+                  }}
+                  aria-hidden
+                >
+                  {staffInitials(r.name)}
+                </div>
+                <div className="ap-hbar-track">
+                  <div className="ap-hbar-fill" style={{ width: `${pct}%` }} />
+                  <span className="ap-hbar-inlabel" title={r.name}>
+                    {r.name}
+                  </span>
+                </div>
+                <div className="ap-hbar-val">{formatVal(v)}</div>
+              </div>
+            );
+          })
+        )}
+      </div>
+    </div>
+  );
 }
 
 export function DropsPanel({ company, currentStaff, isAdmin, onAddCashier, navigate }) {
   const [drops, setDrops] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const [loadError, setLoadError] = useState(null);
   const [onboardingLoading, setOnboardingLoading] = useState(true);
   const [onboardingError, setOnboardingError] = useState(null);
@@ -384,13 +268,17 @@ export function DropsPanel({ company, currentStaff, isAdmin, onAddCashier, navig
   const [refreshKey, setRefreshKey] = useState(0);
   const [staffFilter, setStaffFilter] = useState('all');
   const [view, setView] = useState('table'); // 'table' | 'by-employee'
-  const [graphMode, setGraphMode] = useState('total'); // 'total' | 'count'
   const [showGraph, setShowGraph] = useState(true);
+  /** Independent zoom for line vs bar charts; in-memory only (fetch is not tied to these). */
+  const [lineChartZoom, setLineChartZoom] = useState('all');
+  const [barChartZoom, setBarChartZoom] = useState('all');
+  const [barMetric, setBarMetric] = useState('earnings');
   const [deletingId, setDeletingId] = useState(null);
   const [deleteError, setDeleteError] = useState(null);
   const [expandedDrop, setExpandedDrop] = useState(null);
   const PAGE_SIZE = 100;
   const [displayLimit, setDisplayLimit] = useState(PAGE_SIZE);
+  const [searchQuery, setSearchQuery] = useState('');
   const realtimeDebounceRef = useRef(null);
   const presetDebounceRef = useRef(null);
   const exitTimerRef = useRef(null);
@@ -408,6 +296,24 @@ export function DropsPanel({ company, currentStaff, isAdmin, onAddCashier, navig
       setDateTo(dateFrom);
     }
   }, [dateFrom, dateTo]);
+
+  useEffect(() => {
+    setLineChartZoom('all');
+    setBarChartZoom('all');
+  }, [dateFrom, dateTo, rangePreset]);
+
+  /** Wide enough for any chart zoom up to 1y; independent of line/bar toggles (no refetch on zoom). */
+  const { fetchFrom, fetchTo } = useMemo(
+    () => computeFetchDropsRange(dateFrom, dateTo),
+    [dateFrom, dateTo],
+  );
+
+  /** Drops limited to the page filter — stats, table, CSV, etc. */
+  const pageDrops = useMemo(
+    () =>
+      drops.filter((d) => d.shift_date >= dateFrom && d.shift_date <= dateTo),
+    [drops, dateFrom, dateTo],
+  );
 
   // Apply range preset (debounced to prevent lag on rapid clicks)
   const handlePreset = useCallback((preset) => {
@@ -519,15 +425,17 @@ export function DropsPanel({ company, currentStaff, isAdmin, onAddCashier, navig
     let cancelled = false;
 
     (async () => {
-      setLoading(true);
+      const isInitialLoad = drops.length === 0;
+      if (isInitialLoad) setLoading(true);
+      else setIsRefreshing(true);
       setLoadError(null);
 
       let query = supabase
         .from('drops')
         .select('*, staff(name)')
         .eq('company_id', companyId)
-        .gte('shift_date', dateFrom)
-        .lte('shift_date', dateTo)
+        .gte('shift_date', fetchFrom)
+        .lte('shift_date', fetchTo)
         .order('created_at', { ascending: false });
 
       if (!isAdmin && staffId) {
@@ -538,15 +446,16 @@ export function DropsPanel({ company, currentStaff, isAdmin, onAddCashier, navig
       if (cancelled) return;
       if (error) {
         setLoadError(error.message);
-        setDrops([]);
+        if (drops.length === 0) setDrops([]);
       } else {
         setDrops(data || []);
       }
       setLoading(false);
+      setIsRefreshing(false);
     })();
 
     return () => { cancelled = true; };
-  }, [companyId, staffId, isAdmin, dateFrom, dateTo, refreshKey]);
+  }, [companyId, staffId, isAdmin, fetchFrom, fetchTo, refreshKey]);
 
   // Realtime subscription (debounced to avoid rapid re-fetches)
   useEffect(() => {
@@ -575,7 +484,7 @@ export function DropsPanel({ company, currentStaff, isAdmin, onAddCashier, navig
       clearTimeout(presetDebounceRef.current);
       supabase.removeChannel(channel);
     };
-  }, [companyId, dateFrom, dateTo]);
+  }, [companyId, fetchFrom, fetchTo]);
 
   // Delete drop
   const handleDeleteDrop = useCallback(async (dropId) => {
@@ -591,14 +500,14 @@ export function DropsPanel({ company, currentStaff, isAdmin, onAddCashier, navig
     setDeletingId(null);
   }, []);
 
-  const totalCents = drops.reduce((sum, d) => sum + d.amount_cents, 0);
-  const totalTargetCents = drops.reduce((sum, d) => sum + d.target_cents, 0);
+  const totalCents = pageDrops.reduce((sum, d) => sum + d.amount_cents, 0);
+  const totalTargetCents = pageDrops.reduce((sum, d) => sum + d.target_cents, 0);
   const netVarianceCents = totalCents - totalTargetCents;
-  const avgCents = drops.length > 0 ? Math.round(totalCents / drops.length) : 0;
-  const staffActiveCount = new Set(drops.map((d) => d.staff_id)).size;
+  const avgCents = pageDrops.length > 0 ? Math.round(totalCents / pageDrops.length) : 0;
+  const staffActiveCount = new Set(pageDrops.map((d) => d.staff_id)).size;
 
   // Animated values
-  const animDrops = useCountUp(drops.length);
+  const animDrops = useCountUp(pageDrops.length);
   const animTotal = useCountUp(totalCents);
   const animAvg = useCountUp(avgCents);
   const animStaff = useCountUp(staffActiveCount);
@@ -607,22 +516,34 @@ export function DropsPanel({ company, currentStaff, isAdmin, onAddCashier, navig
   // Unique staff names for filter dropdown
   const staffNames = useMemo(() => {
     const map = new Map();
-    drops.forEach((d) => {
+    pageDrops.forEach((d) => {
       if (d.staff_id && d.staff?.name) map.set(d.staff_id, d.staff.name);
     });
     return Array.from(map.entries()).sort((a, b) => a[1].localeCompare(b[1]));
-  }, [drops]);
+  }, [pageDrops]);
 
   // Filtered drops
   const filtered = useMemo(() => {
-    if (staffFilter === 'all') return drops;
-    return drops.filter((d) => d.staff_id === staffFilter);
-  }, [drops, staffFilter]);
+    if (staffFilter === 'all') return pageDrops;
+    return pageDrops.filter((d) => d.staff_id === staffFilter);
+  }, [pageDrops, staffFilter]);
 
-  // Employee breakdown
+  const filteredSearch = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase();
+    if (!q) return filtered;
+    return filtered.filter((d) => {
+      const staffName = (d.staff?.name || '').toLowerCase();
+      const note = (d.note || '').toLowerCase();
+      const amt = String(Math.round(d.amount_cents / 100));
+      const tgt = String(Math.round(d.target_cents / 100));
+      return staffName.includes(q) || note.includes(q) || amt.includes(q) || tgt.includes(q);
+    });
+  }, [filtered, searchQuery]);
+
+  // Employee breakdown (page range — not chart zoom)
   const byEmployee = useMemo(() => {
     const map = new Map();
-    drops.forEach((d) => {
+    pageDrops.forEach((d) => {
       const key = d.staff_id || 'unknown';
       const name = d.staff?.name || 'Unknown';
       if (!map.has(key)) map.set(key, { name, drops: [], totalCents: 0, totalTargetCents: 0 });
@@ -632,16 +553,85 @@ export function DropsPanel({ company, currentStaff, isAdmin, onAddCashier, navig
       entry.totalTargetCents += d.target_cents;
     });
     return Array.from(map.values()).sort((a, b) => b.totalCents - a.totalCents);
-  }, [drops]);
+  }, [pageDrops]);
 
-  const filteredTotal = filtered.reduce((sum, d) => sum + d.amount_cents, 0);
+  /** Aggregates for bar chart — bar chart zoom (independent of line chart). */
+  const byEmployeeChart = useMemo(() => {
+    const { dropsFiltered } = computeChartWindow(barChartZoom, dateFrom, dateTo, drops);
+    const map = new Map();
+    dropsFiltered.forEach((d) => {
+      const key = d.staff_id || 'unknown';
+      const name = d.staff?.name || 'Unknown';
+      if (!map.has(key)) map.set(key, { name, drops: [], totalCents: 0, totalTargetCents: 0 });
+      const entry = map.get(key);
+      entry.drops.push(d);
+      entry.totalCents += d.amount_cents;
+      entry.totalTargetCents += d.target_cents;
+    });
+    return Array.from(map.values()).sort((a, b) => b.totalCents - a.totalCents);
+  }, [barChartZoom, dateFrom, dateTo, drops]);
 
-  // Skeleton for stats
-  const renderStatsSkeleton = () => (
-    <div className="admin-stat-row">
-      {[0, 1, 2, 3, ...(isAdmin ? [4] : [])].map((i) => (
-        <div key={i} className="adm-sk adm-sk-stat" />
-      ))}
+  const filteredTotal = filteredSearch.reduce((sum, d) => sum + d.amount_cents, 0);
+
+  const renderDropsLoadingSkeleton = () => (
+    <div className="admin-panel ap-drops ap-drops-skeleton">
+      <div className="ap-sk-panel-head">
+        <div className="adm-sk ap-sk-panel-title" />
+        <div className="adm-sk ap-sk-round-btn" />
+      </div>
+      <div className="ap-sk-presets">
+        {RANGE_PRESETS.map((p) => (
+          <div key={p.key} className="adm-sk ap-sk-preset-pill" />
+        ))}
+      </div>
+      <div className="ap-sk-filter-row">
+        <div className="adm-sk ap-sk-date-field" />
+        <span className="ap-sk-filter-sep">to</span>
+        <div className="adm-sk ap-sk-date-field" />
+      </div>
+      <div className="admin-stat-row">
+        {[0, 1, 2, 3, ...(isAdmin ? [4] : [])].map((i) => (
+          <div key={i} className="adm-sk adm-sk-stat" />
+        ))}
+      </div>
+      <div className="ap-sk-at-a-glance">
+        <div className="adm-sk ap-sk-section-title" />
+        <div className="ap-charts-row">
+          <div className="ap-sk-chart-card">
+            <div className="ap-sk-chart-toolbar">
+              <div className="adm-sk ap-sk-chart-total" />
+              <div className="adm-sk ap-sk-chart-zoom" />
+            </div>
+            <div className="adm-sk ap-sk-chart-plot" />
+          </div>
+          {isAdmin && (
+            <div className="ap-sk-chart-card ap-sk-chart-card--bars">
+              <div className="ap-sk-chart-toolbar">
+                <div className="adm-sk ap-sk-bar-tabs" />
+                <div className="adm-sk ap-sk-chart-zoom" />
+              </div>
+              <div className="ap-sk-bar-rows">
+                {[0, 1, 2, 3, 4].map((i) => (
+                  <div key={i} className="ap-sk-bar-row">
+                    <div className="adm-sk ap-sk-bar-avatar" />
+                    <div className="adm-sk ap-sk-bar-track" />
+                    <div className="adm-sk ap-sk-bar-val" />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+      <div className="ap-sk-drops-toolbar">
+        <div className="adm-sk ap-sk-toggle-pair" />
+        <div className="adm-sk ap-sk-search" />
+      </div>
+      <div className="ap-sk-table">
+        {[0, 1, 2, 3, 4, 5].map((i) => (
+          <div key={i} className="adm-sk ap-sk-table-row" />
+        ))}
+      </div>
     </div>
   );
 
@@ -649,21 +639,12 @@ export function DropsPanel({ company, currentStaff, isAdmin, onAddCashier, navig
   const panelError = loadError || onboardingError;
 
   if (loading || onboardingLoading) {
-    return (
-      <div className="admin-panel">
-        {renderStatsSkeleton()}
-        <div className="admin-panel-skeleton-stack admin-panel-skeleton-stack--dim-rows">
-          <div className="adm-sk adm-sk-row" />
-          <div className="adm-sk adm-sk-row" />
-          <div className="adm-sk adm-sk-row" />
-        </div>
-      </div>
-    );
+    return renderDropsLoadingSkeleton();
   }
 
   if (panelError) {
     return (
-      <div className="admin-panel">
+      <div className="admin-panel ap-drops">
         <div className="admin-empty-state">
           <i className="fa-solid fa-triangle-exclamation" />
           <p>{panelError}</p>
@@ -677,7 +658,7 @@ export function DropsPanel({ company, currentStaff, isAdmin, onAddCashier, navig
 
   if (tutorialSkipped && !onboardingStatus.hasDrops) {
     return (
-      <div className="admin-panel">
+      <div className="admin-panel ap-drops">
         <div className="admin-empty-state">
           <i className={`fa-solid ${onboardingStatus.hasStaff ? 'fa-inbox' : 'fa-user-plus'}`} />
           <p>
@@ -709,10 +690,10 @@ export function DropsPanel({ company, currentStaff, isAdmin, onAddCashier, navig
         />
       ) : null}
       <div
-        className="admin-panel"
+        className="admin-panel ap-drops"
         aria-hidden={showOnboarding ? 'true' : undefined}
       >
-      <div className="admin-panel-header">
+      <div className={`admin-panel-header${isRefreshing ? ' ap-panel-refreshing' : ''}`}>
         <h2>{isAdmin ? 'All Drops' : 'My Drops'}</h2>
         <div className="admin-panel-actions">
           <button
@@ -721,7 +702,7 @@ export function DropsPanel({ company, currentStaff, isAdmin, onAddCashier, navig
             data-tooltip="Refresh"
             data-tooltip-pos="left"
           >
-            <i className="fa-solid fa-arrows-rotate" />
+            <i className={`fa-solid fa-arrows-rotate${isRefreshing ? ' fa-spin' : ''}`} />
           </button>
         </div>
       </div>
@@ -764,7 +745,7 @@ export function DropsPanel({ company, currentStaff, isAdmin, onAddCashier, navig
             ]}
           />
         )}
-        {!loading && drops.length > 0 && (
+        {!loading && pageDrops.length > 0 && (
           <button
             className="admin-export-btn"
             onClick={() => exportCSV(filtered, isAdmin, csvLabel)}
@@ -777,8 +758,7 @@ export function DropsPanel({ company, currentStaff, isAdmin, onAddCashier, navig
       </div>
 
       {/* Stats */}
-      {loading ? renderStatsSkeleton() : (
-        <div className="admin-stat-row">
+      <div className="admin-stat-row">
           <div className="admin-stat">
             <span className="admin-stat-value">{animDrops}</span>
             <span className="admin-stat-label">Drops</span>
@@ -802,66 +782,84 @@ export function DropsPanel({ company, currentStaff, isAdmin, onAddCashier, navig
             </div>
           )}
         </div>
+
+      {/* At a glance — earnings over time + top per user (any date preset; empty data still shows frames) */}
+      {showGraph && (
+        <section className="ap-at-a-glance" aria-labelledby="ap-at-a-glance-heading">
+          <h3 id="ap-at-a-glance-heading" className="ap-at-a-glance-heading">
+            At a glance
+          </h3>
+          <div className={`ap-charts-row${isAdmin ? '' : ' ap-charts-row--single'}`}>
+            <div className="ap-chart-card ap-chart-card--earnings-design">
+              <EarningsLineChartDesign
+                drops={drops}
+                dateFrom={dateFrom}
+                dateTo={dateTo}
+                rangePreset={rangePreset}
+                chartZoom={lineChartZoom}
+                onChartZoomChange={setLineChartZoom}
+              />
+            </div>
+            {isAdmin && (
+              <div className="ap-chart-card ap-chart-card--bars-design">
+                <DropsByUserChart
+                  rows={byEmployeeChart}
+                  chartZoom={barChartZoom}
+                  onChartZoomChange={setBarChartZoom}
+                  barMetric={barMetric}
+                  onBarMetricChange={setBarMetric}
+                />
+              </div>
+            )}
+          </div>
+        </section>
       )}
 
-      {/* Graph */}
-      {!loading && drops.length > 0 && showGraph && (
-        <div className="admin-graph-card">
-          <div className="admin-graph-header">
-            <span className="admin-graph-title">{isMultiDay ? 'Drops by Day' : 'Drops by Hour'}</span>
-            <div className="admin-graph-toggles">
+      {/* Toolbar: view, charts toggle, search */}
+      {pageDrops.length > 0 && !loading && (
+        <div className="ap-drops-toolbar">
+          {isAdmin && (
+            <div className="admin-view-toggle">
               <button
-                className={`admin-graph-toggle${graphMode === 'total' ? ' active' : ''}`}
-                onClick={() => setGraphMode('total')}
+                type="button"
+                className={`admin-btn-sm${view === 'table' ? ' active' : ''}`}
+                onClick={() => setView('table')}
               >
-                Total $
+                <i className="fa-solid fa-list" /> List
               </button>
               <button
-                className={`admin-graph-toggle${graphMode === 'count' ? ' active' : ''}`}
-                onClick={() => setGraphMode('count')}
+                type="button"
+                className={`admin-btn-sm${view === 'by-employee' ? ' active' : ''}`}
+                onClick={() => setView('by-employee')}
               >
-                Count
+                <i className="fa-solid fa-users" /> By Employee
               </button>
             </div>
-          </div>
-          {isMultiDay
-            ? <DailyChart drops={drops} graphMode={graphMode} />
-            : <DropsChart drops={drops} graphMode={graphMode} />
-          }
-        </div>
-      )}
-
-      {/* View toggle (admin only) */}
-      {isAdmin && drops.length > 0 && !loading && (
-        <div className="admin-drops-toolbar">
-          <div className="admin-view-toggle">
+          )}
+          <div className="ap-drops-toolbar-right">
             <button
-              className={`admin-btn-sm${view === 'table' ? ' active' : ''}`}
-              onClick={() => setView('table')}
-            >
-              <i className="fa-solid fa-list" /> List
-            </button>
-            <button
-              className={`admin-btn-sm${view === 'by-employee' ? ' active' : ''}`}
-              onClick={() => setView('by-employee')}
-            >
-              <i className="fa-solid fa-users" /> By Employee
-            </button>
-          </div>
-          <div className="admin-drops-toolbar-right">
-            <button
+              type="button"
               className="admin-btn-sm"
               onClick={() => setShowGraph(!showGraph)}
-              data-tooltip={showGraph ? 'Hide graph' : 'Show graph'}
-              data-tooltip-pos="left"
+              title={showGraph ? 'Hide charts' : 'Show charts'}
             >
-              <i className={`fa-solid ${showGraph ? 'fa-chart-simple' : 'fa-chart-simple'}`} />
+              <i className="fa-solid fa-chart-line" />
             </button>
+            <label className="ap-search">
+              <i className="fa-solid fa-magnifying-glass" style={{ opacity: 0.45 }} aria-hidden />
+              <input
+                type="search"
+                placeholder="Search staff, notes, amounts…"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                autoComplete="off"
+              />
+            </label>
           </div>
         </div>
       )}
 
-      {drops.length === 0 ? (
+      {pageDrops.length === 0 ? (
         <div className="admin-empty-state">
           <i className="fa-solid fa-inbox" />
           <p>No drops for {isMultiDay ? 'this period' : 'this date'}.</p>
@@ -909,9 +907,9 @@ export function DropsPanel({ company, currentStaff, isAdmin, onAddCashier, navig
         </div>
       ) : (
         <>
-          {staffFilter !== 'all' && (
+          {(staffFilter !== 'all' || searchQuery.trim()) && (
             <div className="admin-filter-summary">
-              Showing {filtered.length} drop{filtered.length !== 1 ? 's' : ''} &middot;
+              Showing {filteredSearch.length} drop{filteredSearch.length !== 1 ? 's' : ''} &middot;
               {fmtMoney(filteredTotal)} total
             </div>
           )}
@@ -935,7 +933,7 @@ export function DropsPanel({ company, currentStaff, isAdmin, onAddCashier, navig
                 </tr>
               </thead>
               <tbody>
-                {filtered.slice(0, displayLimit).map((drop) => {
+                {filteredSearch.slice(0, displayLimit).map((drop) => {
                   const v = drop.amount_cents - drop.target_cents;
                   const isExpanded = expandedDrop === drop.id;
                   return (
@@ -1006,13 +1004,13 @@ export function DropsPanel({ company, currentStaff, isAdmin, onAddCashier, navig
               </tbody>
             </table>
           </div>
-          {filtered.length > displayLimit && (
+          {filteredSearch.length > displayLimit && (
             <button
               type="button"
               className="admin-btn-sm admin-btn-load-more"
               onClick={() => setDisplayLimit((l) => l + PAGE_SIZE)}
             >
-              Load more ({filtered.length - displayLimit} remaining)
+              Load more ({filteredSearch.length - displayLimit} remaining)
             </button>
           )}
         </>

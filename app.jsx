@@ -634,7 +634,7 @@ function AuthGuard({ children, navigate, replaceNavigate }) {
   const { user, loading: authLoading } = useAuthStore();
   if (authLoading) {
     return (
-      <div className="admin-loading stakd-pattern-bg">
+      <div className="admin-view admin-loading">
         <div className="admin-spinner" />
         <p>Loading...</p>
       </div>
@@ -655,7 +655,7 @@ function CompanyGuard({ children, navigate, replaceNavigate, inactiveMode = 'ren
 
   if (authLoading) {
     return (
-      <div className="admin-loading stakd-pattern-bg">
+      <div className="admin-view admin-loading">
         <div className="admin-spinner" />
         <p>Loading workspace...</p>
       </div>
@@ -664,7 +664,7 @@ function CompanyGuard({ children, navigate, replaceNavigate, inactiveMode = 'ren
 
   if (!company) {
     return (
-      <div className="admin-empty stakd-pattern-bg">
+      <div className="admin-view admin-empty">
         <h2>No Company Found</h2>
         <p>You haven&apos;t created or joined a company yet.</p>
         <button className="admin-submit" onClick={() => navigate('/login')}>
@@ -703,7 +703,7 @@ function OnboardingRoute({ navigate, replaceNavigate }) {
 
   if (!company) {
     return (
-      <div className="admin-empty stakd-pattern-bg">
+      <div className="admin-view admin-empty">
         <h2>No Company Found</h2>
         <p>You haven&apos;t created or joined a company yet.</p>
         <button className="admin-submit" onClick={() => navigate('/login')}>
@@ -757,7 +757,7 @@ function KioskRoute({ navigate, replaceNavigate }) {
 
   if (!company) {
     return (
-      <div className="admin-empty stakd-pattern-bg">
+      <div className="admin-view admin-empty">
         <h2>No Company Found</h2>
         <p>You haven&apos;t created or joined a company yet.</p>
         <button className="admin-submit" onClick={() => navigate('/login')}>Go to Login</button>
@@ -793,7 +793,7 @@ function KioskAuthFork({ navigate, replaceNavigate }) {
 
   if (authLoading) {
     return (
-      <div className="admin-loading stakd-pattern-bg">
+      <div className="admin-view admin-loading">
         <div className="admin-spinner" />
         <p>Loading...</p>
       </div>

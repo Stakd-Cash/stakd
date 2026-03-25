@@ -74,7 +74,7 @@ export function AuditLogPanel({ company }) {
 
   if (loading) {
     return (
-      <div className="admin-panel">
+      <div className="admin-panel ap-audit">
         <div className="admin-panel-header"><h2>Audit Log</h2></div>
         <div className="admin-panel-skeleton-stack">
           {[0, 1, 2].map((i) => (
@@ -87,7 +87,7 @@ export function AuditLogPanel({ company }) {
 
   if (loadError) {
     return (
-      <div className="admin-panel">
+      <div className="admin-panel ap-audit">
         <div className="admin-panel-header"><h2>Audit Log</h2></div>
         <div className="admin-empty-state">
           <i className="fa-solid fa-triangle-exclamation" />
@@ -100,7 +100,7 @@ export function AuditLogPanel({ company }) {
   const visible = entries.slice(0, displayLimit);
 
   return (
-    <div className="admin-panel">
+    <div className="admin-panel ap-audit">
       <div className="admin-panel-header">
         <h2>Audit Log</h2>
       </div>

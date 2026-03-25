@@ -143,7 +143,7 @@ export function PlanSelector({ company, navigate, replaceNavigate, checkoutSessi
   };
 
   return (
-    <div className="pathway-page stakd-pattern-bg">
+    <div className="pathway-page">
       <div className="pathway-container" style={{ maxWidth: 460 }}>
         <div className="pathway-brand">
           <span className="pathway-brand-name">

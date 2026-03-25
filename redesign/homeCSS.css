@@ -1,0 +1,6237 @@
+/* Home */
+
+position: relative;
+width: 1440px;
+height: 770px;
+
+
+
+/* Rectangle 2196 */
+
+position: absolute;
+width: 1440px;
+height: 770px;
+left: 0px;
+top: 0px;
+
+background: #101011;
+border-radius: 0px;
+
+
+/* admin@kangaroo.com */
+
+position: absolute;
+width: 117px;
+height: 8px;
+left: 66.37px;
+top: 46.26px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 10.2676px;
+line-height: 16px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+
+color: #606160;
+
+
+
+/* Kangaroo Inc. */
+
+position: absolute;
+width: 120px;
+height: 12px;
+left: 66.27px;
+top: 25.93px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 700;
+font-size: 16.8015px;
+line-height: 28px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+
+color: #FFFFFF;
+
+
+
+/* Vector 2761 */
+
+position: absolute;
+width: 209px;
+height: 0px;
+left: 15px;
+top: 276px;
+
+border: 0.700061px solid #2E2E2E;
+
+
+/* Vector 2762 */
+
+position: absolute;
+width: 209px;
+height: 0px;
+left: 15px;
+top: 141px;
+
+border: 0.700061px solid #2E2E2E;
+
+
+/* Group 1321319156 */
+
+position: absolute;
+width: 205px;
+height: 31px;
+left: 15px;
+top: 193px;
+
+
+
+/* Rectangle 24732 */
+
+position: absolute;
+width: 205px;
+height: 31px;
+left: 15px;
+top: 193px;
+
+background: #1F1F1F;
+opacity: 0;
+border-radius: 9.33415px;
+
+
+/* Frame 1411067576 */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 0px;
+gap: 8px;
+
+position: absolute;
+width: 84.64px;
+height: 15.87px;
+left: 29.4px;
+top: 200.37px;
+
+
+
+/* Vector 2756 */
+
+width: 13.59px;
+height: 14px;
+
+border: 1.44118px solid #BCBCBC;
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Analytics */
+
+width: 54px;
+height: 9px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 12px;
+line-height: 19px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+
+color: #BCBCBC;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Group 1321319155 */
+
+position: absolute;
+width: 205px;
+height: 31px;
+left: 15px;
+top: 680px;
+
+
+
+/* Rectangle 24733 */
+
+position: absolute;
+width: 205px;
+height: 31px;
+left: 15px;
+top: 680px;
+
+background: #1F1F1F;
+opacity: 0;
+border-radius: 9.33415px;
+
+
+/* Frame 1411067577 */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 0px;
+gap: 8px;
+
+position: absolute;
+width: 86.5px;
+height: 14.93px;
+left: 29.65px;
+top: 688.5px;
+
+
+
+/* Vector 2757 */
+
+width: 14px;
+height: 14px;
+
+border: 1.53125px solid #BCBCBC;
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Settings */
+
+width: 49px;
+height: 9px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 12px;
+line-height: 19px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+
+color: #BCBCBC;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Group 1321319166 */
+
+position: absolute;
+width: 205px;
+height: 31px;
+left: 15px;
+top: 716px;
+
+
+
+/* Rectangle 24734 */
+
+position: absolute;
+width: 205px;
+height: 31px;
+left: 15px;
+top: 716px;
+
+background: #1F1F1F;
+opacity: 0;
+border-radius: 9.33415px;
+
+
+/* Frame 1411067647 */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 0px;
+gap: 8px;
+
+position: absolute;
+width: 122px;
+height: 16px;
+left: 30px;
+top: 723px;
+
+
+
+/* Headset */
+
+width: 16px;
+height: 16px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Vector */
+
+position: absolute;
+left: 9.38%;
+right: 9.37%;
+top: 9.38%;
+bottom: 3.12%;
+
+background: #BCBCBC;
+border: 0.2px solid #BCBCBC;
+
+
+/* Help Center */
+
+width: 72px;
+height: 9px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 12px;
+line-height: 19px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+
+color: #BCBCBC;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Group 1321319153 */
+
+position: absolute;
+width: 205px;
+height: 31px;
+left: 15px;
+top: 157px;
+
+
+
+/* Rectangle 2207 */
+
+position: absolute;
+width: 205px;
+height: 31px;
+left: 15px;
+top: 157px;
+
+background: #1F1F1F;
+border-radius: 9.33415px;
+
+
+/* Frame 1411067572 */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 0px;
+gap: 8px;
+
+position: absolute;
+width: 72.81px;
+height: 17.73px;
+left: 28.94px;
+top: 164.01px;
+
+
+
+/* Vector 2758 */
+
+width: 13.26px;
+height: 14px;
+
+border: 1.28947px solid #FFFFFF;
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Home */
+
+width: 36px;
+height: 9px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 12px;
+line-height: 19px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+
+color: #FFFFFF;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Group 1321319154 */
+
+position: absolute;
+width: 205px;
+height: 31px;
+left: 15px;
+top: 292px;
+
+
+
+/* Rectangle 2208 */
+
+position: absolute;
+width: 205px;
+height: 31px;
+left: 15px;
+top: 292px;
+
+background: #1F1F1F;
+opacity: 0;
+border-radius: 9.33415px;
+
+
+/* Frame 1411067573 */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 0px;
+gap: 8px;
+
+position: absolute;
+width: 115.81px;
+height: 16px;
+left: 28px;
+top: 300px;
+
+
+
+/* Group 1321318852 */
+
+width: 14px;
+height: 12.89px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Vector 2752 */
+
+position: absolute;
+width: 14px;
+height: 12.89px;
+left: 0px;
+top: 1.55px;
+
+border: 1.2868px solid #BCBCBC;
+
+
+/* Ellipse 14729 */
+
+position: absolute;
+width: 1.13px;
+height: 1.15px;
+left: 6.45px;
+top: 9.48px;
+
+background: #BCBCBC;
+
+
+/* Partners */
+
+width: 50px;
+height: 9px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 12px;
+line-height: 19px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+
+color: #BCBCBC;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Frame 1321318858 */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+padding: 5px 6px;
+gap: 10px;
+
+width: 35.81px;
+height: 17.94px;
+
+background: #1C2B1C;
+border-radius: 5.13378px;
+
+/* Inside auto layout */
+flex: none;
+order: 2;
+flex-grow: 0;
+
+
+/* New */
+
+width: 23.81px;
+height: 7.94px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 10px;
+line-height: 16px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+
+color: #04C40A;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Group 1321319168 */
+
+position: absolute;
+width: 205px;
+height: 31px;
+left: 15px;
+top: 328px;
+
+
+
+/* Rectangle 2208 */
+
+position: absolute;
+width: 205px;
+height: 31px;
+left: 15px;
+top: 328px;
+
+background: #1F1F1F;
+opacity: 0;
+border-radius: 9.33415px;
+
+
+/* Frame 1411067573 */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 0px;
+gap: 8px;
+
+position: absolute;
+width: 108.28px;
+height: 16.33px;
+left: 28.28px;
+top: 335.85px;
+
+
+
+/* Coins */
+
+width: 16px;
+height: 16px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Vector */
+
+position: absolute;
+left: 3.12%;
+right: 3.12%;
+top: 15.62%;
+bottom: 15.62%;
+
+background: #BCBCBC;
+
+
+/* Payouts */
+
+width: 48px;
+height: 9px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 12px;
+line-height: 19px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+
+color: #BCBCBC;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Group 1321319157 */
+
+position: absolute;
+width: 205px;
+height: 31px;
+left: 15px;
+top: 229px;
+
+
+
+/* Rectangle 24731 */
+
+position: absolute;
+width: 205px;
+height: 31px;
+left: 15px;
+top: 229px;
+
+background: #1F1F1F;
+opacity: 0;
+border-radius: 9.33415px;
+
+
+/* Frame 1411067574 */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 0px;
+gap: 8px;
+
+position: absolute;
+width: 87px;
+height: 12.44px;
+left: 27.7px;
+top: 238.23px;
+
+
+
+/* Group 1321318853 */
+
+width: 15px;
+height: 12.44px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Ellipse 14730 */
+
+box-sizing: border-box;
+
+position: absolute;
+width: 6.14px;
+height: 6.27px;
+left: 1.7px;
+top: 0px;
+
+border: 1.27783px solid #BCBCBC;
+
+
+/* Ellipse 14731 */
+
+box-sizing: border-box;
+
+position: absolute;
+width: 4.84px;
+height: 4.95px;
+left: 8.75px;
+top: 1.33px;
+
+border: 1.27783px solid #BCBCBC;
+
+
+/* Vector 2753 */
+
+position: absolute;
+width: 15px;
+height: 4.95px;
+left: 0px;
+top: 7.49px;
+
+border: 1.27783px solid #BCBCBC;
+
+
+/* Customers */
+
+width: 64px;
+height: 9px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 12px;
+line-height: 19px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+
+color: #BCBCBC;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Frame 1321318858 */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+padding: 5px 6px;
+gap: 10px;
+
+position: absolute;
+width: 19px;
+height: 17px;
+left: 120px;
+top: 236px;
+
+background: #1C2B1C;
+border-radius: 5.13378px;
+
+
+/* 6 */
+
+width: 7px;
+height: 7px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 10px;
+line-height: 16px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+
+color: #04C40A;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Group 1321319119 */
+
+position: absolute;
+width: 8px;
+height: 14px;
+left: 205px;
+top: 32px;
+
+
+
+/* Vector */
+
+position: absolute;
+left: 14.24%;
+right: 85.21%;
+top: 4.16%;
+bottom: 95.32%;
+
+border: 1.2px solid #999999;
+
+
+/* Vector */
+
+position: absolute;
+left: 14.24%;
+right: 85.21%;
+top: 5.45%;
+bottom: 94.03%;
+
+border: 1.2px solid #999999;
+transform: rotate(-180deg);
+
+
+/* Rectangle 2195 */
+
+position: absolute;
+width: 29.87px;
+height: 29.87px;
+left: 26.14px;
+top: 24px;
+
+background: #1F1F1F;
+border-radius: 6.5339px;
+
+
+/* Vector 2763 */
+
+position: absolute;
+width: 11.67px;
+height: 12.13px;
+left: 35px;
+top: 32.87px;
+
+border: 1.86683px solid #FFFFFF;
+
+
+/* Rectangle 2190 */
+
+box-sizing: border-box;
+
+position: absolute;
+width: 1202px;
+height: 763px;
+left: 239px;
+top: 7px;
+
+background: #090909;
+border: 0.780837px solid #2E2E2E;
+border-radius: 19.0004px 0px 0px 0px;
+
+
+/* Frame 1411067974 */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 0px;
+gap: 25px;
+
+position: absolute;
+width: 216px;
+height: 10px;
+left: 869px;
+top: 526px;
+
+
+
+/* Clicks */
+
+width: 38px;
+height: 10px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 13px;
+line-height: 21px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+
+color: #FFFFFF;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Signups */
+
+width: 50px;
+height: 10px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 13px;
+line-height: 21px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+
+color: #FFFFFF;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Conversions */
+
+width: 78px;
+height: 10px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 13px;
+line-height: 21px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+
+color: #FFFFFF;
+
+
+/* Inside auto layout */
+flex: none;
+order: 2;
+flex-grow: 0;
+
+
+/* Links */
+
+position: absolute;
+width: 44px;
+height: 12px;
+left: 259px;
+top: 32px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 700;
+font-size: 16.8015px;
+line-height: 28px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+
+color: #FFFFFF;
+
+
+
+/* Total clicks: */
+
+position: absolute;
+width: 74px;
+height: 10px;
+left: 275px;
+top: 526px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 13px;
+line-height: 21px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+
+color: #FFFFFF;
+
+
+
+/* Group 1321319205 */
+
+position: absolute;
+width: 392px;
+height: 7px;
+left: 348px;
+top: 728px;
+
+
+
+/* M */
+
+position: absolute;
+width: 10px;
+height: 7px;
+left: 348px;
+top: 728px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 10px;
+line-height: 16px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+
+color: #747474;
+
+
+
+/* T */
+
+position: absolute;
+width: 6px;
+height: 7px;
+left: 414px;
+top: 728px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 10px;
+line-height: 16px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+text-align: center;
+
+color: #747474;
+
+
+
+/* W */
+
+position: absolute;
+width: 11px;
+height: 7px;
+left: 476px;
+top: 728px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 10px;
+line-height: 16px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+text-align: center;
+
+color: #747474;
+
+
+
+/* T */
+
+position: absolute;
+width: 6px;
+height: 7px;
+left: 541px;
+top: 728px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 10px;
+line-height: 16px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+text-align: center;
+
+color: #747474;
+
+
+
+/* F */
+
+position: absolute;
+width: 6px;
+height: 7px;
+left: 606px;
+top: 728px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 10px;
+line-height: 16px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+text-align: center;
+
+color: #747474;
+
+
+
+/* S */
+
+position: absolute;
+width: 6px;
+height: 7px;
+left: 670px;
+top: 728px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 10px;
+line-height: 16px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+text-align: center;
+
+color: #747474;
+
+
+
+/* S */
+
+position: absolute;
+width: 6px;
+height: 7px;
+left: 734px;
+top: 728px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 10px;
+line-height: 16px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+text-align: center;
+
+color: #747474;
+
+
+
+/* Group 1321319204 */
+
+position: absolute;
+width: 13px;
+height: 103px;
+left: 271px;
+top: 595px;
+
+
+
+/* 10 */
+
+position: absolute;
+width: 11px;
+height: 7px;
+left: 271px;
+top: 691px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 10px;
+line-height: 16px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+
+color: #747474;
+
+
+
+/* 20 */
+
+position: absolute;
+width: 13px;
+height: 7px;
+left: 271px;
+top: 659px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 10px;
+line-height: 16px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+
+color: #747474;
+
+
+
+/* 30 */
+
+position: absolute;
+width: 13px;
+height: 7px;
+left: 271px;
+top: 627px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 10px;
+line-height: 16px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+
+color: #747474;
+
+
+
+/* 40 */
+
+position: absolute;
+width: 13px;
+height: 7px;
+left: 271px;
+top: 595px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 10px;
+line-height: 16px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+
+color: #747474;
+
+
+
+/* 352 */
+
+position: absolute;
+width: 28px;
+height: 12px;
+left: 360px;
+top: 525px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 700;
+font-size: 16px;
+line-height: 26px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+text-align: right;
+
+color: #FFFFFF;
+
+
+
+/* Vector 2870 */
+
+position: absolute;
+width: 1202px;
+height: 0px;
+left: 239px;
+top: 64px;
+
+border: 1px solid #2E2E2E;
+
+
+/* Vector 2875 */
+
+position: absolute;
+width: 569px;
+height: 0px;
+left: 259.5px;
+top: 552px;
+
+border: 1px solid #2E2E2E;
+
+
+/* Vector 2871 */
+
+position: absolute;
+width: 1158px;
+height: 0px;
+left: 259px;
+top: 189px;
+
+border: 1px solid #2E2E2E;
+
+
+/* Vector 2872 */
+
+position: absolute;
+width: 1158px;
+height: 0px;
+left: 259px;
+top: 257px;
+
+border: 1px solid #2E2E2E;
+
+
+/* Vector 2873 */
+
+position: absolute;
+width: 1158px;
+height: 0px;
+left: 259px;
+top: 325px;
+
+border: 1px solid #2E2E2E;
+
+
+/* Vector 2893 */
+
+position: absolute;
+width: 1158px;
+height: 0px;
+left: 259px;
+top: 393px;
+
+border: 1px solid #2E2E2E;
+
+
+/* Vector 2894 */
+
+position: absolute;
+width: 1158px;
+height: 0px;
+left: 259px;
+top: 461px;
+
+border: 1px solid #2E2E2E;
+
+
+/* Frame 1411067645 */
+
+box-sizing: border-box;
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 7px 12px;
+gap: 9.16px;
+
+position: absolute;
+width: 126.16px;
+height: 28px;
+left: 363px;
+top: 83px;
+
+border: 1px solid #2E2E2E;
+border-radius: 7.84884px;
+
+
+/* settings */
+
+width: 14px;
+height: 14px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Vector */
+
+position: absolute;
+left: 37.51%;
+right: 37.49%;
+top: 37.51%;
+bottom: 37.49%;
+
+border: 1.16667px solid #FFFFFF;
+
+
+/* Vector */
+
+position: absolute;
+left: 4.18%;
+right: 4.15%;
+top: 4.16%;
+bottom: 4.17%;
+
+border: 1.16667px solid #FFFFFF;
+
+
+/* Text */
+
+width: 79px;
+height: 10px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 13.2px;
+line-height: 21px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+display: flex;
+align-items: center;
+text-align: center;
+
+color: #FFFFFF;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Frame 1411067650 */
+
+box-sizing: border-box;
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 8px 12px;
+gap: 10px;
+isolation: isolate;
+
+position: absolute;
+width: 147px;
+height: 26px;
+left: 666px;
+top: 517px;
+
+border: 1px solid #2E2E2E;
+border-radius: 7.84884px;
+
+
+/* Rectangle 24794 */
+
+box-sizing: border-box;
+
+position: absolute;
+width: 27px;
+height: 20px;
+left: 31px;
+top: 3px;
+
+background: #1F1F1F;
+border: 1px solid #2E2E2E;
+border-radius: 4px;
+transform: matrix(-1, 0, 0, 1, 0, 0);
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+z-index: 0;
+
+
+/* Text */
+
+width: 14px;
+height: 10px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 13.2px;
+line-height: 21px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+display: flex;
+align-items: center;
+text-align: center;
+
+color: #BCBCBC;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+z-index: 1;
+
+
+/* Text */
+
+width: 17px;
+height: 10px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 13.2px;
+line-height: 21px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+display: flex;
+align-items: center;
+text-align: center;
+
+color: #FFFFFF;
+
+
+/* Inside auto layout */
+flex: none;
+order: 2;
+flex-grow: 0;
+z-index: 2;
+
+
+/* Text */
+
+width: 18px;
+height: 10px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 13.2px;
+line-height: 21px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+display: flex;
+align-items: center;
+text-align: center;
+
+color: #BCBCBC;
+
+
+/* Inside auto layout */
+flex: none;
+order: 3;
+flex-grow: 0;
+z-index: 3;
+
+
+/* Text */
+
+width: 21px;
+height: 10px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 13.2px;
+line-height: 21px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+display: flex;
+align-items: center;
+text-align: center;
+
+color: #BCBCBC;
+
+
+/* Inside auto layout */
+flex: none;
+order: 4;
+flex-grow: 0;
+z-index: 4;
+
+
+/* Text */
+
+width: 13px;
+height: 10px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 13.2px;
+line-height: 21px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+display: flex;
+align-items: center;
+text-align: center;
+
+color: #BCBCBC;
+
+
+/* Inside auto layout */
+flex: none;
+order: 5;
+flex-grow: 0;
+z-index: 5;
+
+
+/* Frame 1411067651 */
+
+box-sizing: border-box;
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 8px 12px;
+gap: 10px;
+isolation: isolate;
+
+position: absolute;
+width: 147px;
+height: 26px;
+left: 1254px;
+top: 517px;
+
+border: 1px solid #2E2E2E;
+border-radius: 7.84884px;
+
+
+/* Rectangle 24794 */
+
+box-sizing: border-box;
+
+position: absolute;
+width: 27px;
+height: 20px;
+left: 31px;
+top: 3px;
+
+background: #1F1F1F;
+border: 1px solid #2E2E2E;
+border-radius: 4px;
+transform: matrix(-1, 0, 0, 1, 0, 0);
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+z-index: 0;
+
+
+/* Text */
+
+width: 14px;
+height: 10px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 13.2px;
+line-height: 21px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+display: flex;
+align-items: center;
+text-align: center;
+
+color: #BCBCBC;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+z-index: 1;
+
+
+/* Text */
+
+width: 17px;
+height: 10px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 13.2px;
+line-height: 21px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+display: flex;
+align-items: center;
+text-align: center;
+
+color: #FFFFFF;
+
+
+/* Inside auto layout */
+flex: none;
+order: 2;
+flex-grow: 0;
+z-index: 2;
+
+
+/* Text */
+
+width: 18px;
+height: 10px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 13.2px;
+line-height: 21px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+display: flex;
+align-items: center;
+text-align: center;
+
+color: #BCBCBC;
+
+
+/* Inside auto layout */
+flex: none;
+order: 3;
+flex-grow: 0;
+z-index: 3;
+
+
+/* Text */
+
+width: 21px;
+height: 10px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 13.2px;
+line-height: 21px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+display: flex;
+align-items: center;
+text-align: center;
+
+color: #BCBCBC;
+
+
+/* Inside auto layout */
+flex: none;
+order: 4;
+flex-grow: 0;
+z-index: 4;
+
+
+/* Text */
+
+width: 13px;
+height: 10px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 13.2px;
+line-height: 21px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+display: flex;
+align-items: center;
+text-align: center;
+
+color: #BCBCBC;
+
+
+/* Inside auto layout */
+flex: none;
+order: 5;
+flex-grow: 0;
+z-index: 5;
+
+
+/* Frame 1411067649 */
+
+box-sizing: border-box;
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 9px 12px;
+gap: 6px;
+
+position: absolute;
+width: 120px;
+height: 32px;
+left: 1294px;
+top: 20px;
+
+background: #1F1F1F;
+border: 1px solid #2E2E2E;
+border-radius: 7.84884px;
+
+
+/* link */
+
+width: 14px;
+height: 14px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Vector */
+
+position: absolute;
+left: 41.67%;
+right: 8.57%;
+top: 8.61%;
+bottom: 37.48%;
+
+border: 1.16667px solid #FFFFFF;
+
+
+/* Vector */
+
+position: absolute;
+left: 8.56%;
+right: 41.67%;
+top: 37.48%;
+bottom: 8.61%;
+
+border: 1.16667px solid #FFFFFF;
+
+
+/* Text */
+
+width: 76px;
+height: 10px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 13.2px;
+line-height: 21px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+display: flex;
+align-items: center;
+text-align: center;
+
+color: rgba(255, 255, 255, 0.9);
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Frame 1411067648 */
+
+box-sizing: border-box;
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 9px 12px;
+gap: 9.16px;
+
+position: absolute;
+width: 284px;
+height: 32px;
+left: 1133px;
+top: 81px;
+
+border: 1px solid #2E2E2E;
+border-radius: 7.84884px;
+
+
+/* search */
+
+width: 14px;
+height: 14px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Vector */
+
+position: absolute;
+left: 12.5%;
+right: 20.83%;
+top: 12.5%;
+bottom: 20.83%;
+
+border: 1.16667px solid #BCBCBC;
+
+
+/* Vector */
+
+position: absolute;
+left: 69.37%;
+right: 12.5%;
+top: 69.37%;
+bottom: 12.51%;
+
+border: 1.16667px solid #BCBCBC;
+
+
+/* Text */
+
+width: 77px;
+height: 10px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 13.2px;
+line-height: 21px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+display: flex;
+align-items: center;
+text-align: center;
+
+color: #BCBCBC;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Frame 1411067646 */
+
+box-sizing: border-box;
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 7px 12px;
+gap: 7px;
+
+position: absolute;
+width: 93px;
+height: 28px;
+left: 259px;
+top: calc(50% - 28px/2 - 288px);
+
+border: 1px solid #2E2E2E;
+border-radius: 6px;
+
+
+/* sliders */
+
+width: 14px;
+height: 14px;
+
+transform: rotate(-90deg);
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Vector */
+
+position: absolute;
+left: 58.33%;
+right: 41.67%;
+top: 83.33%;
+bottom: -12.5%;
+
+border: 1.16667px solid #FFFFFF;
+transform: rotate(-90deg);
+
+
+/* Vector */
+
+position: absolute;
+left: 12.5%;
+right: 87.5%;
+top: 83.33%;
+bottom: -12.5%;
+
+border: 1.16667px solid #FFFFFF;
+transform: rotate(-90deg);
+
+
+/* Vector */
+
+position: absolute;
+left: 50%;
+right: 50%;
+top: 50%;
+bottom: 12.5%;
+
+border: 1.16667px solid #FFFFFF;
+transform: rotate(-90deg);
+
+
+/* Vector */
+
+position: absolute;
+left: 12.5%;
+right: 87.5%;
+top: 50%;
+bottom: 29.17%;
+
+border: 1.16667px solid #FFFFFF;
+transform: rotate(-90deg);
+
+
+/* Vector */
+
+position: absolute;
+left: 66.66%;
+right: 33.34%;
+top: 16.67%;
+bottom: 62.5%;
+
+border: 1.16667px solid #FFFFFF;
+transform: rotate(-90deg);
+
+
+/* Vector */
+
+position: absolute;
+left: 12.5%;
+right: 87.5%;
+top: 16.67%;
+bottom: 45.83%;
+
+border: 1.16667px solid #FFFFFF;
+transform: rotate(-90deg);
+
+
+/* Vector */
+
+position: absolute;
+left: 58.33%;
+right: 16.67%;
+top: 70.83%;
+bottom: 29.17%;
+
+border: 1.16667px solid #FFFFFF;
+transform: rotate(-90deg);
+
+
+/* Vector */
+
+position: absolute;
+left: 33.34%;
+right: 41.66%;
+top: 37.5%;
+bottom: 62.5%;
+
+border: 1.16667px solid #FFFFFF;
+transform: rotate(-90deg);
+
+
+/* Vector */
+
+position: absolute;
+left: 66.66%;
+right: 8.34%;
+top: 4.17%;
+bottom: 95.83%;
+
+border: 1.16667px solid #FFFFFF;
+transform: rotate(-90deg);
+
+
+/* Text */
+
+width: 48px;
+height: 10px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 13.1961px;
+line-height: 21px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+display: flex;
+align-items: center;
+text-align: center;
+
+color: #FFFFFF;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Rectangle 24727 */
+
+box-sizing: border-box;
+
+position: absolute;
+width: 1158px;
+height: 360px;
+left: 259px;
+top: 129px;
+
+border: 1px solid #2E2E2E;
+border-radius: 20px;
+
+
+/* Rectangle 24729 */
+
+box-sizing: border-box;
+
+position: absolute;
+width: 570px;
+height: 238px;
+left: 259px;
+top: 507px;
+
+border: 1px solid #2E2E2E;
+border-radius: 20px;
+
+
+/* Rectangle 24730 */
+
+box-sizing: border-box;
+
+position: absolute;
+width: 571px;
+height: 238px;
+left: 846px;
+top: 507px;
+
+border: 1px solid #2E2E2E;
+border-radius: 20px;
+
+
+/* Group 1321319120 */
+
+position: absolute;
+width: 8px;
+height: 14px;
+left: 314px;
+top: 30px;
+
+
+
+/* Vector */
+
+position: absolute;
+left: 21.81%;
+right: 77.64%;
+top: 3.9%;
+bottom: 95.58%;
+
+border: 1.2px solid #999999;
+
+
+/* Vector */
+
+position: absolute;
+left: 21.81%;
+right: 77.64%;
+top: 5.19%;
+bottom: 94.29%;
+
+border: 1.2px solid #999999;
+transform: rotate(-180deg);
+
+
+/* Group 1321319159 */
+
+position: absolute;
+width: 1125px;
+height: 33px;
+left: 275px;
+top: 142px;
+
+
+
+/* Frame 1411067650 */
+
+box-sizing: border-box;
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 7px 12px;
+gap: 6px;
+
+position: absolute;
+width: 115px;
+height: 28px;
+left: 1285px;
+top: 145px;
+
+border: 1px solid #2E2E2E;
+border-radius: 7.84884px;
+
+
+/* Group 1321319158 */
+
+width: 12px;
+height: 12px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Ellipse 14876 */
+
+position: absolute;
+width: 12px;
+height: 12px;
+left: 12px;
+top: 8px;
+
+background: #1F381F;
+
+
+/* Ellipse 14875 */
+
+position: absolute;
+width: 5px;
+height: 5px;
+left: 15.5px;
+top: 11.5px;
+
+background: #04C40A;
+
+
+/* Text */
+
+width: 53px;
+height: 10px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 13.2px;
+line-height: 21px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+display: flex;
+align-items: center;
+text-align: center;
+
+color: #FFFFFF;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* mouse-pointer */
+
+width: 14px;
+height: 14px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 2;
+flex-grow: 0;
+
+
+/* Vector */
+
+position: absolute;
+left: 12.5%;
+right: 16.79%;
+top: 12.5%;
+bottom: 16.79%;
+
+border: 1.16667px solid #FFFFFF;
+
+
+/* Vector */
+
+position: absolute;
+left: 54.17%;
+right: 20.83%;
+top: 54.17%;
+bottom: 20.83%;
+
+border: 1.16667px solid #FFFFFF;
+
+
+/* Text */
+
+position: absolute;
+width: 116px;
+height: 7px;
+left: 780px;
+top: 156px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 10px;
+line-height: 16px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+display: flex;
+align-items: center;
+text-align: center;
+
+color: #BCBCBC;
+
+
+
+/* Ellipse 14874 */
+
+position: absolute;
+width: 32px;
+height: 32px;
+left: 275px;
+top: 142px;
+
+background: #E0E7F3;
+
+
+/* Frame 1411067900 */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 0px;
+gap: 11px;
+
+position: absolute;
+width: 146px;
+height: 14px;
+left: 318px;
+top: 144px;
+
+
+
+/* Text */
+
+width: 121px;
+height: 10px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 700;
+font-size: 13.1961px;
+line-height: 22px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+display: flex;
+align-items: center;
+
+color: #FFFFFF;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* copy */
+
+width: 14px;
+height: 14px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Vector */
+
+position: absolute;
+left: 37.5%;
+right: 8.33%;
+top: 37.5%;
+bottom: 8.33%;
+
+border: 1.16667px solid #FFFFFF;
+
+
+/* Vector */
+
+position: absolute;
+left: 8.33%;
+right: 37.5%;
+top: 8.33%;
+bottom: 37.5%;
+
+border: 1.16667px solid #FFFFFF;
+
+
+/* Frame 1411067905 */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 0px;
+gap: 14px;
+
+position: absolute;
+width: 123px;
+height: 12px;
+left: 320px;
+top: 163px;
+
+
+
+/* Frame 1411067904 */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 0px;
+gap: 4px;
+
+width: 94px;
+height: 12px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* corner-down-right */
+
+width: 12px;
+height: 12px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Vector */
+
+position: absolute;
+left: 62.5%;
+right: 16.67%;
+top: 41.66%;
+bottom: 16.68%;
+
+border: 1px solid #BCBCBC;
+
+
+/* Vector */
+
+position: absolute;
+left: 16.66%;
+right: 16.68%;
+top: 16.66%;
+bottom: 37.51%;
+
+border: 1px solid #BCBCBC;
+
+
+/* Text */
+
+width: 78px;
+height: 7px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 10px;
+line-height: 16px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+display: flex;
+align-items: center;
+
+color: #BCBCBC;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Text */
+
+width: 15px;
+height: 7px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 10px;
+line-height: 16px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+display: flex;
+align-items: center;
+
+color: #BCBCBC;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* busuu 1 */
+
+position: absolute;
+width: 22.08px;
+height: 22.08px;
+left: 279.92px;
+top: 146.92px;
+
+background: url(busuu.png);
+
+
+/* Group 1321319160 */
+
+position: absolute;
+width: 1127px;
+height: 33px;
+left: 275px;
+top: 207px;
+
+
+
+/* Frame 1411067650 */
+
+box-sizing: border-box;
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 7px 12px;
+gap: 6px;
+
+position: absolute;
+width: 117px;
+height: 28px;
+left: 1285px;
+top: 210px;
+
+border: 1px solid #2E2E2E;
+border-radius: 7.84884px;
+
+
+/* Group 1321319158 */
+
+width: 12px;
+height: 12px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Ellipse 14876 */
+
+position: absolute;
+width: 12px;
+height: 12px;
+left: 12px;
+top: 8px;
+
+background: #1F381F;
+
+
+/* Ellipse 14875 */
+
+position: absolute;
+width: 5px;
+height: 5px;
+left: 15.5px;
+top: 11.5px;
+
+background: #04C40A;
+
+
+/* Text */
+
+width: 55px;
+height: 10px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 13.2px;
+line-height: 21px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+display: flex;
+align-items: center;
+text-align: center;
+
+color: #FFFFFF;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* mouse-pointer */
+
+width: 14px;
+height: 14px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 2;
+flex-grow: 0;
+
+
+/* Vector */
+
+position: absolute;
+left: 12.5%;
+right: 16.79%;
+top: 12.5%;
+bottom: 16.79%;
+
+border: 1.16667px solid #FFFFFF;
+
+
+/* Vector */
+
+position: absolute;
+left: 54.17%;
+right: 20.83%;
+top: 54.17%;
+bottom: 20.83%;
+
+border: 1.16667px solid #FFFFFF;
+
+
+/* Text */
+
+position: absolute;
+width: 116px;
+height: 7px;
+left: 780px;
+top: 221px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 10px;
+line-height: 16px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+display: flex;
+align-items: center;
+text-align: center;
+
+color: #BCBCBC;
+
+
+
+/* Ellipse 14874 */
+
+position: absolute;
+width: 32px;
+height: 32px;
+left: 275px;
+top: 207px;
+
+background: #E0E7F3;
+
+
+/* Frame 1411067901 */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 0px;
+gap: 11px;
+
+position: absolute;
+width: 129px;
+height: 14px;
+left: 318px;
+top: 209px;
+
+
+
+/* Text */
+
+width: 104px;
+height: 10px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 700;
+font-size: 13.1961px;
+line-height: 22px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+display: flex;
+align-items: center;
+
+color: #FFFFFF;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* copy */
+
+width: 14px;
+height: 14px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Vector */
+
+position: absolute;
+left: 37.5%;
+right: 8.33%;
+top: 37.5%;
+bottom: 8.33%;
+
+border: 1.16667px solid #FFFFFF;
+
+
+/* Vector */
+
+position: absolute;
+left: 8.33%;
+right: 37.5%;
+top: 8.33%;
+bottom: 37.5%;
+
+border: 1.16667px solid #FFFFFF;
+
+
+/* Frame 1411067903 */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 0px;
+gap: 14px;
+
+position: absolute;
+width: 181px;
+height: 12px;
+left: 320px;
+top: 228px;
+
+
+
+/* Frame 1411067902 */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 0px;
+gap: 4px;
+
+width: 149px;
+height: 12px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* corner-down-right */
+
+width: 12px;
+height: 12px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Vector */
+
+position: absolute;
+left: 62.5%;
+right: 16.67%;
+top: 41.66%;
+bottom: 16.68%;
+
+border: 1px solid #BCBCBC;
+
+
+/* Vector */
+
+position: absolute;
+left: 16.66%;
+right: 16.68%;
+top: 16.66%;
+bottom: 37.51%;
+
+border: 1px solid #BCBCBC;
+
+
+/* Text */
+
+width: 133px;
+height: 7px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 10px;
+line-height: 16px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+display: flex;
+align-items: center;
+
+color: #BCBCBC;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Text */
+
+width: 18px;
+height: 7px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 10px;
+line-height: 16px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+display: flex;
+align-items: center;
+
+color: #BCBCBC;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* busuu 1 */
+
+position: absolute;
+width: 22.08px;
+height: 22.08px;
+left: 279.92px;
+top: 211.92px;
+
+background: url(busuu.png);
+
+
+/* Group 1321319161 */
+
+position: absolute;
+width: 1127px;
+height: 33px;
+left: 275px;
+top: 275px;
+
+
+
+/* Frame 1411067650 */
+
+box-sizing: border-box;
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 7px 12px;
+gap: 6px;
+
+position: absolute;
+width: 117px;
+height: 28px;
+left: 1285px;
+top: 278px;
+
+border: 1px solid #2E2E2E;
+border-radius: 7.84884px;
+
+
+/* Group 1321319158 */
+
+width: 12px;
+height: 12px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Ellipse 14876 */
+
+position: absolute;
+width: 12px;
+height: 12px;
+left: 12px;
+top: 8px;
+
+background: #1F381F;
+
+
+/* Ellipse 14875 */
+
+position: absolute;
+width: 5px;
+height: 5px;
+left: 15.5px;
+top: 11.5px;
+
+background: #04C40A;
+
+
+/* Text */
+
+width: 55px;
+height: 10px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 13.2px;
+line-height: 21px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+display: flex;
+align-items: center;
+text-align: center;
+
+color: #FFFFFF;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* mouse-pointer */
+
+width: 14px;
+height: 14px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 2;
+flex-grow: 0;
+
+
+/* Vector */
+
+position: absolute;
+left: 12.5%;
+right: 16.79%;
+top: 12.5%;
+bottom: 16.79%;
+
+border: 1.16667px solid #FFFFFF;
+
+
+/* Vector */
+
+position: absolute;
+left: 54.17%;
+right: 20.83%;
+top: 54.17%;
+bottom: 20.83%;
+
+border: 1.16667px solid #FFFFFF;
+
+
+/* Text */
+
+position: absolute;
+width: 116px;
+height: 7px;
+left: 780px;
+top: 289px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 10px;
+line-height: 16px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+display: flex;
+align-items: center;
+text-align: center;
+
+color: #BCBCBC;
+
+
+
+/* Frame 1411067901 */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 0px;
+gap: 11px;
+
+position: absolute;
+width: 129px;
+height: 14px;
+left: 318px;
+top: 277px;
+
+
+
+/* Text */
+
+width: 104px;
+height: 10px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 700;
+font-size: 13.1961px;
+line-height: 22px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+display: flex;
+align-items: center;
+
+color: #FFFFFF;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* copy */
+
+width: 14px;
+height: 14px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Vector */
+
+position: absolute;
+left: 37.5%;
+right: 8.33%;
+top: 37.5%;
+bottom: 8.33%;
+
+border: 1.16667px solid #FFFFFF;
+
+
+/* Vector */
+
+position: absolute;
+left: 8.33%;
+right: 37.5%;
+top: 8.33%;
+bottom: 37.5%;
+
+border: 1.16667px solid #FFFFFF;
+
+
+/* Frame 1411067903 */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 0px;
+gap: 14px;
+
+position: absolute;
+width: 181px;
+height: 12px;
+left: 320px;
+top: 296px;
+
+
+
+/* Frame 1411067902 */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 0px;
+gap: 4px;
+
+width: 149px;
+height: 12px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* corner-down-right */
+
+width: 12px;
+height: 12px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Vector */
+
+position: absolute;
+left: 62.5%;
+right: 16.67%;
+top: 41.66%;
+bottom: 16.68%;
+
+border: 1px solid #BCBCBC;
+
+
+/* Vector */
+
+position: absolute;
+left: 16.66%;
+right: 16.68%;
+top: 16.66%;
+bottom: 37.51%;
+
+border: 1px solid #BCBCBC;
+
+
+/* Text */
+
+width: 133px;
+height: 7px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 10px;
+line-height: 16px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+display: flex;
+align-items: center;
+
+color: #BCBCBC;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Text */
+
+width: 18px;
+height: 7px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 10px;
+line-height: 16px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+display: flex;
+align-items: center;
+
+color: #BCBCBC;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Group 1321319203 */
+
+position: absolute;
+width: 32px;
+height: 32px;
+left: 275px;
+top: 275px;
+
+
+
+/* Ellipse 14874 */
+
+position: absolute;
+width: 32px;
+height: 32px;
+left: 275px;
+top: 275px;
+
+background: #FFF1DF;
+
+
+/* twoo 1 */
+
+position: absolute;
+width: 23.92px;
+height: 23.92px;
+left: 279px;
+top: 279px;
+
+background: url(twoo.png);
+
+
+/* Group 1321319163 */
+
+position: absolute;
+width: 1127px;
+height: 33px;
+left: 275px;
+top: 343px;
+
+
+
+/* Frame 1411067650 */
+
+box-sizing: border-box;
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 7px 12px;
+gap: 6px;
+
+position: absolute;
+width: 117px;
+height: 28px;
+left: 1285px;
+top: 346px;
+
+border: 1px solid #2E2E2E;
+border-radius: 7.84884px;
+
+
+/* Group 1321319158 */
+
+width: 12px;
+height: 12px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Ellipse 14876 */
+
+position: absolute;
+width: 12px;
+height: 12px;
+left: 12px;
+top: 8px;
+
+background: #1F381F;
+
+
+/* Ellipse 14875 */
+
+position: absolute;
+width: 5px;
+height: 5px;
+left: 15.5px;
+top: 11.5px;
+
+background: #04C40A;
+
+
+/* Text */
+
+width: 55px;
+height: 10px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 13.2px;
+line-height: 21px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+display: flex;
+align-items: center;
+text-align: center;
+
+color: #FFFFFF;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* mouse-pointer */
+
+width: 14px;
+height: 14px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 2;
+flex-grow: 0;
+
+
+/* Vector */
+
+position: absolute;
+left: 12.5%;
+right: 16.79%;
+top: 12.5%;
+bottom: 16.79%;
+
+border: 1.16667px solid #FFFFFF;
+
+
+/* Vector */
+
+position: absolute;
+left: 54.17%;
+right: 20.83%;
+top: 54.17%;
+bottom: 20.83%;
+
+border: 1.16667px solid #FFFFFF;
+
+
+/* Text */
+
+position: absolute;
+width: 116px;
+height: 7px;
+left: 780px;
+top: 357px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 10px;
+line-height: 16px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+display: flex;
+align-items: center;
+text-align: center;
+
+color: #BCBCBC;
+
+
+
+/* Ellipse 14874 */
+
+position: absolute;
+width: 32px;
+height: 32px;
+left: 275px;
+top: 343px;
+
+background: #FFF1DF;
+
+
+/* Frame 1411067901 */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 0px;
+gap: 11px;
+
+position: absolute;
+width: 129px;
+height: 14px;
+left: 318px;
+top: 345px;
+
+
+
+/* Text */
+
+width: 104px;
+height: 10px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 700;
+font-size: 13.1961px;
+line-height: 22px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+display: flex;
+align-items: center;
+
+color: #FFFFFF;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* copy */
+
+width: 14px;
+height: 14px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Vector */
+
+position: absolute;
+left: 37.5%;
+right: 8.33%;
+top: 37.5%;
+bottom: 8.33%;
+
+border: 1.16667px solid #FFFFFF;
+
+
+/* Vector */
+
+position: absolute;
+left: 8.33%;
+right: 37.5%;
+top: 8.33%;
+bottom: 37.5%;
+
+border: 1.16667px solid #FFFFFF;
+
+
+/* Frame 1411067903 */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 0px;
+gap: 14px;
+
+position: absolute;
+width: 181px;
+height: 12px;
+left: 320px;
+top: 364px;
+
+
+
+/* Frame 1411067902 */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 0px;
+gap: 4px;
+
+width: 149px;
+height: 12px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* corner-down-right */
+
+width: 12px;
+height: 12px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Vector */
+
+position: absolute;
+left: 62.5%;
+right: 16.67%;
+top: 41.66%;
+bottom: 16.68%;
+
+border: 1px solid #BCBCBC;
+
+
+/* Vector */
+
+position: absolute;
+left: 16.66%;
+right: 16.68%;
+top: 16.66%;
+bottom: 37.51%;
+
+border: 1px solid #BCBCBC;
+
+
+/* Text */
+
+width: 133px;
+height: 7px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 10px;
+line-height: 16px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+display: flex;
+align-items: center;
+
+color: #BCBCBC;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Text */
+
+width: 18px;
+height: 7px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 10px;
+line-height: 16px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+display: flex;
+align-items: center;
+
+color: #BCBCBC;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* swarm 1 */
+
+position: absolute;
+width: 20px;
+height: 20px;
+left: 281px;
+top: 349px;
+
+background: url(swarm.png);
+
+
+/* Group 1321319164 */
+
+position: absolute;
+width: 1127px;
+height: 33px;
+left: 275px;
+top: 411px;
+
+
+
+/* Frame 1411067650 */
+
+box-sizing: border-box;
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 7px 12px;
+gap: 6px;
+
+position: absolute;
+width: 117px;
+height: 28px;
+left: 1285px;
+top: 414px;
+
+border: 1px solid #2E2E2E;
+border-radius: 7.84884px;
+
+
+/* Group 1321319158 */
+
+width: 12px;
+height: 12px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Ellipse 14876 */
+
+position: absolute;
+width: 12px;
+height: 12px;
+left: 12px;
+top: 8px;
+
+background: #1F381F;
+
+
+/* Ellipse 14875 */
+
+position: absolute;
+width: 5px;
+height: 5px;
+left: 15.5px;
+top: 11.5px;
+
+background: #04C40A;
+
+
+/* Text */
+
+width: 55px;
+height: 10px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 13.2px;
+line-height: 21px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+display: flex;
+align-items: center;
+text-align: center;
+
+color: #FFFFFF;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* mouse-pointer */
+
+width: 14px;
+height: 14px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 2;
+flex-grow: 0;
+
+
+/* Vector */
+
+position: absolute;
+left: 12.5%;
+right: 16.79%;
+top: 12.5%;
+bottom: 16.79%;
+
+border: 1.16667px solid #FFFFFF;
+
+
+/* Vector */
+
+position: absolute;
+left: 54.17%;
+right: 20.83%;
+top: 54.17%;
+bottom: 20.83%;
+
+border: 1.16667px solid #FFFFFF;
+
+
+/* Text */
+
+position: absolute;
+width: 116px;
+height: 7px;
+left: 780px;
+top: 425px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 10px;
+line-height: 16px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+display: flex;
+align-items: center;
+text-align: center;
+
+color: #BCBCBC;
+
+
+
+/* Ellipse 14874 */
+
+position: absolute;
+width: 32px;
+height: 32px;
+left: 275px;
+top: 411px;
+
+background: #FFEEED;
+
+
+/* Frame 1411067901 */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 0px;
+gap: 11px;
+
+position: absolute;
+width: 129px;
+height: 14px;
+left: 318px;
+top: 413px;
+
+
+
+/* Text */
+
+width: 104px;
+height: 10px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 700;
+font-size: 13.1961px;
+line-height: 22px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+display: flex;
+align-items: center;
+
+color: #FFFFFF;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* copy */
+
+width: 14px;
+height: 14px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Vector */
+
+position: absolute;
+left: 37.5%;
+right: 8.33%;
+top: 37.5%;
+bottom: 8.33%;
+
+border: 1.16667px solid #FFFFFF;
+
+
+/* Vector */
+
+position: absolute;
+left: 8.33%;
+right: 37.5%;
+top: 8.33%;
+bottom: 37.5%;
+
+border: 1.16667px solid #FFFFFF;
+
+
+/* Frame 1411067903 */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 0px;
+gap: 14px;
+
+position: absolute;
+width: 181px;
+height: 12px;
+left: 320px;
+top: 432px;
+
+
+
+/* Frame 1411067902 */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 0px;
+gap: 4px;
+
+width: 149px;
+height: 12px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* corner-down-right */
+
+width: 12px;
+height: 12px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Vector */
+
+position: absolute;
+left: 62.5%;
+right: 16.67%;
+top: 41.66%;
+bottom: 16.68%;
+
+border: 1px solid #BCBCBC;
+
+
+/* Vector */
+
+position: absolute;
+left: 16.66%;
+right: 16.68%;
+top: 16.66%;
+bottom: 37.51%;
+
+border: 1px solid #BCBCBC;
+
+
+/* Text */
+
+width: 133px;
+height: 7px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 10px;
+line-height: 16px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+display: flex;
+align-items: center;
+
+color: #BCBCBC;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Text */
+
+width: 18px;
+height: 7px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 10px;
+line-height: 16px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+display: flex;
+align-items: center;
+
+color: #BCBCBC;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* lastfm 1 */
+
+position: absolute;
+width: 22px;
+height: 22px;
+left: 280px;
+top: 416px;
+
+background: url(lastfm.png);
+
+
+/* Group 1321319162 */
+
+position: absolute;
+visibility: hidden;
+width: 521px;
+height: 110px;
+left: 275px;
+top: 615px;
+
+
+
+/* Rectangle 24788 */
+
+position: absolute;
+width: 25px;
+height: 71px;
+left: 275px;
+top: 654px;
+
+background: #363644;
+border-radius: 6px;
+
+
+/* Rectangle 24772 */
+
+position: absolute;
+width: 25px;
+height: 58px;
+left: 306px;
+top: 667px;
+
+background: #363644;
+border-radius: 6px;
+
+
+/* Rectangle 24773 */
+
+position: absolute;
+width: 25px;
+height: 84px;
+left: 337px;
+top: 641px;
+
+background: #363644;
+border-radius: 6px;
+
+
+/* Rectangle 24774 */
+
+position: absolute;
+width: 25px;
+height: 71px;
+left: 368px;
+top: 654px;
+
+background: #363644;
+border-radius: 6px;
+
+
+/* Rectangle 24775 */
+
+position: absolute;
+width: 25px;
+height: 92px;
+left: 399px;
+top: 633px;
+
+background: #363644;
+border-radius: 6px;
+
+
+/* Rectangle 24776 */
+
+position: absolute;
+width: 25px;
+height: 47px;
+left: 430px;
+top: 678px;
+
+background: #363644;
+border-radius: 6px;
+
+
+/* Rectangle 24777 */
+
+position: absolute;
+width: 25px;
+height: 71px;
+left: 461px;
+top: 654px;
+
+background: #363644;
+border-radius: 6px;
+
+
+/* Rectangle 24778 */
+
+position: absolute;
+width: 25px;
+height: 18px;
+left: 492px;
+top: 707px;
+
+background: #363644;
+border-radius: 6px;
+
+
+/* Rectangle 24779 */
+
+position: absolute;
+width: 25px;
+height: 47px;
+left: 523px;
+top: 678px;
+
+background: #363644;
+border-radius: 6px;
+
+
+/* Rectangle 24780 */
+
+position: absolute;
+width: 25px;
+height: 97px;
+left: 554px;
+top: 628px;
+
+background: #363644;
+border-radius: 6px;
+
+
+/* Rectangle 24781 */
+
+position: absolute;
+width: 25px;
+height: 110px;
+left: 585px;
+top: 615px;
+
+background: #363644;
+border-radius: 6px;
+
+
+/* Rectangle 24782 */
+
+position: absolute;
+width: 25px;
+height: 71px;
+left: 616px;
+top: 654px;
+
+background: #363644;
+border-radius: 6px;
+
+
+/* Rectangle 24783 */
+
+position: absolute;
+width: 25px;
+height: 92px;
+left: 647px;
+top: 633px;
+
+background: #363644;
+border-radius: 6px;
+
+
+/* Rectangle 24784 */
+
+position: absolute;
+width: 25px;
+height: 71px;
+left: 678px;
+top: 654px;
+
+background: #363644;
+border-radius: 6px;
+
+
+/* Rectangle 24785 */
+
+position: absolute;
+width: 25px;
+height: 76px;
+left: 709px;
+top: 649px;
+
+background: #363644;
+border-radius: 6px;
+
+
+/* Rectangle 24786 */
+
+position: absolute;
+width: 25px;
+height: 53px;
+left: 740px;
+top: 672px;
+
+background: #363644;
+border-radius: 6px;
+
+
+/* Rectangle 24787 */
+
+position: absolute;
+width: 25px;
+height: 92px;
+left: 771px;
+top: 633px;
+
+background: #363644;
+border-radius: 6px;
+
+
+/* Mask group */
+
+position: absolute;
+width: 25px;
+height: 16px;
+left: 275px;
+top: 654px;
+
+
+
+/* Rectangle 24771 */
+
+position: absolute;
+width: 25px;
+height: 16px;
+left: 275px;
+top: 654px;
+
+background: #363644;
+border-radius: 6px;
+
+
+/* Rectangle 24789 */
+
+position: absolute;
+width: 25px;
+height: 5px;
+left: 275px;
+top: 654px;
+
+background: #6449FF;
+
+
+/* Mask group */
+
+position: absolute;
+width: 25px;
+height: 16px;
+left: 306px;
+top: 667px;
+
+
+
+/* Rectangle 24771 */
+
+position: absolute;
+width: 25px;
+height: 16px;
+left: 306px;
+top: 667px;
+
+background: #363644;
+border-radius: 6px;
+
+
+/* Rectangle 24789 */
+
+position: absolute;
+width: 25px;
+height: 5px;
+left: 306px;
+top: 667px;
+
+background: #6449FF;
+
+
+/* Mask group */
+
+position: absolute;
+width: 25px;
+height: 16px;
+left: 337px;
+top: 641px;
+
+
+
+/* Rectangle 24771 */
+
+position: absolute;
+width: 25px;
+height: 16px;
+left: 337px;
+top: 641px;
+
+background: #363644;
+border-radius: 6px;
+
+
+/* Rectangle 24789 */
+
+position: absolute;
+width: 25px;
+height: 5px;
+left: 337px;
+top: 641px;
+
+background: #6449FF;
+
+
+/* Mask group */
+
+position: absolute;
+width: 25px;
+height: 16px;
+left: 368px;
+top: 654px;
+
+
+
+/* Rectangle 24771 */
+
+position: absolute;
+width: 25px;
+height: 16px;
+left: 368px;
+top: 654px;
+
+background: #363644;
+border-radius: 6px;
+
+
+/* Rectangle 24789 */
+
+position: absolute;
+width: 25px;
+height: 5px;
+left: 368px;
+top: 654px;
+
+background: #6449FF;
+
+
+/* Mask group */
+
+position: absolute;
+width: 25px;
+height: 16px;
+left: 399px;
+top: 633px;
+
+
+
+/* Rectangle 24771 */
+
+position: absolute;
+width: 25px;
+height: 16px;
+left: 399px;
+top: 633px;
+
+background: #363644;
+border-radius: 6px;
+
+
+/* Rectangle 24789 */
+
+position: absolute;
+width: 25px;
+height: 3px;
+left: 399px;
+top: 633px;
+
+background: #6449FF;
+
+
+/* Mask group */
+
+position: absolute;
+width: 25px;
+height: 16px;
+left: 430px;
+top: 678px;
+
+
+
+/* Rectangle 24771 */
+
+position: absolute;
+width: 25px;
+height: 16px;
+left: 430px;
+top: 678px;
+
+background: #363644;
+border-radius: 6px;
+
+
+/* Rectangle 24789 */
+
+position: absolute;
+width: 25px;
+height: 3px;
+left: 430px;
+top: 678px;
+
+background: #6449FF;
+
+
+/* Mask group */
+
+position: absolute;
+width: 25px;
+height: 16px;
+left: 461px;
+top: 654px;
+
+
+
+/* Rectangle 24771 */
+
+position: absolute;
+width: 25px;
+height: 16px;
+left: 461px;
+top: 654px;
+
+background: #363644;
+border-radius: 6px;
+
+
+/* Rectangle 24789 */
+
+position: absolute;
+width: 25px;
+height: 3px;
+left: 461px;
+top: 654px;
+
+background: #6449FF;
+
+
+/* Mask group */
+
+position: absolute;
+width: 25px;
+height: 16px;
+left: 492px;
+top: 707px;
+
+
+
+/* Rectangle 24771 */
+
+position: absolute;
+width: 25px;
+height: 16px;
+left: 492px;
+top: 707px;
+
+background: #363644;
+border-radius: 6px;
+
+
+/* Rectangle 24789 */
+
+position: absolute;
+width: 25px;
+height: 3px;
+left: 492px;
+top: 707px;
+
+background: #6449FF;
+
+
+/* Mask group */
+
+position: absolute;
+width: 25px;
+height: 16px;
+left: 523px;
+top: 678px;
+
+
+
+/* Rectangle 24771 */
+
+position: absolute;
+width: 25px;
+height: 16px;
+left: 523px;
+top: 678px;
+
+background: #363644;
+border-radius: 6px;
+
+
+/* Rectangle 24789 */
+
+position: absolute;
+width: 25px;
+height: 3px;
+left: 523px;
+top: 678px;
+
+background: #6449FF;
+
+
+/* Mask group */
+
+position: absolute;
+width: 25px;
+height: 16px;
+left: 554px;
+top: 628px;
+
+
+
+/* Rectangle 24771 */
+
+position: absolute;
+width: 25px;
+height: 16px;
+left: 554px;
+top: 628px;
+
+background: #363644;
+border-radius: 6px;
+
+
+/* Rectangle 24789 */
+
+position: absolute;
+width: 25px;
+height: 3px;
+left: 554px;
+top: 628px;
+
+background: #6449FF;
+
+
+/* Mask group */
+
+position: absolute;
+width: 25px;
+height: 16px;
+left: 585px;
+top: 615px;
+
+
+
+/* Rectangle 24771 */
+
+position: absolute;
+width: 25px;
+height: 16px;
+left: 585px;
+top: 615px;
+
+background: #363644;
+border-radius: 6px;
+
+
+/* Rectangle 24789 */
+
+position: absolute;
+width: 25px;
+height: 3px;
+left: 585px;
+top: 615px;
+
+background: #6449FF;
+
+
+/* Mask group */
+
+position: absolute;
+width: 25px;
+height: 16px;
+left: 616px;
+top: 654px;
+
+
+
+/* Rectangle 24771 */
+
+position: absolute;
+width: 25px;
+height: 16px;
+left: 616px;
+top: 654px;
+
+background: #363644;
+border-radius: 6px;
+
+
+/* Rectangle 24789 */
+
+position: absolute;
+width: 25px;
+height: 3px;
+left: 616px;
+top: 654px;
+
+background: #6449FF;
+
+
+/* Mask group */
+
+position: absolute;
+width: 25px;
+height: 16px;
+left: 647px;
+top: 633px;
+
+
+
+/* Rectangle 24771 */
+
+position: absolute;
+width: 25px;
+height: 16px;
+left: 647px;
+top: 633px;
+
+background: #363644;
+border-radius: 6px;
+
+
+/* Rectangle 24789 */
+
+position: absolute;
+width: 25px;
+height: 3px;
+left: 647px;
+top: 633px;
+
+background: #6449FF;
+
+
+/* Mask group */
+
+position: absolute;
+width: 25px;
+height: 16px;
+left: 678px;
+top: 654px;
+
+
+
+/* Rectangle 24771 */
+
+position: absolute;
+width: 25px;
+height: 16px;
+left: 678px;
+top: 654px;
+
+background: #363644;
+border-radius: 6px;
+
+
+/* Rectangle 24789 */
+
+position: absolute;
+width: 25px;
+height: 3px;
+left: 678px;
+top: 654px;
+
+background: #6449FF;
+
+
+/* Mask group */
+
+position: absolute;
+width: 25px;
+height: 16px;
+left: 709px;
+top: 649px;
+
+
+
+/* Rectangle 24771 */
+
+position: absolute;
+width: 25px;
+height: 16px;
+left: 709px;
+top: 649px;
+
+background: #363644;
+border-radius: 6px;
+
+
+/* Rectangle 24789 */
+
+position: absolute;
+width: 25px;
+height: 3px;
+left: 709px;
+top: 649px;
+
+background: #6449FF;
+
+
+/* Mask group */
+
+position: absolute;
+width: 25px;
+height: 16px;
+left: 740px;
+top: 672px;
+
+
+
+/* Rectangle 24771 */
+
+position: absolute;
+width: 25px;
+height: 16px;
+left: 740px;
+top: 672px;
+
+background: #363644;
+border-radius: 6px;
+
+
+/* Rectangle 24789 */
+
+position: absolute;
+width: 25px;
+height: 3px;
+left: 740px;
+top: 672px;
+
+background: #6449FF;
+
+
+/* Mask group */
+
+position: absolute;
+width: 25px;
+height: 16px;
+left: 771px;
+top: 633px;
+
+
+
+/* Rectangle 24771 */
+
+position: absolute;
+width: 25px;
+height: 16px;
+left: 771px;
+top: 633px;
+
+background: #363644;
+border-radius: 6px;
+
+
+/* Rectangle 24789 */
+
+position: absolute;
+width: 25px;
+height: 3px;
+left: 771px;
+top: 633px;
+
+background: #6449FF;
+
+
+/* Vector 2890 */
+
+position: absolute;
+visibility: hidden;
+width: 512px;
+height: 93px;
+left: 284px;
+top: 615.75px;
+
+border: 10px solid #6449FF;
+
+
+/* Group 1321319216 */
+
+position: absolute;
+width: 569px;
+height: 0px;
+left: 847px;
+top: 552px;
+
+
+
+/* Vector 2876 */
+
+position: absolute;
+width: 569px;
+height: 0px;
+left: 847px;
+top: 552px;
+
+border: 1px solid #2E2E2E;
+
+
+/* Vector 2892 */
+
+position: absolute;
+width: 40px;
+height: 0px;
+left: 868px;
+top: 552px;
+
+border: 1px solid #FFFFFF;
+
+
+/* Group 1321319184 */
+
+position: absolute;
+width: 512.5px;
+height: 152.88px;
+left: 289px;
+top: 574px;
+
+
+
+/* Group 1321319165 */
+
+position: absolute;
+width: 512.5px;
+height: 149px;
+left: 289px;
+top: 574px;
+
+
+
+/* Vector 2895 */
+
+position: absolute;
+width: 0px;
+height: 149px;
+left: 289.5px;
+top: 574px;
+
+border: 1px solid #1A1A1A;
+
+
+/* Vector 2896 */
+
+position: absolute;
+width: 0px;
+height: 149px;
+left: 353.5px;
+top: 574px;
+
+border: 1px solid #1A1A1A;
+
+
+/* Vector 2897 */
+
+position: absolute;
+width: 0px;
+height: 149px;
+left: 417.5px;
+top: 574px;
+
+border: 1px solid #1A1A1A;
+
+
+/* Vector 2898 */
+
+position: absolute;
+width: 0px;
+height: 149px;
+left: 481.5px;
+top: 574px;
+
+border: 1px solid #1A1A1A;
+
+
+/* Vector 2899 */
+
+position: absolute;
+width: 0px;
+height: 149px;
+left: 545.5px;
+top: 574px;
+
+border: 1px solid #1A1A1A;
+
+
+/* Vector 2900 */
+
+position: absolute;
+width: 0px;
+height: 149px;
+left: 609.5px;
+top: 574px;
+
+border: 1px solid #1A1A1A;
+
+
+/* Vector 2901 */
+
+position: absolute;
+width: 0px;
+height: 149px;
+left: 673.5px;
+top: 574px;
+
+border: 1px solid #1A1A1A;
+
+
+/* Vector 2902 */
+
+position: absolute;
+width: 0px;
+height: 149px;
+left: 737.5px;
+top: 574px;
+
+border: 1px solid #1A1A1A;
+
+
+/* Vector 2904 */
+
+position: absolute;
+width: 0px;
+height: 149px;
+left: 801.5px;
+top: 574px;
+
+border: 1px solid #1A1A1A;
+
+
+/* Vector 2905 */
+
+position: absolute;
+width: 0px;
+height: 512px;
+left: 289px;
+top: 695px;
+
+border: 1px solid #1A1A1A;
+transform: rotate(-90deg);
+
+
+/* Vector 2906 */
+
+position: absolute;
+width: 0px;
+height: 512px;
+left: 289px;
+top: 663px;
+
+border: 1px solid #1A1A1A;
+transform: rotate(-90deg);
+
+
+/* Vector 2907 */
+
+position: absolute;
+width: 0px;
+height: 512px;
+left: 289px;
+top: 631px;
+
+border: 1px solid #1A1A1A;
+transform: rotate(-90deg);
+
+
+/* Vector 2908 */
+
+position: absolute;
+width: 0px;
+height: 512px;
+left: 289px;
+top: 599px;
+
+border: 1px solid #1A1A1A;
+transform: rotate(-90deg);
+
+
+/* Vector 2891 */
+
+position: absolute;
+width: 512px;
+height: 129px;
+left: 289px;
+top: 597.88px;
+
+background: linear-gradient(180deg, rgba(100, 73, 255, 0.4) 0%, rgba(100, 73, 255, 0) 92.26%);
+
+
+/* Vector 2889 */
+
+position: absolute;
+width: 512px;
+height: 93px;
+left: 289px;
+top: 597.88px;
+
+border: 4px solid #6449FF;
+
+
+/* Group 1321319207 */
+
+position: absolute;
+width: 21px;
+height: 21px;
+left: 868px;
+top: 605px;
+
+
+
+/* Ellipse 14876 */
+
+position: absolute;
+width: 21px;
+height: 21px;
+left: 868px;
+top: 605px;
+
+background: #E0E7F3;
+
+
+/* busuu 1 */
+
+position: absolute;
+width: 14px;
+height: 14px;
+left: 871px;
+top: 609px;
+
+background: url(busuu.png);
+
+
+/* Group 1321319210 */
+
+position: absolute;
+width: 21px;
+height: 21px;
+left: 868px;
+top: 705px;
+
+
+
+/* Ellipse 14879 */
+
+position: absolute;
+width: 21px;
+height: 21px;
+left: 868px;
+top: 705px;
+
+background: #E0E7F3;
+
+
+/* busuu 2 */
+
+position: absolute;
+width: 14px;
+height: 14px;
+left: 871px;
+top: 709px;
+
+background: url(busuu.png);
+
+
+/* Group 1321319206 */
+
+position: absolute;
+width: 21px;
+height: 21px;
+left: 868px;
+top: 573px;
+
+
+
+/* Ellipse 14875 */
+
+position: absolute;
+width: 21px;
+height: 21px;
+left: 868px;
+top: 573px;
+
+background: #FFF1DF;
+
+
+/* twoo 1 */
+
+position: absolute;
+width: 14px;
+height: 14px;
+left: 871px;
+top: 577px;
+
+background: url(twoo.png);
+
+
+/* Group 1321319217 */
+
+position: absolute;
+width: 21px;
+height: 21px;
+left: 868px;
+top: 672px;
+
+
+
+/* Ellipse 14878 */
+
+position: absolute;
+width: 21px;
+height: 21px;
+left: 868px;
+top: 672px;
+
+background: #FFF1DF;
+
+
+/* swarm 1 */
+
+position: absolute;
+width: 14px;
+height: 14px;
+left: 871px;
+top: 676px;
+
+background: url(swarm.png);
+
+
+/* Group 1321319208 */
+
+position: absolute;
+width: 21px;
+height: 21px;
+left: 868px;
+top: 639px;
+
+
+
+/* Ellipse 14877 */
+
+position: absolute;
+width: 21px;
+height: 21px;
+left: 868px;
+top: 639px;
+
+background: #FFEEED;
+
+
+/* lastfm 1 */
+
+position: absolute;
+width: 14px;
+height: 14px;
+left: 871px;
+top: 643px;
+
+background: url(lastfm.png);
+
+
+/* Group 1321319211 */
+
+position: absolute;
+width: 504px;
+height: 25px;
+left: 897px;
+top: 571px;
+
+
+
+/* 124 */
+
+position: absolute;
+width: 22px;
+height: 10px;
+left: 1379px;
+top: 578px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 22px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+text-align: right;
+
+color: #FFFFFF;
+
+
+
+/* Rectangle 24789 */
+
+position: absolute;
+width: 25px;
+height: 441px;
+left: 897px;
+top: 571px;
+
+background: #5A42E6;
+border-radius: 6px;
+transform: rotate(-90deg);
+
+
+/* Text */
+
+position: absolute;
+width: 88px;
+height: 7px;
+left: 903px;
+top: 580px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 10px;
+line-height: 16px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+display: flex;
+align-items: center;
+
+color: #FFFFFF;
+
+
+
+/* Group 1321319212 */
+
+position: absolute;
+width: 504px;
+height: 25px;
+left: 897px;
+top: 604px;
+
+
+
+/* 86 */
+
+position: absolute;
+width: 18px;
+height: 10px;
+left: 1383px;
+top: 611px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 22px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+text-align: right;
+
+color: #FFFFFF;
+
+
+
+/* Rectangle 24790 */
+
+position: absolute;
+width: 25px;
+height: 381px;
+left: 897px;
+top: 604px;
+
+background: #4633B3;
+border-radius: 6px;
+transform: rotate(-90deg);
+
+
+/* Text */
+
+position: absolute;
+width: 75px;
+height: 7px;
+left: 903px;
+top: 612px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 10px;
+line-height: 16px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+display: flex;
+align-items: center;
+
+color: #FFFFFF;
+
+
+
+/* Group 1321319213 */
+
+position: absolute;
+width: 504px;
+height: 25px;
+left: 897px;
+top: 637px;
+
+
+
+/* 51 */
+
+position: absolute;
+width: 14px;
+height: 10px;
+left: 1387px;
+top: 644px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 22px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+text-align: right;
+
+color: #FFFFFF;
+
+
+
+/* Rectangle 24791 */
+
+position: absolute;
+width: 25px;
+height: 180px;
+left: 897px;
+top: 637px;
+
+background: #3C2C99;
+border-radius: 6px;
+transform: rotate(-90deg);
+
+
+/* Text */
+
+position: absolute;
+width: 88px;
+height: 7px;
+left: 903px;
+top: 646px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 10px;
+line-height: 16px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+display: flex;
+align-items: center;
+
+color: #FFFFFF;
+
+
+
+/* Group 1321319214 */
+
+position: absolute;
+width: 504px;
+height: 25px;
+left: 897px;
+top: 670px;
+
+
+
+/* 46 */
+
+position: absolute;
+width: 17px;
+height: 10px;
+left: 1384px;
+top: 677px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 22px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+text-align: right;
+
+color: #FFFFFF;
+
+
+
+/* Rectangle 24792 */
+
+position: absolute;
+width: 25px;
+height: 142px;
+left: 897px;
+top: 670px;
+
+background: #322580;
+border-radius: 6px;
+transform: rotate(-90deg);
+
+
+/* Text */
+
+position: absolute;
+width: 88px;
+height: 7px;
+left: 903px;
+top: 679px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 10px;
+line-height: 16px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+display: flex;
+align-items: center;
+
+color: #FFFFFF;
+
+
+
+/* Group 1321319215 */
+
+position: absolute;
+width: 504px;
+height: 25px;
+left: 897px;
+top: 703px;
+
+
+
+/* 21 */
+
+position: absolute;
+width: 14px;
+height: 10px;
+left: 1387px;
+top: 710px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 22px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+text-align: right;
+
+color: #FFFFFF;
+
+
+
+/* Rectangle 24793 */
+
+position: absolute;
+width: 25px;
+height: 50px;
+left: 897px;
+top: 703px;
+
+background: #281D66;
+border-radius: 6px;
+transform: rotate(-90deg);
+
+
+/* Text */
+
+position: absolute;
+width: 88px;
+height: 7px;
+left: 903px;
+top: 712px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 10px;
+line-height: 16px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+display: flex;
+align-items: center;
+
+color: #FFFFFF;
+
+
+
+/* Ellipse 14880 */
+
+position: absolute;
+width: 7px;
+height: 7px;
+left: 49px;
+top: 47px;
+
+background: #04C40A;
+
+
+/* Group 1321319167 */
+
+position: absolute;
+width: 205px;
+height: 31px;
+left: 15px;
+top: 94px;
+
+
+
+/* Rectangle 2206 */
+
+position: absolute;
+width: 205px;
+height: 31px;
+left: 15px;
+top: 94px;
+
+background: #1F1F1F;
+opacity: 0;
+border-radius: 9.33415px;
+
+
+/* Link Integrations */
+
+position: absolute;
+width: 100px;
+height: 9px;
+left: 25.67px;
+top: 105.48px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 12px;
+line-height: 19px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+
+color: #BCBCBC;
+
+
+
+/* Frame 1411067894 */
+
+box-sizing: border-box;
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 5.38813px 6.73516px;
+gap: 2px;
+
+position: absolute;
+width: 56.78px;
+height: 22.78px;
+left: 159px;
+top: 98px;
+
+background: #1F1F1F;
+border: 0.673516px solid #2E2E2E;
+border-radius: 7px;
+
+
+/* logos:google-drive */
+
+width: 13.35px;
+height: 11.94px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Vector */
+
+position: absolute;
+left: 0.02%;
+right: 68.48%;
+top: 66.35%;
+bottom: 1.65%;
+
+background: #0066DA;
+
+
+/* Vector */
+
+position: absolute;
+left: 68.55%;
+right: 0.02%;
+top: 66.35%;
+bottom: 1.65%;
+
+background: #EA4335;
+
+
+/* Vector */
+
+position: absolute;
+left: 34.26%;
+right: 34.24%;
+top: 0.01%;
+bottom: 67.98%;
+
+background: #00832D;
+
+
+/* Vector */
+
+position: absolute;
+left: 15.75%;
+right: 15.77%;
+top: 67.88%;
+bottom: 0.1%;
+
+background: #2684FC;
+
+
+/* Vector */
+
+position: absolute;
+left: 0.02%;
+right: 49.99%;
+top: 1.57%;
+bottom: 32.1%;
+
+background: #00AC47;
+
+
+/* Vector */
+
+position: absolute;
+left: 50.01%;
+right: 0.06%;
+top: 1.57%;
+bottom: 32.1%;
+
+background: #FFBA00;
+
+
+/* vscode-icons:file-type-firebasehosting */
+
+width: 11.87px;
+height: 11.87px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Vector */
+
+position: absolute;
+left: 36.05%;
+right: 34.3%;
+top: 83.18%;
+bottom: 2.98%;
+
+background: #FF9100;
+
+
+/* Vector */
+
+position: absolute;
+left: 12.63%;
+right: 50.85%;
+top: 40.09%;
+bottom: 5.65%;
+
+background: #FFC400;
+
+
+/* Vector */
+
+position: absolute;
+left: 32.15%;
+right: 46.59%;
+top: 40.91%;
+bottom: 16.85%;
+
+background: #FF9100;
+
+
+/* Vector */
+
+position: absolute;
+left: 32.28%;
+right: 12.58%;
+top: 3.05%;
+bottom: 6.44%;
+
+background: #DD2C00;
+
+
+/* logos:dropbox */
+
+width: 14.09px;
+height: 12px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 2;
+flex-grow: 0;
+
+
+/* Vector */
+
+position: absolute;
+left: 0.01%;
+right: 0%;
+top: 0.01%;
+bottom: 0.2%;
+
+background: #0061FF;
+
+
+/* Group 1321319183 */
+
+position: absolute;
+width: 205px;
+height: 128px;
+left: 17px;
+top: 522px;
+
+
+
+/* Partners affiliate program */
+
+position: absolute;
+width: 155px;
+height: 9px;
+left: 29px;
+top: 564px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 12px;
+line-height: 19px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+
+color: #BCBCBC;
+
+
+
+/* Frame 1321318858 */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+padding: 5px 6px;
+gap: 10px;
+
+position: absolute;
+width: 35.81px;
+height: 17.94px;
+left: 29px;
+top: 534px;
+
+background: #1C2B1C;
+border-radius: 5.13378px;
+
+
+/* New */
+
+width: 23.81px;
+height: 7.94px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 10px;
+line-height: 16px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+
+color: #04C40A;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Frame 1411067652 */
+
+box-sizing: border-box;
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 5px 12px;
+gap: 3px;
+
+position: absolute;
+width: 82px;
+height: 22px;
+left: 29px;
+top: 616px;
+
+border: 1px solid #2E2E2E;
+border-radius: 7.84884px;
+
+
+/* Text */
+
+width: 43px;
+height: 7px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 10px;
+line-height: 16px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+display: flex;
+align-items: center;
+text-align: center;
+
+color: #BCBCBC;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* arrow-up-right */
+
+width: 12px;
+height: 12px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Vector */
+
+position: absolute;
+left: 29.16%;
+right: 29.18%;
+top: 29.16%;
+bottom: 29.18%;
+
+border: 1px solid #BCBCBC;
+
+
+/* Vector */
+
+position: absolute;
+left: 29.16%;
+right: 29.18%;
+top: 29.16%;
+bottom: 29.18%;
+
+border: 1px solid #BCBCBC;
+
+
+/* Text */
+
+position: absolute;
+width: 171px;
+height: 23px;
+left: 29px;
+top: 583px;
+
+font-family: 'Axiforma';
+font-style: normal;
+font-weight: 400;
+font-size: 10px;
+line-height: 16px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+display: flex;
+align-items: center;
+
+color: #747474;
+
+
+
+/* Rectangle 24795 */
+
+box-sizing: border-box;
+
+position: absolute;
+width: 205px;
+height: 128px;
+left: 17px;
+top: 522px;
+
+border: 1px solid #2E2E2E;
+border-radius: 16px;
+
+
+/* x */
+
+position: absolute;
+width: 16px;
+height: 16px;
+left: 194px;
+top: 535px;
+
+
+
+/* Vector */
+
+position: absolute;
+left: 25%;
+right: 25%;
+top: 25%;
+bottom: 25%;
+
+border: 1.33333px solid #747474;
+
+
+/* Vector */
+
+position: absolute;
+left: 25%;
+right: 25%;
+top: 25%;
+bottom: 25%;
+
+border: 1.33333px solid #747474;

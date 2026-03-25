@@ -25,7 +25,7 @@ export function AnalyticsPanel({ companyId }) {
 
   if (loading) {
     return (
-      <div className="admin-panel admin-analytics-loading">
+      <div className="admin-panel ap-analytics admin-analytics-loading">
         <div className="admin-analytics-loading-inner">
           <RefreshCw className="fa-spin admin-analytics-loading-icon" />
           <p>Loading analytics...</p>
@@ -36,7 +36,7 @@ export function AnalyticsPanel({ companyId }) {
 
   if (error) {
     return (
-      <div className="admin-panel">
+      <div className="admin-panel ap-analytics">
         <div className="admin-error">
           Error loading analytics: {error}
         </div>
@@ -47,7 +47,7 @@ export function AnalyticsPanel({ companyId }) {
   const { summary, byStaff, byDay, alerts, topPerformers, lossPreventionFlags } = analytics;
 
   return (
-    <div className="admin-panel">
+    <div className="admin-panel ap-analytics">
       {/* Header */}
       <div className="admin-panel-header admin-analytics-header">
         <div>

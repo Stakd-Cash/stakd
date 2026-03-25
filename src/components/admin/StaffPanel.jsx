@@ -303,7 +303,7 @@ export function StaffPanel({ company, openAddRequest = 0, onOnboardingAddSuccess
   );
 
   return (
-    <div className="admin-panel">
+    <div className="admin-panel ap-staff">
       <div className="admin-panel-header">
         <h2>Staff</h2>
         {canEdit && (

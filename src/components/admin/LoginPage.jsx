@@ -327,7 +327,7 @@ export function LoginPage({ navigate }) {
   };
 
   return (
-    <div className="login-page sk-page-full stakd-pattern-bg">
+    <div className="login-page sk-page-full">
       <button
         type="button"
         className="sk-back-btn sk-back-btn--fixed"
