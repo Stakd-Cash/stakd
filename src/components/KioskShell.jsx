@@ -5,8 +5,13 @@ import React from 'react';
  */
 export function KioskShell({ banner, footer, children }) {
   const hasFooter = Boolean(footer);
+  const hasBanner = Boolean(banner);
   return (
-    <div className={`kiosk-active${hasFooter ? ' kiosk-active--footer' : ''}`}>
+    <div
+      className={`kiosk-active${hasFooter ? ' kiosk-active--footer' : ''}${
+        !hasBanner ? ' kiosk-active--no-banner' : ''
+      }`.trim()}
+    >
       {banner}
       {children}
       {footer}

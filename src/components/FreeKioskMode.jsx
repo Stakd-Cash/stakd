@@ -10,7 +10,6 @@ import { rollExtraCount, computeDrop } from '../utils/drop.js';
 import { formatTime } from '../utils/history.js';
 import { KioskShell } from './KioskShell.jsx';
 import { KioskFooter } from './KioskFooter.jsx';
-import { GuestKioskBanner } from './admin/GuestKioskBanner.jsx';
 
 // ---------------------------------------------------------------------------
 // Free drop localStorage helpers
@@ -128,13 +127,17 @@ function FreeHistoryPanel({ onClose }) {
 }
 
 // ---------------------------------------------------------------------------
-// FreeKioskMode — guest kiosk: same shell as signed-in (KioskShell + staff-style banner)
+// FreeKioskMode — guest kiosk: KioskShell + footer; drop saved toast (no top banner)
 // ---------------------------------------------------------------------------
+const DROP_TOAST_MS = 6500;
+
 export function FreeKioskMode({ children }) {
   const [showHistory, setShowHistory] = useState(false);
+  const [showDropSavedToast, setShowDropSavedToast] = useState(false);
   const page = useAppStore((s) => s.page);
   const prevPageRef = useRef(page);
   const lastSavedTsRef = useRef(0);
+  const dropToastTmRef = useRef(null);
 
   useEffect(() => {
     const prevPage = prevPageRef.current;
@@ -180,22 +183,73 @@ export function FreeKioskMode({ children }) {
 
       const existing = loadFreeDrops();
       saveFreeDrops([entry, ...existing]);
+
+      if (dropToastTmRef.current) clearTimeout(dropToastTmRef.current);
+      setShowDropSavedToast(true);
+      dropToastTmRef.current = setTimeout(() => {
+        setShowDropSavedToast(false);
+        dropToastTmRef.current = null;
+      }, DROP_TOAST_MS);
     }
   }, [page]);
+
+  useEffect(() => {
+    return () => {
+      if (dropToastTmRef.current) clearTimeout(dropToastTmRef.current);
+    };
+  }, []);
 
   const openHistory = useCallback(() => {
     haptic('tap');
     setShowHistory(true);
   }, []);
 
+  const dismissDropToast = useCallback(() => {
+    if (dropToastTmRef.current) {
+      clearTimeout(dropToastTmRef.current);
+      dropToastTmRef.current = null;
+    }
+    setShowDropSavedToast(false);
+  }, []);
+
   return (
     <>
-      <KioskShell
-        banner={<GuestKioskBanner onOpenHistory={openHistory} />}
-        footer={<KioskFooter variant="guest" />}
-      >
+      <KioskShell footer={<KioskFooter variant="guest" />}>
         {children}
       </KioskShell>
+      {showDropSavedToast && (
+        <div
+          className="free-kiosk-drop-toast"
+          role="status"
+          aria-live="polite"
+        >
+          <div className="free-kiosk-drop-toast-inner">
+            <p className="free-kiosk-drop-toast-msg">
+              Drop saved on this device.
+            </p>
+            <div className="free-kiosk-drop-toast-actions">
+              <button
+                type="button"
+                className="free-kiosk-drop-toast-link"
+                onClick={() => {
+                  dismissDropToast();
+                  openHistory();
+                }}
+              >
+                View history
+              </button>
+              <button
+                type="button"
+                className="free-kiosk-drop-toast-dismiss"
+                onClick={dismissDropToast}
+                aria-label="Dismiss"
+              >
+                <i className="fa-solid fa-xmark" aria-hidden />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       {showHistory && (
         <FreeHistoryPanel onClose={() => setShowHistory(false)} />
       )}

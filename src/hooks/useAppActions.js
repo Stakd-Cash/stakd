@@ -56,10 +56,11 @@ export function useAppActions({ navigateTo, showToast, dismissToast, totals }) {
     lsSet(LS_THEME, next);
     setTheme(next);
     clearTimeout(thmTm.current);
+    const THEME_TRANSITION_MS = 520;
     thmTm.current = setTimeout(() => {
       html.classList.remove('thm');
       setThemeRotating(false);
-    }, 400);
+    }, THEME_TRANSITION_MS);
   }, [setTheme]);
 
   // --- Navigate to result (compute drop, history, confetti) ---

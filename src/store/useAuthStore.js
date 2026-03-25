@@ -31,7 +31,17 @@ export const useAuthStore = create((set, get) => ({
     if (prev) { prev.unsubscribe(); set({ _authSubscription: null }); }
 
     try {
-      const { data: { session } } = await supabase.auth.getSession();
+      // Guest kiosk must not hang forever if getSession stalls (offline, blocked, or network issues).
+      const SESSION_INIT_MS = 10000;
+      const { data: { session } = { session: null } } = await Promise.race([
+        supabase.auth.getSession(),
+        new Promise((resolve) => {
+          setTimeout(
+            () => resolve({ data: { session: null } }),
+            SESSION_INIT_MS
+          );
+        }),
+      ]);
       set({ session, user: session?.user ?? null });
 
       if (session?.user) {

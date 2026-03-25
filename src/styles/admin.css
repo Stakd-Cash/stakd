@@ -2666,12 +2666,111 @@ html[data-theme='light'] .adm-dash .staff-edit-modal-actions {
 }
 
 /* Offset fixed elements when kiosk banner is present */
-.kiosk-active .gh-header {
+.kiosk-active:not(.kiosk-active--no-banner) .gh-header {
   top: var(--kiosk-h);
 }
 
-.kiosk-active .main-content {
+.kiosk-active:not(.kiosk-active--no-banner) .main-content {
   padding-top: calc(58px + env(safe-area-inset-top) + 14px + var(--kiosk-h));
+}
+
+/* Guest / PIN pad: no banner — header stays at top; app-root main padding from styles.css applies */
+.kiosk-active--no-banner .gh-header {
+  top: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Free guest — drop saved toast (replaces top guest banner)
+   -------------------------------------------------------------------------- */
+.free-kiosk-drop-toast {
+  position: fixed;
+  top: calc(10px + env(safe-area-inset-top));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 55;
+  width: min(calc(100% - 24px), 440px);
+  pointer-events: auto;
+  animation: freeKioskToastIn 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes freeKioskToastIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.free-kiosk-drop-toast-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  border: 1px solid var(--b-default);
+  background: var(--s-raised);
+  box-shadow: var(--sh-lg);
+}
+
+.free-kiosk-drop-toast-msg {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--t-primary);
+  line-height: 1.35;
+  flex: 1;
+  min-width: 0;
+}
+
+.free-kiosk-drop-toast-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.free-kiosk-drop-toast-link {
+  border: none;
+  background: none;
+  padding: 6px 10px;
+  margin: 0;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent);
+  cursor: pointer;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+
+.free-kiosk-drop-toast-link:active {
+  opacity: 0.85;
+}
+
+.free-kiosk-drop-toast-dismiss {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: none;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--t-secondary) 10%, transparent);
+  color: var(--t-secondary);
+  cursor: pointer;
+}
+
+.free-kiosk-drop-toast-dismiss:active {
+  background: color-mix(in srgb, var(--t-secondary) 16%, transparent);
+}
+
+html[data-theme='light'] .free-kiosk-drop-toast-inner {
+  box-shadow: var(--sh-xl);
 }
 
 /* --- Settings panel --- */

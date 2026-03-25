@@ -432,9 +432,6 @@ function App() {
             <img src="/src/stakd-logo-mark.svg" alt="stakd" decoding="async" />
           </div>
           <div className="gh-brand-copy">
-            <span className="gh-brand-name">
-              <img src="/src/stakd-logo-text.svg" alt="stakd" decoding="async" height="18" />
-            </span>
             <span className="gh-brand-context">{companyLabel}</span>
           </div>
           {currentStaff?.name && (

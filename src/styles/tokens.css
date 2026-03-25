@@ -394,6 +394,13 @@ html[data-theme='light'] .sk-backdrop {
   --kiosk-shadow: 0 20px 44px rgba(0, 0, 0, 0.22);
 }
 
+html[data-theme='light'] .app-root {
+  --kiosk-border: rgba(0, 0, 0, 0.1);
+  --kiosk-surface: color-mix(in srgb, var(--s-raised) 92%, var(--s-overlay) 8%);
+  --kiosk-surface-strong: color-mix(in srgb, var(--s-overlay) 90%, var(--s-raised) 10%);
+  --kiosk-shadow: 0 20px 44px rgba(0, 0, 0, 0.08);
+}
+
 .free-kiosk-page {
   --login-bg: color-mix(in srgb, var(--s-base) 86%, #090b0e 14%);
   --login-surface: color-mix(in srgb, var(--s-raised) 82%, #12151a 18%);
