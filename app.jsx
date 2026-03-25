@@ -65,6 +65,8 @@ import { PinPad } from './src/components/admin/PinPad.jsx';
 import { PlanSelector } from './src/components/admin/PlanSelector.jsx';
 import { hasActiveSubscription } from './src/lib/billing.js';
 import { FreeKioskMode } from './src/components/FreeKioskMode.jsx';
+import { KioskShell } from './src/components/KioskShell.jsx';
+import { KioskFooter } from './src/components/KioskFooter.jsx';
 
 // ---------------------------------------------------------------------------
 // ScrollToTop — resets scroll on page navigation
@@ -765,23 +767,27 @@ function KioskRoute({ navigate, replaceNavigate }) {
     );
   }
 
-  // Cashier is PIN'd in — show counter with kiosk banner
+  // Cashier is PIN'd in — same shell as guest kiosk + staff footer
   if (activeStaff) {
     return (
-      <div className="kiosk-active">
-        <KioskBanner onTimeout={handleKioskLock} />
+      <KioskShell
+        banner={<KioskBanner onTimeout={handleKioskLock} />}
+        footer={<KioskFooter variant="staff" />}
+      >
         <App />
-      </div>
+      </KioskShell>
     );
   }
 
-  // No cashier yet — show PIN pad
+  // No cashier yet — PIN pad inside same kiosk shell as guest
   return (
-    <PinPad
-      company={company}
-      onSuccess={handleKioskPinSuccess}
-      onBack={handleBack}
-    />
+    <KioskShell>
+      <PinPad
+        company={company}
+        onSuccess={handleKioskPinSuccess}
+        onBack={handleBack}
+      />
+    </KioskShell>
   );
 }
 

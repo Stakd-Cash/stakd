@@ -22,6 +22,17 @@ export function PinPad({ company, onSuccess, onBack, roleFilter, prompt }) {
   const dotsRef = useRef(null);
   const staffListRef = useRef(null);
   const touchGestureRef = useRef({ x: 0, y: 0, moved: false });
+  const pinRef = useRef('');
+  const loadingRef = useRef(false);
+  const handleSubmitRef = useRef(() => {});
+
+  useEffect(() => {
+    pinRef.current = pin;
+  }, [pin]);
+
+  useEffect(() => {
+    loadingRef.current = loading;
+  }, [loading]);
 
   const handleStaffScroll = useCallback((e) => {
     const el = e.currentTarget;
@@ -73,6 +84,7 @@ export function PinPad({ company, onSuccess, onBack, roleFilter, prompt }) {
   const handleSelectStaff = useCallback((s) => {
     setSelectedStaff(s);
     setStep('pin');
+    pinRef.current = '';
     setPin('');
     setError(null);
   }, []);
@@ -108,18 +120,27 @@ export function PinPad({ company, onSuccess, onBack, roleFilter, prompt }) {
   const handleBack = useCallback(() => {
     setStep('select');
     setSelectedStaff(null);
+    pinRef.current = '';
     setPin('');
     setError(null);
   }, []);
 
   const handleDigit = useCallback((digit) => {
     setError(null);
-    setPin((prev) => (prev.length >= MAX_PIN ? prev : prev + digit));
+    setPin((prev) => {
+      const next = prev.length >= MAX_PIN ? prev : prev + digit;
+      pinRef.current = next;
+      return next;
+    });
   }, []);
 
   const handleBackspace = useCallback(() => {
     setError(null);
-    setPin((prev) => prev.slice(0, -1));
+    setPin((prev) => {
+      const next = prev.slice(0, -1);
+      pinRef.current = next;
+      return next;
+    });
   }, []);
 
   const triggerShake = useCallback(() => {
@@ -128,23 +149,63 @@ export function PinPad({ company, onSuccess, onBack, roleFilter, prompt }) {
   }, []);
 
   const handleSubmit = useCallback(async () => {
-    if (pin.length < 4) {
+    if (!selectedStaff) return;
+    const currentPin = pinRef.current;
+    if (currentPin.length < 4) {
       setError('PIN must be at least 4 digits.');
       triggerShake();
       return;
     }
     setLoading(true);
     setError(null);
-    const result = await pinLoginFor(selectedStaff.id, pin);
+    const result = await pinLoginFor(selectedStaff.id, currentPin);
     setLoading(false);
     if (result.error) {
       setError(result.error);
+      pinRef.current = '';
       setPin('');
       triggerShake();
     } else if (result.success) {
       onSuccess(result.staff);
     }
-  }, [pin, selectedStaff, pinLoginFor, onSuccess, triggerShake]);
+  }, [selectedStaff, pinLoginFor, onSuccess, triggerShake]);
+
+  useEffect(() => {
+    handleSubmitRef.current = handleSubmit;
+  }, [handleSubmit]);
+
+  // Physical keyboard: digits, backspace, Enter (on-screen pad always stays visible).
+  useEffect(() => {
+    if (step !== 'pin' || !selectedStaff) return undefined;
+
+    const onKeyDown = (e) => {
+      if (e.repeat || loadingRef.current) return;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      const tag = e.target?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || e.target?.isContentEditable) return;
+
+      if (e.key >= '0' && e.key <= '9') {
+        e.preventDefault();
+        handleDigit(e.key);
+        return;
+      }
+      if (e.key === 'Backspace') {
+        e.preventDefault();
+        handleBackspace();
+        return;
+      }
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        if (pinRef.current.length >= 4) {
+          void handleSubmitRef.current();
+        }
+        return;
+      }
+    };
+
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [step, selectedStaff, handleDigit, handleBackspace]);
 
   // Staff skeleton
   const renderStaffSkeleton = () => (
@@ -254,6 +315,10 @@ export function PinPad({ company, onSuccess, onBack, roleFilter, prompt }) {
 
             {renderDots()}
 
+            <p className="pinpad-keyboard-hint" aria-live="polite">
+              Tap or type your user pin.
+            </p>
+
             {error && (
               <div className="pinpad-error">
                 <i className="fa-solid fa-circle-exclamation" />
@@ -277,6 +342,7 @@ export function PinPad({ company, onSuccess, onBack, roleFilter, prompt }) {
                 type="button"
                 className="sk-pin-key sk-pin-key--action"
                 onClick={() => {
+                  pinRef.current = '';
                   setPin('');
                   setError(null);
                 }}

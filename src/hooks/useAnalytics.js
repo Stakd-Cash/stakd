@@ -1,9 +1,14 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { supabase } from '../lib/supabase.js';
 
 export function useAnalytics(companyId, dateRange = 'month') {
   const [loading, setLoading] = useState(true);
+  /** True while refetching after the first successful load (date range change, manual refresh). */
+  const [refreshing, setRefreshing] = useState(false);
+  const isFirstLoadRef = useRef(true);
   const [error, setError] = useState(null);
+  /** Set when a background refresh (range change / refetch) fails; first-load errors use `error`. */
+  const [refreshError, setRefreshError] = useState(null);
   const [analytics, setAnalytics] = useState({
     summary: {
       totalDrops: 0,
@@ -46,10 +51,19 @@ export function useAnalytics(companyId, dateRange = 'month') {
   }, [dateRange]);
 
   const fetchAnalytics = useCallback(async () => {
-    if (!companyId) return;
-    
-    setLoading(true);
+    if (!companyId) {
+      setLoading(false);
+      setRefreshing(false);
+      return;
+    }
+
+    if (isFirstLoadRef.current) {
+      setLoading(true);
+    } else {
+      setRefreshing(true);
+    }
     setError(null);
+    setRefreshError(null);
 
     try {
       const startDate = calculateDateRange();
@@ -206,17 +220,31 @@ export function useAnalytics(companyId, dateRange = 'month') {
         topPerformers,
         lossPreventionFlags,
       });
+      isFirstLoadRef.current = false;
     } catch (err) {
       console.error('Analytics fetch error:', err);
-      setError(err.message);
+      if (isFirstLoadRef.current) {
+        setError(err.message);
+      } else {
+        setRefreshError(err.message);
+      }
     } finally {
       setLoading(false);
+      setRefreshing(false);
     }
   }, [companyId, calculateDateRange]);
+
+  useEffect(() => {
+    isFirstLoadRef.current = true;
+    setLoading(true);
+    setRefreshing(false);
+    setError(null);
+    setRefreshError(null);
+  }, [companyId]);
 
   useEffect(() => {
     fetchAnalytics();
   }, [fetchAnalytics]);
 
-  return { analytics, loading, error, refetch: fetchAnalytics };
+  return { analytics, loading, refreshing, error, refreshError, refetch: fetchAnalytics };
 }

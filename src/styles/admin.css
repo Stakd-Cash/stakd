@@ -522,6 +522,13 @@ html[data-theme='light'] .admin-analytics-header {
   height: 32px;
   display: block;
   margin: 0 auto var(--sp-3);
+  animation: admin-analytics-spin 0.85s linear infinite;
+}
+
+@keyframes admin-analytics-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .admin-analytics-subline {
@@ -715,6 +722,117 @@ html[data-theme='light'] .admin-analytics-stats .sk-card {
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: var(--sp-6);
   margin-bottom: var(--sp-6);
+}
+
+/* Streamlined analytics layout (ap-analytics-shell) */
+.admin-panel.ap-analytics.ap-analytics-shell {
+  gap: var(--sp-5);
+}
+
+.ap-analytics-hero {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  flex-wrap: wrap;
+  animation: adminCardIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.ap-analytics-hero-text {
+  min-width: 0;
+  flex: 1 1 220px;
+}
+
+.ap-analytics-shell .admin-analytics-alerts {
+  margin-bottom: 0;
+}
+
+.ap-analytics-range {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 8px 10px;
+  border-radius: var(--r-xl);
+  border: 1px solid var(--b-default);
+  background: color-mix(in srgb, var(--s-raised) 78%, var(--s-base) 22%);
+}
+
+.ap-analytics-range-btn {
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  background: transparent;
+  color: var(--t-secondary);
+  transition:
+    background 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ap-analytics-range-btn:hover {
+  color: var(--t-primary);
+  background: color-mix(in srgb, var(--s-overlay) 50%, transparent);
+}
+
+.ap-analytics-range-btn.is-active {
+  background: var(--accent-bg);
+  border-color: var(--accent-bd);
+  color: var(--accent);
+}
+
+.ap-analytics-two-col {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: var(--sp-4);
+  align-items: stretch;
+}
+
+.ap-analytics-two-col > .sk-card {
+  margin-bottom: 0;
+}
+
+.ap-analytics-shell .admin-analytics-table-card {
+  margin-bottom: 0;
+}
+
+.ap-analytics-shell .ap-analytics-list .admin-list-item {
+  animation: none;
+}
+
+.ap-analytics-shell .admin-analytics-stats .sk-card {
+  animation: none;
+}
+
+.ap-analytics-shell .ap-analytics-card .sk-card-header {
+  background: transparent;
+}
+
+.ap-analytics-shell--refreshing {
+  transition: opacity 0.15s ease;
+}
+
+.ap-analytics-refresh-error {
+  margin: 0 0 var(--sp-3);
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: var(--r-lg);
+  font-size: var(--text-sm);
+}
+
+.admin-icon-btn.is-refreshing {
+  cursor: wait;
+}
+
+.ap-analytics-list-row {
+  padding-top: var(--sp-2);
+  padding-bottom: var(--sp-2);
+}
+
+html[data-theme='light'] .ap-analytics-range {
+  background: color-mix(in srgb, var(--s-raised) 94%, var(--s-base) 6%);
 }
 
 .admin-card-title--row {
@@ -2436,6 +2554,115 @@ html[data-theme='light'] .adm-dash .staff-edit-modal-actions {
 .kiosk-banner-btn:active {
   background: rgba(255, 255, 255, 0.35);
   transition: background 0s;
+}
+
+.kiosk-banner-left--guest {
+  flex: 1;
+  min-width: 0;
+  gap: 8px;
+}
+
+.kiosk-banner-name--guest {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.kiosk-banner-guest-hint {
+  font-size: 11px;
+  font-weight: 700;
+  opacity: 0.85;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.kiosk-banner-input {
+  flex: 1;
+  min-width: 0;
+  max-width: 100%;
+  height: 30px;
+  padding: 0 10px;
+  border-radius: var(--r-sm);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(0, 0, 0, 0.15);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  outline: none;
+}
+
+.kiosk-banner-input::placeholder {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.kiosk-banner-input:focus {
+  border-color: rgba(255, 255, 255, 0.55);
+  background: rgba(0, 0, 0, 0.22);
+}
+
+.kiosk-banner-text-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.kiosk-banner-text-btn:hover {
+  color: #fff;
+}
+
+.kiosk-banner-btn--icon {
+  padding: 6px 12px;
+  flex-shrink: 0;
+}
+
+/* Fixed info footer — sits under calc sticky footer */
+.kiosk-active {
+  --kiosk-footer-h: 44px;
+}
+
+.kiosk-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 15;
+  box-sizing: border-box;
+  min-height: var(--kiosk-footer-h);
+  padding: 8px 16px calc(8px + env(safe-area-inset-bottom));
+  font-size: 12px;
+  line-height: 1.35;
+  text-align: center;
+  color: var(--t-secondary);
+  background: var(--s-base);
+  border-top: 1px solid var(--b-default);
+}
+
+.kiosk-footer--guest {
+  color: var(--t-tertiary);
+}
+
+.kiosk-footer-cta {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--accent);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.kiosk-active--footer .sticky-footer {
+  bottom: var(--kiosk-footer-h);
 }
 
 /* Offset fixed elements when kiosk banner is present */

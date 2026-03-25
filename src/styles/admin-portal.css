@@ -306,6 +306,71 @@ html[data-theme='light'] .admin-view {
   border-color: var(--c-brand-bd);
 }
 
+/* Icon buttons in drops table / analytics (class used outside .app-root kiosk styles) */
+.ap-root .admin-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 12px;
+  border: 1px solid var(--ap-border);
+  background: var(--ap-raised);
+  color: var(--ap-muted);
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease,
+    background 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ap-root .admin-icon-btn:hover:not(:disabled) {
+  color: var(--ap-text);
+  border-color: var(--c-brand-bd);
+}
+
+.ap-root .admin-icon-btn:disabled {
+  opacity: 0.85;
+  cursor: wait;
+}
+
+.ap-root .ap-analytics-range-btn:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
+.ap-root .admin-delete-btn {
+  opacity: 1;
+}
+
+.ap-root .admin-delete-btn:hover {
+  color: var(--status-danger);
+  border-color: color-mix(in srgb, var(--status-danger) 40%, var(--ap-border));
+  background: color-mix(in srgb, var(--status-danger) 10%, var(--ap-raised));
+}
+
+.ap-root .admin-delete-confirm {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  max-width: min(280px, 92vw);
+}
+
+.ap-root .admin-delete-confirm .admin-btn-sm {
+  min-height: 34px;
+  padding: 0 12px;
+}
+
+.ap-root .admin-btn-danger {
+  color: #fff !important;
+  background: var(--status-danger) !important;
+  border: 1px solid var(--status-danger) !important;
+  border-radius: 10px;
+}
+
 .ap-main-user {
   display: flex;
   align-items: center;
@@ -1020,14 +1085,28 @@ html[data-theme='light'] .ap-earnings-chart-axis-x {
 }
 
 .ap-hbar-fill {
+  --ap-hbar-depth: 0;
   position: absolute;
   left: 0;
   top: 0;
   bottom: 0;
   border-radius: 10px;
-  background: linear-gradient(90deg, var(--ap-accent-deep), var(--ap-accent));
   min-width: 6px;
   transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  /* Deeper rows: mix toward muted gray so hue/saturation fade down the list */
+  background: linear-gradient(
+    90deg,
+    color-mix(
+      in srgb,
+      var(--ap-accent-deep) calc(100% - var(--ap-hbar-depth) * 58%),
+      var(--ap-muted)
+    ),
+    color-mix(
+      in srgb,
+      var(--ap-accent) calc(100% - var(--ap-hbar-depth) * 62%),
+      var(--ap-muted)
+    )
+  );
 }
 
 .ap-hbar-inlabel {
@@ -1086,6 +1165,48 @@ html[data-theme='light'] .ap-hbar-inlabel {
 
 html[data-theme='light'] .ap-hbar-val {
   color: #111;
+}
+
+/* Analytics shell — match portal surfaces */
+.ap-root .ap-analytics-shell .ap-analytics-range {
+  background: color-mix(in srgb, var(--ap-raised) 88%, var(--ap-bg) 12%);
+  border-color: var(--ap-border);
+}
+
+.ap-root .ap-analytics-range-btn:hover {
+  background: color-mix(in srgb, var(--ap-text) 8%, transparent);
+  color: var(--ap-text);
+}
+
+.ap-root .ap-analytics-range-btn.is-active {
+  background: var(--ap-accent-soft);
+  border-color: var(--c-brand-bd);
+  color: var(--c-brand-200);
+}
+
+.ap-root .ap-analytics-shell .ap-analytics-card,
+.ap-root .ap-analytics-shell .admin-analytics-stats .sk-card {
+  background: var(--ap-raised);
+  border: 1px solid var(--ap-border);
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.ap-root .ap-analytics-shell .admin-analytics-stats .sk-card-body {
+  padding: 16px 18px;
+}
+
+.ap-root .ap-analytics-shell .admin-analytics-loss-card.sk-card {
+  background: color-mix(in srgb, var(--status-danger) 8%, var(--ap-raised));
+  border-color: color-mix(in srgb, var(--status-danger) 22%, var(--ap-border));
+}
+
+.ap-root .ap-analytics-shell .ap-analytics-card .sk-card-header {
+  border-bottom-color: var(--ap-border);
+}
+
+html[data-theme='light'] .ap-root .ap-analytics-range-btn.is-active {
+  color: var(--c-brand-600);
 }
 
 .ap-drops-skeleton {

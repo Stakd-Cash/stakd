@@ -222,19 +222,25 @@ function DropsByUserChart({
             const v = values[i];
             const pct = maxVal > 0 ? (v / maxVal) * 100 : 0;
             const h = hueFromString(r.name);
+            const depth = sorted.length > 1 ? i / (sorted.length - 1) : 0;
+            const avatarSat = Math.max(12, Math.round(42 - depth * 24));
+            const avatarSat2 = Math.max(10, Math.round(38 - depth * 20));
             return (
               <div key={r.name} className="ap-hbar-row">
                 <div
                   className="ap-hbar-avatar"
                   style={{
-                    background: `linear-gradient(145deg, hsl(${h} 42% 42%), hsl(${h} 38% 28%))`,
+                    background: `linear-gradient(145deg, hsl(${h} ${avatarSat}% 42%), hsl(${h} ${avatarSat2}% 28%))`,
                   }}
                   aria-hidden
                 >
                   {staffInitials(r.name)}
                 </div>
                 <div className="ap-hbar-track">
-                  <div className="ap-hbar-fill" style={{ width: `${pct}%` }} />
+                  <div
+                    className="ap-hbar-fill"
+                    style={{ width: `${pct}%`, '--ap-hbar-depth': depth }}
+                  />
                   <span className="ap-hbar-inlabel" title={r.name}>
                     {r.name}
                   </span>

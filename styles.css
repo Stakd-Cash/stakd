@@ -10829,11 +10829,6 @@ html[data-theme='light'] .app-root .sticky-footer.calc-footer {
   z-index: 50;
 }
 
-/* Hide the App's built-in header navbar inside free kiosk */
-.free-kiosk-page .gh-header {
-  display: none;
-}
-
 .free-kiosk-container {
   width: 100%;
   max-width: 480px;

@@ -329,3 +329,66 @@ html[data-theme='light'] .pinpad-key:active {
     aspect-ratio: 1.3/1;
   }
 }
+
+/* Keyboard hint: useful on desktop; screen-reader only on small touch-first viewports */
+.pinpad-keyboard-hint {
+  margin: 0 0 14px;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--pw-muted);
+  text-align: center;
+  max-width: 28rem;
+  align-self: center;
+}
+
+@media (max-width: 639px) {
+  .pinpad-keyboard-hint {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+}
+
+/* PIN step: scroll on short phones; safe areas; pad never hidden */
+.pathway-page--pinpad.pathway-page--pin .sk-auth-card {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: min(100dvh - 100px, 780px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: max(12px, env(safe-area-inset-bottom, 0px));
+}
+
+.pathway-page--pinpad.pathway-page--pin .sk-auth-container {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: 100dvh;
+  align-self: stretch;
+}
+
+@media (max-width: 720px) {
+  .pathway-page--pinpad.sk-page-full {
+    align-items: stretch;
+    padding: max(12px, env(safe-area-inset-top)) 12px max(12px, env(safe-area-inset-bottom));
+  }
+
+  .pathway-page--pinpad.pathway-page--pin .sk-auth-logo {
+    flex-shrink: 0;
+  }
+
+  .pathway-page--pinpad .sk-pin-grid {
+    gap: clamp(6px, 2vw, 10px);
+  }
+
+  .pathway-page--pinpad.pathway-page--pin .pathway-submit {
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+}
